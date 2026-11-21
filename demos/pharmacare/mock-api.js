@@ -1,10 +1,3 @@
-/**
- * Copyright (C) 2026 Adham Cherkaoui Eddeqaqi (0dh4m). All rights reserved.
- * Proprietary and confidential. Unauthorized copying or distribution is strictly prohibited.
- * Author: Adham Cherkaoui Eddeqaqi (0dh4m) <0dh4mm@gmail.com>
- * GitHub: https://github.com/0dh4m
- */
-
 /* PharmaCare — in-page stand-in for api.php (static portfolio demo).
    Same actions, same JSON shapes as api.php; data starts from a real export. */
 (function () {

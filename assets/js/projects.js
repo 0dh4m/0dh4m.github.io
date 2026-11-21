@@ -1,10 +1,3 @@
-/**
- * Copyright (C) 2026 Adham Cherkaoui Eddeqaqi (0dh4m). All rights reserved.
- * Proprietary and confidential. Unauthorized copying or distribution is strictly prohibited.
- * Author: Adham Cherkaoui Eddeqaqi (0dh4m) <0dh4mm@gmail.com>
- * GitHub: https://github.com/0dh4m
- */
-
 /* ==========================================================================
    Projects page — renders all cards from projects-data.js with Filtering
    Dark/Light theme · EN/FR i18n · Scroll reveals · Dynamic Category Filters
@@ -80,10 +73,16 @@
             <div class="d-flex flex-wrap gap-2 mb-3">
               ${p.tech.map(x => `<span class="tech-badge">${x}</span>`).join('')}
             </div>
-            <a href="${p.demo}" class="project-demo-btn"${demoExt ? ' target="_blank" rel="noopener"' : ''}>
-              <span>${t('projects.demo') || 'Live Demo'}</span>
-              <i class="bi bi-box-arrow-up-right"></i>
-            </a>
+            <div class="d-flex gap-2">
+              <a href="${p.demo}" class="project-demo-btn flex-grow-1"${demoExt ? ' target="_blank" rel="noopener"' : ''}>
+                <span>${t('projects.demo') || 'Live Demo'}</span>
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+              ${p.github ? `
+              <a href="${p.github}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary d-flex align-items-center justify-content-center px-3 rounded-pill" title="GitHub Repository">
+                <i class="bi bi-github fs-6"></i>
+              </a>` : ''}
+            </div>
           </div>
         </article>`;
       grid.appendChild(col);

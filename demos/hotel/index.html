@@ -6,15 +6,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Riad & Maison d'Hôtes Manager — Solution Hybride C# & Web (SARL HIND ET PIERRE)</title>
-  <meta name="description" content="Système de gestion pour maison d'hôtes et établissements hôteliers par 0dh4m (Adham Cherkaoui Eddeqaqi). Développé pour la société SARL HIND ET PIERRE à Rabat.">
+  <meta name="description" content="Système de gestion pour maison d'hôtes et établissements hôteliers par 0dh4m (Adham Cherkaoui Eddeqaqi). Développé pour la société SARL HIND ET PIERRE à Rabat. Transactions atomiques PDO, planning dynamique des chambres et facturation en MAD.">
 
   <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome 6 Icons -->
+  <!-- Font Awesome 6 Icons & Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -33,13 +34,17 @@
               gold: '#d97706',
               amber: '#f59e0b',
               emerald: '#10b981',
-              dark: '#0a0d14'
+              dark: '#080c14',
+              card: '#0f172a'
             }
           }
         }
       }
     }
   </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     body {
@@ -53,531 +58,648 @@
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
+    .glass-card:hover {
+      border-color: rgba(217, 119, 6, 0.35);
+    }
     .tab-btn.active {
-      background: #d97706;
+      background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
       color: white;
-      box-shadow: 0 4px 15px rgba(217, 119, 6, 0.35);
+      box-shadow: 0 4px 18px rgba(217, 119, 6, 0.4);
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-600 selection:text-white">
 
-  <!-- ==================== HEADER DOCK ==================== -->
+  <!-- ==================== HEADER ==================== -->
   <header class="sticky top-0 z-50 glass-card border-b border-white/10 px-4 lg:px-8 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <a href="../../index.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-white/10 hover:border-amber-500 text-xs text-slate-300 hover:text-white transition group" title="Return to Portfolio">
+      <a href="../../index.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-white/10 hover:border-amber-500 text-xs text-slate-300 hover:text-white transition group" title="Retour au Portfolio">
         <i class="fa-solid fa-arrow-left text-[11px] group-hover:-translate-x-0.5 transition"></i>
         <span>Portfolio</span>
       </a>
       <div class="h-4 w-px bg-white/10"></div>
       <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-amber-500/20">
-          <i class="fa-solid fa-hotel text-xs"></i>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-white shadow-lg shadow-amber-500/25">
+          <i class="bi bi-building text-base"></i>
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="font-extrabold text-sm tracking-tight text-white font-display">Maison d'Hôtes &amp; Riad <span class="text-amber-400">PRO</span></span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/25">SARL HIND ET PIERRE</span>
+            <span class="font-extrabold text-sm tracking-tight text-white font-display">Hôtel &amp; Riad Manager</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/25">SARL HIND ET PIERRE</span>
           </div>
-          <p class="text-[10px] text-slate-400">By 0dh4m (Adham Cherkaoui Eddeqaqi) · Stage &amp; Client Solution (Rabat, Maroc)</p>
+          <p class="text-[10px] text-slate-400">Solution Commerciale Développée par 0dh4m (Adham Cherkaoui Eddeqaqi) · Rabat</p>
         </div>
       </div>
     </div>
 
-    <!-- Header Actions -->
-    <div class="flex items-center gap-2 sm:gap-3">
-      <button onclick="toggleAttestationModal()" class="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-semibold flex items-center gap-1.5 transition">
-        <i class="fa-solid fa-certificate text-xs"></i>
-        <span class="hidden sm:inline">Attestation de Stage Officielle</span>
-      </button>
+    <!-- Right Header Actions -->
+    <div class="flex items-center gap-3">
+      <a href="https://github.com/0dh4m/hotel-management-system" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 hover:border-amber-500 text-xs text-slate-200 hover:text-white transition group shadow">
+        <i class="bi bi-github text-sm text-amber-400 group-hover:rotate-12 transition"></i>
+        <span class="font-semibold">GitHub Source Code</span>
+      </a>
 
-      <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-slate-900 border border-white/10 text-emerald-400 flex items-center gap-1.5">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>MySQL PDO Live</span>
-      </span>
+      <div class="flex items-center rounded-xl bg-slate-900 border border-white/10 p-0.5 text-xs">
+        <button onclick="setLang('fr')" id="btn-fr" class="px-2 py-1 rounded-lg font-semibold bg-amber-600 text-white transition">FR</button>
+        <button onclick="setLang('en')" id="btn-en" class="px-2 py-1 rounded-lg font-semibold text-slate-400 hover:text-white transition">EN</button>
+      </div>
     </div>
   </header>
 
-  <!-- ==================== HERO OVERVIEW ==================== -->
-  <div class="max-w-7xl w-full mx-auto px-4 pt-6 pb-2">
-    <div class="glass-card rounded-3xl p-6 lg:p-8 border border-white/10 relative overflow-hidden">
-      <!-- Glow ambient -->
-      <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-600/15 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div class="space-y-2 max-w-2xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold">
-            <i class="fa-solid fa-briefcase"></i>
-            <span>Stage Professionnel Validé · SARL HIND ET PIERRE (Rabat)</span>
-          </div>
-          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-display tracking-tight">
-            Écosystème de Gestion Hôtelière &amp; Planning Chambres
-          </h1>
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            Solution complète combinant un logiciel administratif de bureau sous <strong>C# (.NET)</strong> pour l'accueil et le planning des réservations, et un portail Web client synchronisé sur une base relationnelle <strong>MySQL</strong> sécurisée par transactions <strong>PDO</strong>.
-          </p>
+  <!-- ==================== TOP STATS OVERVIEW ==================== -->
+  <div class="max-w-7xl w-full mx-auto px-4 pt-5 pb-2">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 lg:gap-4">
+      <!-- Stat 1 -->
+      <div class="glass-card p-4 rounded-2xl border border-white/10 flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-lg">
+          <i class="bi bi-door-open"></i>
         </div>
+        <div>
+          <span class="text-[11px] text-slate-400 block font-medium">Chambres Disponibles</span>
+          <div class="text-lg lg:text-xl font-bold font-mono text-white flex items-baseline gap-1">
+            <span id="stat-avail-rooms">5</span> <span class="text-xs text-amber-400 font-sans">/ 8 suites</span>
+          </div>
+          <span class="text-[10px] text-emerald-400 flex items-center gap-1"><i class="bi bi-check-circle"></i> Prêtes à louer</span>
+        </div>
+      </div>
 
-        <!-- Metrics Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-2.5 min-w-[280px]">
-          <div class="p-3 rounded-2xl bg-slate-900/60 border border-white/5">
-            <span class="block text-[10px] text-slate-400 uppercase font-mono">Taux d'Occupation</span>
-            <span class="text-xs font-bold text-amber-400 font-mono">85% (17 / 20)</span>
+      <!-- Stat 2 -->
+      <div class="glass-card p-4 rounded-2xl border border-white/10 flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg">
+          <i class="bi bi-pie-chart"></i>
+        </div>
+        <div>
+          <span class="text-[11px] text-slate-400 block font-medium">Taux d'Occupation</span>
+          <div class="text-lg lg:text-xl font-bold font-mono text-white flex items-baseline gap-1">
+            <span>62.5%</span>
           </div>
-          <div class="p-3 rounded-2xl bg-slate-900/60 border border-white/5">
-            <span class="block text-[10px] text-slate-400 uppercase font-mono">Arrivées Prévues</span>
-            <span class="text-xs font-bold text-emerald-400 font-mono">5 Check-in</span>
+          <span class="text-[10px] text-emerald-400 flex items-center gap-1"><i class="bi bi-graph-up"></i> +8% vs semaine passée</span>
+        </div>
+      </div>
+
+      <!-- Stat 3 -->
+      <div class="glass-card p-4 rounded-2xl border border-white/10 flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-lg">
+          <i class="bi bi-cash-stack"></i>
+        </div>
+        <div>
+          <span class="text-[11px] text-slate-400 block font-medium">Chiffre d'Affaires Mensuel</span>
+          <div class="text-lg lg:text-xl font-bold font-mono text-white flex items-baseline gap-1">
+            <span>128,400</span> <span class="text-xs text-cyan-400 font-sans">MAD</span>
           </div>
-          <div class="p-3 rounded-2xl bg-slate-900/60 border border-white/5">
-            <span class="block text-[10px] text-slate-400 uppercase font-mono">Chambres Libres</span>
-            <span class="text-xs font-bold text-cyan-400 font-mono">3 Prêtes</span>
+          <span class="text-[10px] text-cyan-400 flex items-center gap-1">Tarif Moyen (ADR) : 850 MAD</span>
+        </div>
+      </div>
+
+      <!-- Stat 4 -->
+      <div class="glass-card p-4 rounded-2xl border border-white/10 flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-lg">
+          <i class="bi bi-person-badge"></i>
+        </div>
+        <div>
+          <span class="text-[11px] text-slate-400 block font-medium">Arrivées Prévues Aujourd'hui</span>
+          <div class="text-lg lg:text-xl font-bold font-mono text-white flex items-baseline gap-1">
+            <span>3</span> <span class="text-xs text-purple-400 font-sans">réservations</span>
           </div>
-          <div class="p-3 rounded-2xl bg-slate-900/60 border border-white/5">
-            <span class="block text-[10px] text-slate-400 uppercase font-mono">Transactions PDO</span>
-            <span class="text-xs font-bold text-emerald-400 font-mono">ACID Conforme</span>
-          </div>
+          <span class="text-[10px] text-purple-300 flex items-center gap-1"><i class="bi bi-clock-history"></i> Check-in 14:00</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== TABS BAR ==================== -->
-  <div class="max-w-7xl w-full mx-auto px-4 py-4">
-    <div class="flex items-center gap-2 p-1.5 rounded-2xl glass-card border border-white/10 overflow-x-auto">
-      <button onclick="switchTab('rooms')" id="tab-btn-rooms" class="tab-btn active px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 whitespace-nowrap transition">
-        <i class="fa-solid fa-bed"></i>
-        <span>1. Planning &amp; État des Chambres</span>
+  <!-- ==================== NAVIGATION TABS ==================== -->
+  <div class="max-w-7xl w-full mx-auto px-4 py-3">
+    <div class="flex items-center gap-2 p-1.5 rounded-2xl glass-card border border-white/10 overflow-x-auto scrollbar-none">
+      <button onclick="switchTab('rooms')" id="tab-btn-rooms" class="tab-btn active px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition whitespace-nowrap">
+        <i class="bi bi-grid text-sm"></i>
+        <span id="tab-text-rooms">Planning des Chambres &amp; État</span>
       </button>
-
-      <button onclick="switchTab('booking')" id="tab-btn-booking" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
-        <i class="fa-solid fa-calendar-check text-emerald-400"></i>
-        <span>2. Nouvelle Réservation &amp; Check-in</span>
+      <button onclick="switchTab('booking')" id="tab-btn-booking" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center gap-2">
+        <i class="bi bi-calendar-check text-sm"></i>
+        <span id="tab-text-booking">Nouvelle Réservation &amp; Check-In</span>
       </button>
-
-      <button onclick="switchTab('invoice')" id="tab-btn-invoice" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
-        <i class="fa-solid fa-file-invoice-dollar text-amber-400"></i>
-        <span>3. Facturation Automatisée (DH TTC)</span>
+      <button onclick="switchTab('billing')" id="tab-btn-billing" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center gap-2">
+        <i class="bi bi-receipt text-sm"></i>
+        <span id="tab-text-billing">Facturation Officielle MAD</span>
       </button>
-
-      <button onclick="switchTab('architecture')" id="tab-btn-architecture" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
-        <i class="fa-solid fa-network-wired text-cyan-400"></i>
-        <span>4. Architecture C# &amp; Schéma SQL</span>
+      <button onclick="switchTab('architecture')" id="tab-btn-architecture" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition whitespace-nowrap flex items-center gap-2">
+        <i class="bi bi-diagram-3 text-sm"></i>
+        <span id="tab-text-architecture">Architecture &amp; Schéma SQL 3NF</span>
       </button>
     </div>
   </div>
 
-  <!-- ==================== MAIN CONTENT ==================== -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 pb-12">
-    
+  <!-- ==================== MAIN CONTENT CONTAINERS ==================== -->
+  <main class="max-w-7xl w-full mx-auto px-4 pb-12 flex-1">
+
     <!-- ==================== TAB 1: ROOMS GRID ==================== -->
-    <section id="tab-rooms" class="space-y-4">
-      <div class="glass-card p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
-        <div class="flex items-center justify-between border-b border-white/5 pb-4">
-          <div>
-            <h2 class="text-base font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-door-open text-amber-400"></i>
-              <span>Suivi en Temps Réel du Parc de Chambres &amp; Suites</span>
-            </h2>
-            <p class="text-xs text-slate-400">Maison d'Hôtes de Charme — Capacité totale de 20 chambres et suites impériales.</p>
-          </div>
-          <button onclick="switchTab('booking')" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs flex items-center gap-1.5 transition shadow-lg shadow-amber-600/20">
-            <i class="fa-solid fa-plus"></i>
-            <span>Nouvelle Réservation</span>
-          </button>
+    <div id="tab-content-rooms" class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2 font-display">
+            <i class="bi bi-door-closed text-amber-400"></i>
+            Matrice des Chambres &amp; Statut Opérationnel
+          </h2>
+          <p class="text-xs text-slate-400">Cliquez sur une chambre occupée pour effectuer un Check-Out direct ou éditer son statut</p>
         </div>
 
-        <!-- Rooms Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="rooms-grid">
-          
-          <!-- Room 101 -->
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/10 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Suite Majorelle (Chambre 101)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">Occupée</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-400 font-mono">
-              <p>Client : <strong class="text-slate-200">M. Pierre Dupont (France)</strong></p>
-              <p>Séjour : 18 Nov – 22 Nov (4 Nuits)</p>
-              <p class="text-amber-400">Tarif : 1,200 DH / nuit</p>
-            </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between">
-              <span class="text-[11px] text-slate-400 font-mono">Total : 4,800 DH TTC</span>
-              <button onclick="previewInvoice('Pierre Dupont', 'Suite Majorelle (101)', 4, 1200)" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
-                Facture
-              </button>
-            </div>
-          </div>
-
-          <!-- Room 102 -->
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-emerald-500/30 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Chambre Atlas (Chambre 102)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Disponible</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-400 font-mono">
-              <p>Type : Double Supérieure avec terrasse</p>
-              <p>Statut : Nettoyée &amp; Prête</p>
-              <p class="text-emerald-400">Tarif : 750 DH / nuit</p>
-            </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between">
-              <span class="text-[11px] text-emerald-400 font-mono">Prête à louer</span>
-              <button onclick="bookDirect('Chambre Atlas (102)', 750)" class="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
-                Réserver
-              </button>
-            </div>
-          </div>
-
-          <!-- Room 103 -->
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/10 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Suite Royale Menara (Chambre 103)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">Occupée</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-400 font-mono">
-              <p>Client : <strong class="text-slate-200">Mme. Sophie Laurent (Belgique)</strong></p>
-              <p>Séjour : 19 Nov – 23 Nov (4 Nuits)</p>
-              <p class="text-amber-400">Tarif : 1,800 DH / nuit</p>
-            </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between">
-              <span class="text-[11px] text-slate-400 font-mono">Total : 7,200 DH TTC</span>
-              <button onclick="previewInvoice('Sophie Laurent', 'Suite Royale Menara (103)', 4, 1800)" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
-                Facture
-              </button>
-            </div>
-          </div>
-
-          <!-- Room 104 -->
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-emerald-500/30 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Chambre Oukaïmeden (Chambre 104)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Disponible</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-400 font-mono">
-              <p>Type : Double Standard vue jardin</p>
-              <p>Statut : Nettoyée &amp; Prête</p>
-              <p class="text-emerald-400">Tarif : 650 DH / nuit</p>
-            </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between">
-              <span class="text-[11px] text-emerald-400 font-mono">Prête à louer</span>
-              <button onclick="bookDirect('Chambre Oukaïmeden (104)', 650)" class="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
-                Réserver
-              </button>
-            </div>
-          </div>
-
-          <!-- Room 105 -->
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/10 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Suite Andalouse (Chambre 105)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">Occupée</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-400 font-mono">
-              <p>Client : <strong class="text-slate-200">M. Karim Benjelloun (Maroc)</strong></p>
-              <p>Séjour : 20 Nov – 22 Nov (2 Nuits)</p>
-              <p class="text-amber-400">Tarif : 1,100 DH / nuit</p>
-            </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between">
-              <span class="text-[11px] text-slate-400 font-mono">Total : 2,200 DH TTC</span>
-              <button onclick="previewInvoice('Karim Benjelloun', 'Suite Andalouse (105)', 2, 1100)" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
-                Facture
-              </button>
-            </div>
-          </div>
-
-          <!-- Room 106 -->
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-amber-500/30 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Chambre Koutoubia (Chambre 106)</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">Nettoyage en cours</span>
-            </div>
-            <div class="text-xs space-y-1 text-slate-400 font-mono">
-              <p>Départ : M. David Clark (Ce matin 11h)</p>
-              <p>Gouvernante : En préparation</p>
-              <p class="text-slate-300">Tarif : 850 DH / nuit</p>
-            </div>
-            <div class="pt-2 border-t border-white/5 flex items-center justify-between">
-              <span class="text-[11px] text-amber-400 font-mono">Libération à 14h</span>
-              <button onclick="markRoomReady()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
-                Marquer Prête
-              </button>
-            </div>
-          </div>
-
+        <!-- Filter Chips -->
+        <div class="flex items-center gap-2 text-xs">
+          <button onclick="filterRooms('all')" class="px-2.5 py-1 rounded-lg bg-slate-800 text-white font-semibold">Toutes (8)</button>
+          <button onclick="filterRooms('Disponible')" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/30 text-emerald-300">Disponible</button>
+          <button onclick="filterRooms('Occupée')" class="px-2.5 py-1 rounded-lg bg-rose-950/80 border border-rose-500/30 text-rose-300">Occupée</button>
+          <button onclick="filterRooms('En Nettoyage')" class="px-2.5 py-1 rounded-lg bg-amber-950/80 border border-amber-500/30 text-amber-300">Nettoyage</button>
         </div>
       </div>
-    </section>
 
-    <!-- ==================== TAB 2: BOOKING ENGINE ==================== -->
-    <section id="tab-booking" class="hidden max-w-2xl mx-auto space-y-6">
-      <div class="glass-card p-6 sm:p-8 rounded-3xl border border-white/10 space-y-5 shadow-2xl">
-        <div class="flex items-center justify-between border-b border-white/5 pb-4">
-          <div>
-            <h2 class="text-base font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-calendar-plus text-emerald-400"></i>
-              <span>Enregistrement d'une Nouvelle Réservation</span>
-            </h2>
-            <p class="text-xs text-slate-400">Transactions sécurisées PDO avec vérification anti-surbooking.</p>
-          </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            Commit Atomique
-          </span>
-        </div>
-
-        <form onsubmit="handleNewBooking(event)" class="space-y-4 text-xs">
-          <div>
-            <label class="block font-semibold text-slate-400 mb-1">Nom Complet du Client</label>
-            <input type="text" id="book-client-name" placeholder="Ex: Jean-Luc Moreau" required class="w-full bg-slate-900 border border-white/10 focus:border-amber-500 px-3 py-2 rounded-xl text-xs text-white outline-none">
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block font-semibold text-slate-400 mb-1">Téléphone / WhatsApp</label>
-              <input type="text" id="book-client-phone" placeholder="+33 6 12 34 56 78" class="w-full bg-slate-900 border border-white/10 focus:border-amber-500 px-3 py-2 rounded-xl text-xs text-white outline-none font-mono">
-            </div>
-            <div>
-              <label class="block font-semibold text-slate-400 mb-1">Chambre / Suite Sélectionnée</label>
-              <select id="book-room-select" onchange="updateBookingCalc()" class="w-full bg-slate-900 border border-white/10 focus:border-amber-500 px-3 py-2 rounded-xl text-xs text-white outline-none">
-                <option value="102" data-price="750">Chambre Atlas (102) — 750 DH / nuit</option>
-                <option value="104" data-price="650">Chambre Oukaïmeden (104) — 650 DH / nuit</option>
-                <option value="106" data-price="850">Chambre Koutoubia (106) — 850 DH / nuit</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block font-semibold text-slate-400 mb-1">Date d'Arrivée (Check-in)</label>
-              <input type="date" id="book-date-in" value="2026-11-21" onchange="updateBookingCalc()" class="w-full bg-slate-900 border border-white/10 focus:border-amber-500 px-3 py-2 rounded-xl text-xs text-white outline-none font-mono">
-            </div>
-            <div>
-              <label class="block font-semibold text-slate-400 mb-1">Date de Départ (Check-out)</label>
-              <input type="date" id="book-date-out" value="2026-11-24" onchange="updateBookingCalc()" class="w-full bg-slate-900 border border-white/10 focus:border-amber-500 px-3 py-2 rounded-xl text-xs text-white outline-none font-mono">
-            </div>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30 flex items-center justify-between">
-            <div>
-              <span class="text-xs text-slate-400">Total Séjour Calculé :</span>
-              <div id="booking-total-display" class="text-lg font-bold text-amber-400 font-mono">2,250 DH (3 Nuits)</div>
-            </div>
-            <span class="text-[10px] text-slate-400 font-mono">TVA 10% &amp; Taxe séjour incluse</span>
-          </div>
-
-          <button type="submit" class="w-full py-3 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 transition">
-            <i class="fa-solid fa-lock"></i>
-            <span>Valider la Réservation (Transaction PDO)</span>
-          </button>
-        </form>
+      <!-- Rooms Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="rooms-grid">
+        <!-- Rendered via JS -->
       </div>
-    </section>
+    </div>
 
-    <!-- ==================== TAB 3: INVOICE GENERATOR ==================== -->
-    <section id="tab-invoice" class="max-w-2xl mx-auto space-y-6 hidden">
-      <div class="glass-card p-6 sm:p-8 rounded-3xl border border-white/10 space-y-5 shadow-2xl font-mono text-xs">
-        <div class="flex justify-between border-b border-white/10 pb-4 text-slate-400">
+    <!-- ==================== TAB 2: BOOKING FORM ==================== -->
+    <div id="tab-content-booking" class="hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-white/10 space-y-4">
+          <div class="border-b border-white/10 pb-3">
+            <h2 class="text-base font-bold text-white flex items-center gap-2 font-display">
+              <i class="bi bi-calendar-plus text-amber-400"></i>
+              Enregistrer une Réservation &amp; Attribution de Chambre
+            </h2>
+            <p class="text-xs text-slate-400">Transaction atomique PDO : création du dossier client + verrouillage de la chambre sélectionnée</p>
+          </div>
+
+          <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-400 mb-1 font-medium">Nom &amp; Prénom du Client *</label>
+                <input type="text" id="b-name" required placeholder="Ex: Jean Dupont / Karim Bennani" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 transition">
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1 font-medium">Numéro CIN / Passeport *</label>
+                <input type="text" id="b-cin" required placeholder="Ex: CD789123" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 transition font-mono uppercase">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-400 mb-1 font-medium">Numéro de Téléphone</label>
+                <input type="tel" id="b-tel" placeholder="+212 600-000000" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 transition font-mono">
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1 font-medium">Sélectionner la Chambre *</label>
+                <select id="b-room" required onchange="updateBookingEstimate()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white focus:outline-none focus:border-amber-500 transition">
+                  <!-- Populated via JS -->
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-400 mb-1 font-medium">Date d'Arrivée (Check-In) *</label>
+                <input type="date" id="b-checkin" required onchange="updateBookingEstimate()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white focus:outline-none focus:border-amber-500 transition">
+              </div>
+              <div>
+                <label class="block text-slate-400 mb-1 font-medium">Date de Départ (Check-Out) *</label>
+                <input type="date" id="b-checkout" required onchange="updateBookingEstimate()" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-white focus:outline-none focus:border-amber-500 transition">
+              </div>
+            </div>
+
+            <!-- Estimated Calculation Box -->
+            <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-between">
+              <div>
+                <span class="text-[11px] text-slate-400 block">Estimation du Séjour (<span id="b-nights-count">2</span> nuitées) :</span>
+                <span class="text-xs text-slate-300">TVA 10% &amp; Taxe de séjour incluses</span>
+              </div>
+              <div class="text-right">
+                <span class="text-xs text-slate-400 font-mono block">TOTAL À PAYER</span>
+                <span id="b-estimate-total" class="text-xl font-bold font-mono text-amber-400">1,750.00 MAD</span>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2">
+              <i class="bi bi-shield-check text-sm"></i>
+              <span>Confirmer la Réservation (Transaction PDO)</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right Side: Recent Bookings Table -->
+        <div class="lg:col-span-5 glass-card p-5 rounded-3xl border border-white/10 space-y-3">
+          <h2 class="text-sm font-bold text-white flex items-center gap-2 font-display">
+            <i class="bi bi-clock-history text-amber-400"></i>
+            Dernières Réservations Actives
+          </h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="text-slate-400 border-b border-white/10 font-mono text-[10px]">
+                  <th class="py-2 px-2">Client</th>
+                  <th class="py-2 px-2">Chambre</th>
+                  <th class="py-2 px-2 text-center">Nuits</th>
+                  <th class="py-2 px-2 text-right">Montant</th>
+                </tr>
+              </thead>
+              <tbody id="recent-bookings-body" class="divide-y divide-white/5">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: BILLING & INVOICING ==================== -->
+    <div id="tab-content-billing" class="hidden space-y-5">
+      <div class="glass-card p-6 rounded-3xl border border-white/10 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
-            <h3 class="font-bold text-white text-sm font-display">SARL HIND ET PIERRE</h3>
-            <p>Maison d'Hôtes &amp; Riad de Charme</p>
-            <p>10 Rue Ghandi, Hassan, Rabat — Maroc</p>
-            <p>RC : 142857 / IF : 489201</p>
+            <h2 class="text-base font-bold text-white flex items-center gap-2 font-display">
+              <i class="bi bi-receipt-cutoff text-amber-400"></i>
+              Générateur de Facture d'Hébergement Officielle (MAD)
+            </h2>
+            <p class="text-xs text-slate-400">Conforme aux normes fiscales marocaines (ICE: 002198302000088 · IF: 49201928)</p>
           </div>
-          <div class="text-right">
-            <span class="text-amber-400 font-bold text-sm">FACTURE #INV-2026-089</span>
-            <p id="inv-date">Date : 2026-11-20</p>
-            <p class="text-emerald-400">Statut : RÉGLÉE</p>
-          </div>
-        </div>
-
-        <div class="space-y-1 py-2">
-          <p class="text-slate-400">Facturé à :</p>
-          <p id="inv-client-name" class="font-bold text-white text-sm">M. Pierre Dupont</p>
-          <p id="inv-room-name" class="text-slate-300">Chambre : Suite Majorelle (Chambre 101)</p>
-        </div>
-
-        <table class="w-full text-left divide-y divide-white/10">
-          <thead>
-            <tr class="text-slate-400 uppercase text-[10px]">
-              <th class="py-2">Description</th>
-              <th class="py-2 text-center">Nuitées</th>
-              <th class="py-2 text-right">Tarif / Nuit</th>
-              <th class="py-2 text-right">Total</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-white/5 text-slate-300">
-            <tr>
-              <td class="py-2" id="inv-desc-room">Hébergement Suite Majorelle</td>
-              <td class="py-2 text-center" id="inv-nights">4</td>
-              <td class="py-2 text-right" id="inv-unit-rate">1,200.00 DH</td>
-              <td class="py-2 text-right font-bold text-white" id="inv-subtotal">4,800.00 DH</td>
-            </tr>
-            <tr>
-              <td class="py-2">Taxe de séjour touristique (25 DH / nuit)</td>
-              <td class="py-2 text-center" id="inv-tax-nights">4</td>
-              <td class="py-2 text-right">25.00 DH</td>
-              <td class="py-2 text-right font-bold text-white" id="inv-tax-total">100.00 DH</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="pt-3 border-t border-white/10 flex justify-between items-center text-sm font-bold">
-          <span class="text-white">TOTAL TTC À PAYER :</span>
-          <span id="inv-grand-total" class="text-amber-400 text-lg">4,900.00 DH</span>
-        </div>
-
-        <div class="pt-3 flex justify-end gap-2">
-          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition flex items-center gap-1.5">
-            <i class="fa-solid fa-print"></i>
+          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-slate-900 border border-white/10 hover:border-amber-500 text-xs font-semibold text-slate-200 hover:text-white transition flex items-center gap-2">
+            <i class="bi bi-printer"></i>
             <span>Imprimer la Facture</span>
           </button>
         </div>
+
+        <!-- Official Invoice Preview Box -->
+        <div class="bg-white text-slate-900 p-8 rounded-2xl shadow-xl max-w-3xl mx-auto space-y-6 text-xs font-sans">
+          <div class="flex justify-between items-start border-b border-slate-200 pb-5">
+            <div>
+              <h3 class="text-xl font-extrabold text-amber-700 font-serif tracking-tight">SARL HIND ET PIERRE</h3>
+              <p class="text-slate-600 text-[11px] mt-0.5">Établissement Touristique &amp; Maison d'Hôtes de Luxe</p>
+              <p class="text-slate-500 text-[10px]">Quartier Hassan, Rabat, Maroc · Tél: +212 537-708090</p>
+              <p class="text-slate-500 text-[10px] font-mono mt-1">ICE: 002198302000088 · IF: 49201928 · Patente: 29103847</p>
+            </div>
+            <div class="text-right">
+              <span class="inline-block px-3 py-1 rounded-md bg-amber-100 text-amber-900 font-bold text-xs">FACTURE N° F-2026-089</span>
+              <p class="text-slate-500 text-[11px] mt-1">Date d'émission : <strong>21 Novembre 2026</strong></p>
+              <p class="text-slate-500 text-[11px]">Mode de règlement : <strong>Carte Bancaire (CMI)</strong></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl text-slate-700">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-400 block font-mono">FACTURÉ À :</span>
+              <strong class="text-sm text-slate-900 block" id="inv-client">M. Pierre Laurent</strong>
+              <span class="text-[11px]">Passeport : <strong class="font-mono">FR-8891029</strong></span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase font-bold text-slate-400 block font-mono">DÉTAILS DU SÉJOUR :</span>
+              <span class="text-[11px] block">Chambre : <strong id="inv-room">Suite Royale Majorelle (N° 101)</strong></span>
+              <span class="text-[11px]">Période : <strong>19 Nov 2026 au 22 Nov 2026 (3 nuits)</strong></span>
+            </div>
+          </div>
+
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="border-b-2 border-slate-300 text-slate-600 font-bold">
+                <th class="py-2">Désignation</th>
+                <th class="py-2 text-center">Nuitées</th>
+                <th class="py-2 text-right">Tarif Unitaire HT</th>
+                <th class="py-2 text-right">Total HT</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="py-2.5 font-semibold text-slate-800">Hébergement en Suite Royale avec Petit-déjeuner marocain</td>
+                <td class="py-2.5 text-center">3</td>
+                <td class="py-2.5 text-right font-mono">1,090.91 MAD</td>
+                <td class="py-2.5 text-right font-mono">3,272.73 MAD</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 font-semibold text-slate-800">Taxe de Séjour Promotion Touristique (25 MAD / nuit / pers)</td>
+                <td class="py-2.5 text-center">3</td>
+                <td class="py-2.5 text-right font-mono">25.00 MAD</td>
+                <td class="py-2.5 text-right font-mono">75.00 MAD</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="flex justify-end pt-3 border-t border-slate-200">
+            <div class="w-64 space-y-1 text-slate-700 text-xs">
+              <div class="flex justify-between"><span>Total Hors Taxe (HT) :</span> <span class="font-mono">3,272.73 MAD</span></div>
+              <div class="flex justify-between"><span>TVA Hébergement (10%) :</span> <span class="font-mono">327.27 MAD</span></div>
+              <div class="flex justify-between"><span>Taxe de Séjour :</span> <span class="font-mono">75.00 MAD</span></div>
+              <div class="flex justify-between text-base font-extrabold text-amber-900 border-t border-slate-300 pt-1 mt-1">
+                <span>NET À PAYER (TTC) :</span>
+                <span class="font-mono">3,675.00 MAD</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center text-[10px] text-slate-400 border-t border-slate-200 pt-4">
+            SARL HIND ET PIERRE au capital de 100.000 DH · RC Rabat 98234 · Tribunal de Commerce de Rabat
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
 
     <!-- ==================== TAB 4: ARCHITECTURE & SQL ==================== -->
-    <section id="tab-architecture" class="max-w-4xl mx-auto space-y-6 hidden">
-      <div class="glass-card p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6 shadow-2xl">
-        <div class="flex items-center justify-between border-b border-white/5 pb-4">
-          <div>
-            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-database text-cyan-400"></i>
-              <span>Architecture Technique &amp; Schéma Relationnel MySQL</span>
-            </h2>
-            <p class="text-xs text-slate-400">Classes OOP PHP, application C# Desktop et intégrité référentielle.</p>
-          </div>
-          <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-            gestion_hotel.sql
-          </span>
+    <div id="tab-content-architecture" class="space-y-5 hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="glass-card p-5 rounded-3xl border border-white/10 space-y-3">
+          <h2 class="text-sm font-bold text-white flex items-center gap-2 font-display">
+            <i class="bi bi-layers text-amber-400"></i>
+            Architecture Logicielle &amp; Transactions PDO
+          </h2>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Conçu sous le paradigme <strong>Programmation Orientée Objet (PHP 8 OOP)</strong>, chaque entité du domaine possède sa classe dédiée encapsulant les requêtes préparées PDO contre toute injection SQL :
+          </p>
+          <ul class="text-xs text-slate-400 space-y-1.5 list-disc pl-5">
+            <li><strong class="text-white">Database.php :</strong> Singleton de connexion PDO avec gestion du charset UTF-8 et gestion des exceptions.</li>
+            <li><strong class="text-white">Chambre.php :</strong> Manipulation des chambres (CRUD, mise à jour des états Disponible / Occupée / Nettoyage).</li>
+            <li><strong class="text-white">Reservation.php :</strong> Gestion des réservations avec <code class="text-amber-300 font-mono">beginTransaction()</code> et <code class="text-amber-300 font-mono">rollBack()</code>.</li>
+            <li><strong class="text-white">Client.php :</strong> Gestion du registre des clients, vérification des doublons CIN et historique de séjour.</li>
+          </ul>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/5 space-y-2">
-            <h3 class="text-xs font-bold text-amber-400 uppercase font-mono">Architecture Logicielle C# (.NET) :</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Client Windows Desktop développé pour le gérant et la réception : calendrier interactif, alertes de disponibilité, facturation express, synchronisé en direct avec la base MySQL distante.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-slate-900/80 border border-white/5 space-y-2">
-            <h3 class="text-xs font-bold text-cyan-400 uppercase font-mono">Modélisation Relational SQL :</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Schéma en 3NF (Tables : <code>chambre</code>, <code>client</code>, <code>reservation</code>, <code>facture</code>). Clés étrangères avec cascade contrôlée et transactions atomiques PDO (BEGIN / COMMIT / ROLLBACK).
-            </p>
+        <div class="glass-card p-5 rounded-3xl border border-white/10 space-y-3">
+          <h2 class="text-sm font-bold text-white flex items-center gap-2 font-display">
+            <i class="bi bi-database text-cyan-400"></i>
+            Modélisation Relationnelle 3NF (`gestion_hotel.sql`)
+          </h2>
+          <div class="p-3 rounded-2xl bg-slate-950 font-mono text-[11px] text-cyan-300 overflow-x-auto space-y-1">
+            <p><span class="text-slate-500">-- Table des Chambres</span></p>
+            <p>CREATE TABLE chambres (id_chambre INT PRIMARY KEY AUTO_INCREMENT, numero VARCHAR(10) UNIQUE, type VARCHAR(50), prix_nuit DECIMAL(10,2), statut ENUM('Disponible','Occupée','En Nettoyage'));</p>
+            <p><span class="text-slate-500 mt-2 block">-- Table des Réservations</span></p>
+            <p>CREATE TABLE reservations (id_reservation INT PRIMARY KEY AUTO_INCREMENT, id_client INT, id_chambre INT, date_debut DATE, date_fin DATE, statut_reservation ENUM('Confirmée','Terminée','Annulée'), FOREIGN KEY (id_client) REFERENCES clients(id_client), FOREIGN KEY (id_chambre) REFERENCES chambres(id_chambre));</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
   </main>
 
-  <!-- ==================== ATTESTATION DE STAGE MODAL ==================== -->
-  <div id="attestation-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="glass-card p-6 sm:p-8 rounded-3xl max-w-2xl w-full border border-amber-500/30 max-h-[90vh] overflow-y-auto space-y-6">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <div>
-          <h2 class="text-lg font-bold text-white font-display">Attestation de Stage Officielle — SARL HIND ET PIERRE</h2>
-          <p class="text-xs text-slate-400">Délivrée le 15 Juillet 2026 à Rabat</p>
-        </div>
-        <button onclick="toggleAttestationModal()" class="w-8 h-8 rounded-xl bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-slate-900 border border-white/10 space-y-3 text-xs leading-relaxed text-slate-300">
-        <div class="border-b border-white/10 pb-2 flex justify-between text-slate-400 font-mono text-[11px]">
-          <span>SOCIÉTÉ SARL HIND ET PIERRE</span>
-          <span>10 Rue Ghandi, Hassan, Rabat</span>
-        </div>
-        <p>
-          Par la présente, nous soussignés, <strong>Madame Hind Abidi</strong>, Gérante de la société <strong>SARL HIND ET PIERRE</strong>, attestons que <strong>Monsieur Adham Cherkaoui Eddeqaqi</strong> a effectué un stage au sein de notre entreprise durant la période du <strong>01/05/2026 au 30/06/2026</strong>.
-        </p>
-        <p>
-          Le stage s'est déroulé dans le département Informatique et avait pour mission la <em>"Conception et développement d'une application de gestion pour maison d'hôtes"</em>.
-        </p>
-        <div class="p-3 rounded-xl bg-amber-950/20 border border-amber-500/20 space-y-1 text-amber-200">
-          <p class="font-bold">Missions et réalisations accomplies :</p>
-          <ul class="list-disc list-inside space-y-0.5">
-            <li>Analyse des besoins fonctionnels et modélisation de la base de données.</li>
-            <li>Développement des interfaces utilisateur et de la logique métier (Web et Desktop).</li>
-            <li>Tests de performance et déploiement de la solution sur serveur distant.</li>
-          </ul>
-        </div>
-        <p class="text-[11px] text-slate-400">
-          "Monsieur Adham Cherkaoui Eddeqaqi a fait preuve de sérieux, d'autonomie et d'une grande capacité d'adaptation. Ses compétences techniques et son implication ont été très appréciées."
-        </p>
-      </div>
-
-      <div class="flex justify-end">
-        <button onclick="toggleAttestationModal()" class="px-5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold transition">
-          Fermer l'Attestation
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== JAVASCRIPT ==================== -->
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
   <script>
+    // Audio FX
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playSound(type) {
+      try {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+        if (type === 'beep') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(554.37, now + 0.1);
+          osc.frequency.setValueAtTime(659.25, now + 0.2);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+          osc.start(now);
+          osc.stop(now + 0.38);
+        }
+      } catch (e) {}
+    }
+
+    // Rooms State
+    let roomsData = [
+      { id: 101, num: "101", type: "Suite Royale Majorelle", rate: 1200, status: "Occupée", guest: "Pierre Laurent", cin: "FR-8891029", until: "2026-11-22" },
+      { id: 102, num: "102", type: "Chambre Deluxe Atlas", rate: 850, status: "Disponible", guest: null, cin: null, until: null },
+      { id: 103, num: "103", type: "Chambre Traditionnelle Chellah", rate: 650, status: "Occupée", guest: "Salma Berrada", cin: "A49201", until: "2026-11-21" },
+      { id: 104, num: "104", type: "Suite Panoramique Oudaya", rate: 1100, status: "Disponible", guest: null, cin: null, until: null },
+      { id: 201, num: "201", type: "Chambre Deluxe Mogador", rate: 850, status: "En Nettoyage", guest: null, cin: null, until: null },
+      { id: 202, num: "202", type: "Chambre Traditionnelle Fès", rate: 650, status: "Disponible", guest: null, cin: null, until: null },
+      { id: 203, num: "203", type: "Suite Junior Riad", rate: 950, status: "Disponible", guest: null, cin: null, until: null },
+      { id: 204, num: "204", type: "Chambre Deluxe Toubkal", rate: 850, status: "Disponible", guest: null, cin: null, until: null }
+    ];
+
+    let recentBookings = [
+      { client: "Pierre Laurent", room: "101 - Suite Royale", nights: 3, total: 3675 },
+      { client: "Salma Berrada", room: "103 - Ch. Chellah", nights: 2, total: 1350 },
+      { client: "Karim Bennani", room: "104 - Suite Oudaya", nights: 1, total: 1125 }
+    ];
+
     function switchTab(tabId) {
-      const tabs = ['rooms', 'booking', 'invoice', 'architecture'];
-      tabs.forEach(t => {
-        document.getElementById(`tab-${t}`).classList.add('hidden');
-        document.getElementById(`tab-btn-${t}`).className = 'tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition';
+      playSound('beep');
+      ['rooms', 'booking', 'billing', 'architecture'].forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const content = document.getElementById(`tab-content-${t}`);
+        if (t === tabId) {
+          btn.classList.add('active');
+          btn.classList.remove('text-slate-400');
+          content.classList.remove('hidden');
+        } else {
+          btn.classList.remove('active');
+          btn.classList.add('text-slate-400');
+          content.classList.add('hidden');
+        }
+      });
+    }
+
+    function renderRooms(filter = 'all') {
+      const grid = document.getElementById('rooms-grid');
+      grid.innerHTML = '';
+      let availCount = 0;
+
+      roomsData.forEach(r => {
+        if (r.status === 'Disponible') availCount++;
+        if (filter !== 'all' && r.status !== filter) return;
+
+        let statusBadge = '';
+        let borderClass = 'border-white/10';
+        if (r.status === 'Disponible') {
+          statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">Disponible</span>';
+        } else if (r.status === 'Occupée') {
+          statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/25">Occupée</span>';
+          borderClass = 'border-rose-500/25';
+        } else {
+          statusBadge = '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/25">En Nettoyage</span>';
+          borderClass = 'border-amber-500/25';
+        }
+
+        const card = document.createElement('div');
+        card.className = `glass-card p-4 rounded-2xl border ${borderClass} space-y-3 transition duration-200`;
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-900 border border-white/10 text-amber-400">N° ${r.num}</span>
+            ${statusBadge}
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-sm">${r.type}</h3>
+            <span class="text-xs text-slate-400 font-mono">${r.rate} MAD <span class="text-[10px] text-slate-500 font-sans">/ nuitée</span></span>
+          </div>
+          <div class="pt-2 border-t border-white/5 text-[11px] text-slate-400 min-h-[36px]">
+            ${r.status === 'Occupée' ? `
+              <p class="text-white font-medium flex items-center gap-1.5"><i class="bi bi-person text-amber-400"></i> ${r.guest}</p>
+              <p class="text-[10px] text-slate-500">Jusqu'au : ${r.until}</p>
+            ` : r.status === 'En Nettoyage' ? `
+              <p class="text-amber-300">Gouvernante en cours d'intervention</p>
+            ` : `
+              <p class="text-emerald-400 flex items-center gap-1"><i class="bi bi-check2"></i> Prête à être attribuée</p>
+            `}
+          </div>
+          <div class="pt-1">
+            ${r.status === 'Occupée' ? `
+              <button onclick="handleCheckOut(${r.id})" class="w-full py-1.5 rounded-xl bg-slate-900 hover:bg-rose-600 text-[11px] font-semibold text-rose-300 hover:text-white border border-rose-500/20 transition flex items-center justify-center gap-1.5">
+                <i class="bi bi-box-arrow-right"></i> Check-Out Direct
+              </button>
+            ` : r.status === 'En Nettoyage' ? `
+              <button onclick="markAvailable(${r.id})" class="w-full py-1.5 rounded-xl bg-slate-900 hover:bg-emerald-600 text-[11px] font-semibold text-emerald-300 hover:text-white border border-emerald-500/20 transition flex items-center justify-center gap-1.5">
+                <i class="bi bi-check-all"></i> Marquer Prête
+              </button>
+            ` : `
+              <button onclick="prefillBooking(${r.id})" class="w-full py-1.5 rounded-xl bg-slate-900 hover:bg-amber-600 text-[11px] font-semibold text-amber-300 hover:text-white border border-amber-500/20 transition flex items-center justify-center gap-1.5">
+                <i class="bi bi-plus-circle"></i> Réserver Cette Chambre
+              </button>
+            `}
+          </div>
+        `;
+        grid.appendChild(card);
       });
 
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-      document.getElementById(`tab-btn-${tabId}`).className = 'tab-btn active px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 whitespace-nowrap transition';
+      document.getElementById('stat-avail-rooms').textContent = availCount;
+      populateRoomSelect();
     }
 
-    function toggleAttestationModal() {
-      document.getElementById('attestation-modal').classList.toggle('hidden');
+    function filterRooms(status) {
+      playSound('beep');
+      renderRooms(status);
     }
 
-    function previewInvoice(client, room, nights, rate) {
-      switchTab('invoice');
-      document.getElementById('inv-client-name').textContent = client;
-      document.getElementById('inv-room-name').textContent = `Chambre : ${room}`;
-      document.getElementById('inv-desc-room').textContent = `Hébergement ${room}`;
-      document.getElementById('inv-nights').textContent = nights;
-      document.getElementById('inv-tax-nights').textContent = nights;
-      document.getElementById('inv-unit-rate').textContent = `${rate.toFixed(2)} DH`;
-      
-      const subtotal = nights * rate;
-      const tax = nights * 25;
-      const grand = subtotal + tax;
-
-      document.getElementById('inv-subtotal').textContent = `${subtotal.toFixed(2)} DH`;
-      document.getElementById('inv-tax-total').textContent = `${tax.toFixed(2)} DH`;
-      document.getElementById('inv-grand-total').textContent = `${grand.toFixed(2)} DH`;
+    function handleCheckOut(id) {
+      playSound('success');
+      const r = roomsData.find(room => room.id === id);
+      if (r) {
+        if (confirm(`Confirmer le Check-Out de ${r.guest} (Chambre ${r.num}) ?\nLa chambre passera automatiquement en statut "En Nettoyage".`)) {
+          r.status = 'En Nettoyage';
+          r.guest = null;
+          r.cin = null;
+          r.until = null;
+          renderRooms();
+        }
+      }
     }
 
-    function bookDirect(room, rate) {
+    function markAvailable(id) {
+      playSound('success');
+      const r = roomsData.find(room => room.id === id);
+      if (r) {
+        r.status = 'Disponible';
+        renderRooms();
+      }
+    }
+
+    function populateRoomSelect() {
+      const select = document.getElementById('b-room');
+      select.innerHTML = '<option value="">-- Choisir une chambre libre --</option>';
+      roomsData.filter(r => r.status === 'Disponible').forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.id;
+        opt.textContent = `Chambre ${r.num} — ${r.type} (${r.rate} MAD/nuit)`;
+        select.appendChild(opt);
+      });
+    }
+
+    function prefillBooking(id) {
       switchTab('booking');
-      document.getElementById('book-room-select').value = room.includes('102') ? '102' : (room.includes('104') ? '104' : '106');
-      updateBookingCalc();
+      document.getElementById('b-room').value = id;
+      updateBookingEstimate();
     }
 
-    function updateBookingCalc() {
-      const select = document.getElementById('book-room-select');
-      const rate = parseFloat(select.options[select.selectedIndex].getAttribute('data-price')) || 750;
-      const inDate = new Date(document.getElementById('book-date-in').value);
-      const outDate = new Date(document.getElementById('book-date-out').value);
+    function updateBookingEstimate() {
+      const roomId = document.getElementById('b-room').value;
+      const d1 = document.getElementById('b-checkin').value;
+      const d2 = document.getElementById('b-checkout').value;
+      const room = roomsData.find(r => r.id == roomId);
 
-      const diffTime = Math.max(1, outDate - inDate);
-      const nights = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
-      const total = nights * rate;
-
-      document.getElementById('booking-total-display').textContent = `${total.toLocaleString()} DH (${nights} Nuit${nights > 1 ? 's' : ''})`;
+      if (room && d1 && d2) {
+        const diffDays = Math.max(1, Math.round((new Date(d2) - new Date(d1)) / (1000 * 60 * 60 * 24)));
+        document.getElementById('b-nights-count').textContent = diffDays;
+        const total = (room.rate * diffDays) + (25 * diffDays); // room + taxe de séjour
+        document.getElementById('b-estimate-total').textContent = `${total.toFixed(2)} MAD`;
+      }
     }
 
-    function handleNewBooking(e) {
+    function handleBookingSubmit(e) {
       e.preventDefault();
-      const name = document.getElementById('book-client-name').value;
-      alert(`✅ Réservation confirmée avec succès pour ${name} !\nTransaction PDO enregistrée dans MySQL.`);
-      switchTab('rooms');
+      playSound('success');
+      const roomId = document.getElementById('b-room').value;
+      const name = document.getElementById('b-name').value;
+      const cin = document.getElementById('b-cin').value;
+      const d2 = document.getElementById('b-checkout').value;
+
+      const room = roomsData.find(r => r.id == roomId);
+      if (room) {
+        room.status = 'Occupée';
+        room.guest = name;
+        room.cin = cin;
+        room.until = d2;
+
+        recentBookings.unshift({
+          client: name,
+          room: `${room.num} - ${room.type.split(' ')[0]}`,
+          nights: document.getElementById('b-nights-count').textContent,
+          total: parseFloat(document.getElementById('b-estimate-total').textContent)
+        });
+
+        alert(`Réservation validée avec succès par Transaction PDO !\nClient : ${name} (${cin})\nChambre : N° ${room.num} (${room.type})\nStatut de la chambre mis à jour sur 'Occupée'.`);
+        renderRooms();
+        renderRecentBookings();
+        switchTab('rooms');
+      }
     }
 
-    function markRoomReady() {
-      alert('🧹 Chambre 106 inspectée et marquée Disponible dans le système !');
+    function renderRecentBookings() {
+      const tbody = document.getElementById('recent-bookings-body');
+      tbody.innerHTML = '';
+      recentBookings.slice(0, 5).forEach(b => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-white/5 transition";
+        tr.innerHTML = `
+          <td class="py-2 px-2 font-semibold text-white">${b.client}</td>
+          <td class="py-2 px-2 text-slate-400">${b.room}</td>
+          <td class="py-2 px-2 text-center font-mono text-amber-300">${b.nights}</td>
+          <td class="py-2 px-2 text-right font-mono font-bold text-emerald-400">${b.total} MAD</td>
+        `;
+        tbody.appendChild(tr);
+      });
     }
+
+    // Language Toggle
+    function setLang(lang) {
+      playSound('beep');
+      const isFr = lang === 'fr';
+      document.getElementById('btn-fr').className = isFr ? "px-2 py-1 rounded-lg font-semibold bg-amber-600 text-white transition" : "px-2 py-1 rounded-lg font-semibold text-slate-400 hover:text-white transition";
+      document.getElementById('btn-en').className = !isFr ? "px-2 py-1 rounded-lg font-semibold bg-amber-600 text-white transition" : "px-2 py-1 rounded-lg font-semibold text-slate-400 hover:text-white transition";
+
+      document.getElementById('tab-text-rooms').textContent = isFr ? "Planning des Chambres & État" : "Rooms Schedule & Status";
+      document.getElementById('tab-text-booking').textContent = isFr ? "Nouvelle Réservation & Check-In" : "New Booking & Check-In";
+      document.getElementById('tab-text-billing').textContent = isFr ? "Facturation Officielle MAD" : "Official Invoice (MAD)";
+      document.getElementById('tab-text-architecture').textContent = isFr ? "Architecture & Schéma SQL 3NF" : "Architecture & SQL 3NF Schema";
+    }
+
+    window.onload = function() {
+      // Set default dates
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 2);
+      document.getElementById('b-checkin').value = today.toISOString().split('T')[0];
+      document.getElementById('b-checkout').value = tomorrow.toISOString().split('T')[0];
+
+      renderRooms();
+      renderRecentBookings();
+    };
   </script>
 </body>
 </html>

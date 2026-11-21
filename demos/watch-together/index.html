@@ -5,16 +5,17 @@
   <meta name="copyright" content="Copyright (c) 2026 0dh4m (Adham Cherkaoui Eddeqaqi). All rights reserved.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Watch Together — Real-Time Synced Media & Mesh Voice Interactive Showcase</title>
-  <meta name="description" content="Interactive demo and architectural showcase of Watch Together by 0dh4m (Adham Cherkaoui Eddeqaqi). Real-time sub-second video synchronization, WebRTC mesh voice rooms, and dynamic drift correction.">
+  <title>Watch Together — Real-Time Synced Cinema & WebRTC Mesh Voice Interactive Showcase</title>
+  <meta name="description" content="Production-ready real-time Watch Together PWA interactive showcase by 0dh4m (Adham Cherkaoui Eddeqaqi). Sub-second video synchronization (<1.5s drift), WebRTC mesh voice rooms, dynamic drift compensation, live chat and animated reaction engine.">
 
-  <!-- Google Fonts: Inter & Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome 6 Icons -->
+  <!-- Font Awesome 6 Icons & Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -29,11 +30,12 @@
             mono: ['"JetBrains Mono"', 'monospace']
           },
           colors: {
-            obsidian: '#09090c',
             cinema: {
-              800: '#15151e',
-              900: '#0e0e15',
-              950: '#07070a'
+              violet: '#8b5cf6',
+              cyan: '#06b6d4',
+              emerald: '#10b981',
+              dark: '#07070a',
+              card: '#0f0f17'
             }
           }
         }
@@ -42,70 +44,46 @@
   </script>
 
   <style>
-    :root {
-      --primary: #8b5cf6;
-      --cyan: #06b6d4;
-    }
     body {
       background-color: #07070a;
       color: #f4f4f6;
       font-family: 'Inter', sans-serif;
     }
     .glass-panel {
-      background: rgba(18, 18, 26, 0.78);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(15, 15, 23, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .glass-panel-hover:hover {
-      background: rgba(28, 28, 40, 0.88);
+    .glass-panel:hover {
       border-color: rgba(139, 92, 246, 0.35);
     }
-    .ambilight-glow {
+    .reaction-bubble {
       position: absolute;
-      inset: -15px;
-      background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(6, 182, 212, 0.25) 50%, transparent 75%);
-      filter: blur(36px);
-      z-index: 0;
       pointer-events: none;
-      border-radius: 20px;
-      transition: all 0.5s ease;
-    }
-    .floating-emoji {
-      position: absolute;
-      bottom: 20px;
-      font-size: 2rem;
-      pointer-events: none;
-      animation: floatUp 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      animation: floatUp 2.4s ease-out forwards;
+      font-size: 26px;
       z-index: 40;
     }
     @keyframes floatUp {
-      0% { opacity: 1; transform: translateY(0) scale(0.6) rotate(0deg); }
-      50% { opacity: 0.9; transform: translateY(-120px) scale(1.2) rotate(-10deg); }
-      100% { opacity: 0; transform: translateY(-240px) scale(1.4) rotate(15deg); }
+      0% { transform: translateY(0) scale(0.6); opacity: 1; }
+      50% { transform: translateY(-70px) scale(1.2) rotate(10deg); opacity: 0.9; }
+      100% { transform: translateY(-160px) scale(0.9) rotate(-15deg); opacity: 0; }
     }
-    .audio-wave-bar {
-      width: 3px;
-      background: #10b981;
-      border-radius: 2px;
-      animation: audioPulse 1.2s infinite ease-in-out;
+    .speaking-pulse {
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulseGreen 1.8s infinite;
     }
-    @keyframes audioPulse {
-      0%, 100% { height: 4px; }
-      50% { height: 16px; }
-    }
-    .chat-scroll::-webkit-scrollbar {
-      width: 4px;
-    }
-    .chat-scroll::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
+    @keyframes pulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-violet-600 selection:text-white">
 
-  <!-- ==================== TOP NAVIGATION DOCK ==================== -->
+  <!-- ==================== HEADER ==================== -->
   <header class="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 lg:px-8 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <a href="../../index.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-zinc-900 border border-white/10 hover:border-violet-500 text-xs text-zinc-300 hover:text-white transition group" title="Return to Portfolio">
@@ -113,412 +91,354 @@
         <span>Portfolio</span>
       </a>
       <div class="h-4 w-px bg-white/10"></div>
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-600 via-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-md shadow-violet-500/20">
-          <i class="fa-solid fa-play text-xs ml-0.5"></i>
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-violet-500/25">
+          <i class="fa-solid fa-film text-sm"></i>
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="font-bold text-sm tracking-tight text-white font-display">Watch Together</span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">Live Interactive Demo</span>
+            <span class="font-extrabold text-sm tracking-tight text-white font-display">Watch Together <span class="text-violet-400">PWA</span></span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-violet-500/10 text-violet-300 border border-violet-500/25">Mesh Voice &amp; Cinema Sync</span>
           </div>
-          <p class="text-[10px] text-zinc-400">By 0dh4m (Adham Cherkaoui Eddeqaqi) · Real-Time Systems</p>
+          <p class="text-[10px] text-zinc-400">By 0dh4m (Adham Cherkaoui Eddeqaqi) · Sub-Second Drift Engine</p>
         </div>
       </div>
     </div>
 
-    <!-- Right Controls -->
-    <div class="flex items-center gap-2 sm:gap-3">
-      <button onclick="toggleArchModal()" class="px-3 py-1.5 rounded-xl bg-violet-600/20 hover:bg-violet-600/30 text-violet-300 border border-violet-500/30 text-xs font-medium flex items-center gap-1.5 transition">
-        <i class="fa-solid fa-network-wired text-xs"></i>
-        <span class="hidden sm:inline">Architecture Deep Dive</span>
-      </button>
+    <!-- Right Header Actions -->
+    <div class="flex items-center gap-3">
+      <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 border border-white/10 text-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-zinc-300">Room Status: <strong class="text-violet-300">Host (VIP Room #SYNC-01)</strong></span>
+      </div>
 
-      <a href="http://localhost:3000" target="_blank" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 hover:opacity-90 text-white text-xs font-semibold shadow-lg shadow-violet-600/20 flex items-center gap-1.5 transition" title="Launch Node.js Production App on Localhost">
-        <i class="fa-solid fa-bolt"></i>
-        <span class="hidden sm:inline">Launch Localhost:3000</span>
+      <a href="https://github.com/0dh4m/watch-together" target="_blank" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-zinc-900 border border-white/10 hover:border-violet-500 text-xs text-zinc-200 hover:text-white transition group shadow">
+        <i class="bi bi-github text-sm text-violet-400 group-hover:rotate-12 transition"></i>
+        <span class="font-semibold">GitHub Source</span>
       </a>
     </div>
   </header>
 
-  <!-- ==================== MAIN CINEMA STAGE ==================== -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-5 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-    
-    <!-- LEFT & CENTER: CINEMA PLAYER & CONTROLS (8 Cols) -->
-    <div class="lg:col-span-8 space-y-4">
-      
-      <!-- Video Player Card with Ambilight -->
-      <div class="relative rounded-2xl overflow-hidden glass-panel border border-white/10 shadow-2xl">
-        <div id="ambilight" class="ambilight-glow"></div>
+  <!-- ==================== MAIN CINEMA ARENA ==================== -->
+  <main class="max-w-7xl w-full mx-auto px-4 py-6 flex-1 space-y-6">
 
-        <div class="relative z-10 bg-black aspect-video flex items-center justify-center overflow-hidden">
-          <video id="demo-video" class="w-full h-full object-cover" loop playsinline preload="auto">
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-          </video>
+    <!-- Top Grid: Cinema Player (8 cols) & Live Chat/Voice (4 cols) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
-          <!-- Floating Emoji Container -->
-          <div id="emoji-container" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
+      <!-- Left Column: Video Player & Controls (8 cols) -->
+      <div class="lg:col-span-8 space-y-4">
+        <div class="glass-panel p-4 rounded-3xl border border-white/10 space-y-3 relative overflow-hidden">
+          
+          <!-- Cinema Screen Box -->
+          <div id="video-container" class="relative rounded-2xl overflow-hidden bg-black aspect-video border border-white/10 shadow-2xl flex items-center justify-center group">
+            <video id="cinema-video" class="w-full h-full object-contain" playsinline preload="metadata">
+              <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+            </video>
 
-          <!-- Master Sync Badge -->
-          <div class="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-xs text-white">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Room Master Clock: <strong id="clock-display" class="font-mono text-emerald-400">00:00</strong></span>
-          </div>
+            <!-- Reaction Bubbles Container -->
+            <div id="reaction-container" class="absolute inset-0 pointer-events-none"></div>
 
-          <!-- Drift Telemetry Overlay -->
-          <div class="absolute top-4 right-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-xs text-zinc-300">
-            <i class="fa-solid fa-gauge-high text-cyan-400"></i>
-            <span>Sync Drift: <strong id="drift-display" class="font-mono text-cyan-400">&lt; 0.08s</strong></span>
-          </div>
-
-          <!-- Big Play Overlay (shown when paused) -->
-          <div id="big-play-btn" onclick="togglePlay()" class="absolute inset-0 z-20 flex items-center justify-center bg-black/40 cursor-pointer transition hover:bg-black/30">
-            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center text-white text-2xl shadow-xl shadow-violet-600/40 transform hover:scale-110 transition">
-              <i class="fa-solid fa-play ml-1"></i>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cinema Control Bar -->
-        <div class="p-3 bg-zinc-950/90 border-t border-white/5 space-y-2">
-          <!-- Timeline Slider -->
-          <div class="flex items-center gap-3">
-            <span id="time-current" class="text-xs font-mono text-zinc-400">00:00</span>
-            <input type="range" id="seek-bar" min="0" max="100" value="0" step="0.1" oninput="onSeek(this.value)" class="flex-1 h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-violet-500">
-            <span id="time-duration" class="text-xs font-mono text-zinc-400">09:56</span>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex items-center justify-between pt-1">
-            <div class="flex items-center gap-2">
-              <button onclick="togglePlay()" id="btn-play" class="w-9 h-9 rounded-xl bg-violet-600 hover:bg-violet-500 text-white flex items-center justify-center transition shadow-md shadow-violet-600/20">
-                <i class="fa-solid fa-play text-xs ml-0.5"></i>
-              </button>
-              <button onclick="toggleMute()" id="btn-mute" class="p-2 rounded-xl text-zinc-400 hover:text-white transition">
-                <i class="fa-solid fa-volume-high text-sm"></i>
-              </button>
-              <input type="range" id="volume-bar" min="0" max="1" step="0.05" value="0.8" oninput="setVolume(this.value)" class="w-16 sm:w-24 h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
-            </div>
-
-            <div class="flex items-center gap-2">
-              <button onclick="triggerSimulatedDrift()" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs border border-white/5 transition flex items-center gap-1.5" title="Inject 2s simulated network lag to test auto-drift correction">
-                <i class="fa-solid fa-satellite-dish text-amber-400"></i>
-                <span class="hidden sm:inline">Simulate Drift Test</span>
-              </button>
-
-              <button onclick="toggleFullscreen()" class="p-2 rounded-xl text-zinc-400 hover:text-white transition" title="Fullscreen">
-                <i class="fa-solid fa-expand text-sm"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Floating Reactions Strip -->
-      <div class="glass-panel p-3 rounded-2xl flex items-center justify-between gap-2 border border-white/10 shadow-lg">
-        <span class="text-xs font-medium text-zinc-400 flex items-center gap-1.5">
-          <i class="fa-solid fa-heart text-rose-500"></i>
-          <span>Live Reactions:</span>
-        </span>
-        <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-          <button onclick="sendReaction('❤️')" class="px-3 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-base transform hover:scale-125 active:scale-95 transition">❤️</button>
-          <button onclick="sendReaction('🔥')" class="px-3 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-base transform hover:scale-125 active:scale-95 transition">🔥</button>
-          <button onclick="sendReaction('😂')" class="px-3 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-base transform hover:scale-125 active:scale-95 transition">😂</button>
-          <button onclick="sendReaction('🍿')" class="px-3 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-base transform hover:scale-125 active:scale-95 transition">🍿</button>
-          <button onclick="sendReaction('🚀')" class="px-3 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-base transform hover:scale-125 active:scale-95 transition">🚀</button>
-          <button onclick="sendReaction('👏')" class="px-3 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-base transform hover:scale-125 active:scale-95 transition">👏</button>
-          <button onclick="sendReaction('😱')" class="px-3 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-base transform hover:scale-125 active:scale-95 transition">😱</button>
-        </div>
-      </div>
-
-      <!-- Sync Algorithm Live Telemetry Box -->
-      <div class="glass-panel p-4 rounded-2xl border border-white/10 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2 font-mono">
-            <i class="fa-solid fa-microchip text-violet-400"></i>
-            <span>Sub-Second Synchronization Engine Telemetry</span>
-          </h3>
-          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-violet-500/10 text-violet-300 border border-violet-500/20">Tolerance: &lt;1.5s</span>
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-          <div class="p-2.5 rounded-xl bg-zinc-900/60 border border-white/5">
-            <span class="block text-[10px] text-zinc-500 uppercase font-mono">Algorithm</span>
-            <span class="text-xs font-semibold text-zinc-200">Adaptive Micro-Step</span>
-          </div>
-          <div class="p-2.5 rounded-xl bg-zinc-900/60 border border-white/5">
-            <span class="block text-[10px] text-zinc-500 uppercase font-mono">WebSocket Latency</span>
-            <span class="text-xs font-semibold text-emerald-400 font-mono">18ms</span>
-          </div>
-          <div class="p-2.5 rounded-xl bg-zinc-900/60 border border-white/5">
-            <span class="block text-[10px] text-zinc-500 uppercase font-mono">Voice Topology</span>
-            <span class="text-xs font-semibold text-cyan-400">WebRTC Mesh P2P</span>
-          </div>
-          <div class="p-2.5 rounded-xl bg-zinc-900/60 border border-white/5">
-            <span class="block text-[10px] text-zinc-500 uppercase font-mono">State Lock</span>
-            <span id="state-lock-status" class="text-xs font-semibold text-emerald-400">Authoritative Master</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- RIGHT: LIVE PARTICIPANTS & CHAT (4 Cols) -->
-    <div class="lg:col-span-4 space-y-4">
-      
-      <!-- Room Info & Voice Chat Lounge -->
-      <div class="glass-panel p-4 rounded-2xl border border-white/10 space-y-3 shadow-xl">
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-sm font-bold text-white font-display">Cinema Room #SYNC-01</h2>
-            <p class="text-[11px] text-zinc-400">4 Participants Connected</p>
-          </div>
-          <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>Synced</span>
-          </span>
-        </div>
-
-        <!-- Participants List with Voice Activity -->
-        <div class="space-y-2 pt-1">
-          <!-- User 1: Host (Adham) -->
-          <div class="flex items-center justify-between p-2 rounded-xl bg-zinc-900/60 border border-white/5">
-            <div class="flex items-center gap-2.5">
-              <div class="relative w-8 h-8 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold ring-2 ring-violet-500">
-                AC
-                <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-zinc-950"></span>
+            <!-- Custom Video Overlay Bar -->
+            <div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col gap-2 transition duration-300">
+              <!-- Progress Bar -->
+              <div class="w-full h-1.5 bg-white/20 rounded-full overflow-hidden cursor-pointer" onclick="seekVideo(event)">
+                <div id="video-progress" class="h-full bg-gradient-to-r from-violet-500 to-cyan-400 w-0 transition-all duration-100"></div>
               </div>
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-semibold text-zinc-200">Adham (You)</span>
-                  <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-violet-600/30 text-violet-300">HOST</span>
+
+              <!-- Controls Line -->
+              <div class="flex items-center justify-between text-xs text-white">
+                <div class="flex items-center gap-3">
+                  <button id="btn-play" onclick="togglePlay()" class="w-8 h-8 rounded-lg bg-violet-600 hover:bg-violet-500 flex items-center justify-center text-white transition shadow">
+                    <i id="play-icon" class="fa-solid fa-play text-xs"></i>
+                  </button>
+                  <span id="video-time" class="font-mono text-[11px] text-zinc-300">00:00 / 12:14</span>
+                  <div class="flex items-center gap-1.5 text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>Sub-Second Sync Active (<span id="drift-ms">14</span>ms)</span>
+                  </div>
                 </div>
-                <span class="text-[10px] text-zinc-500">Authoritative Clock</span>
+
+                <!-- Video Select & Fullscreen -->
+                <div class="flex items-center gap-2">
+                  <select id="video-select" onchange="switchVideoSource()" class="px-2 py-1 rounded-lg bg-zinc-900 border border-white/10 text-[11px] text-zinc-300 focus:outline-none focus:border-violet-500">
+                    <option value="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4">Tears of Steel (Sci-Fi)</option>
+                    <option value="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4">Sintel (Animation)</option>
+                    <option value="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">Big Buck Bunny</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <!-- Audio waves -->
-            <div class="flex items-center gap-1 h-4">
-              <span class="audio-wave-bar" style="animation-delay: 0.1s"></span>
-              <span class="audio-wave-bar" style="animation-delay: 0.3s"></span>
-              <span class="audio-wave-bar" style="animation-delay: 0.2s"></span>
             </div>
           </div>
 
-          <!-- User 2: Sarah -->
-          <div class="flex items-center justify-between p-2 rounded-xl bg-zinc-900/60 border border-white/5">
-            <div class="flex items-center gap-2.5">
-              <div class="relative w-8 h-8 rounded-full bg-pink-600/30 text-pink-300 flex items-center justify-center text-xs font-bold">
-                SM
-                <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-zinc-950"></span>
-              </div>
-              <div>
-                <span class="text-xs font-semibold text-zinc-200">Sarah</span>
-                <p class="text-[10px] text-zinc-500">Listening · 12ms latency</p>
-              </div>
+          <!-- Bottom Action Bar: Reactions & Stream Delay Offset -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-1 text-xs">
+            <!-- Floating Reaction Triggers -->
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] text-zinc-400 mr-1 font-medium">Reactions:</span>
+              <button onclick="triggerReaction('🍿')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-sm hover:scale-110 transition shadow">🍿</button>
+              <button onclick="triggerReaction('🔥')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-sm hover:scale-110 transition shadow">🔥</button>
+              <button onclick="triggerReaction('❤️')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-sm hover:scale-110 transition shadow">❤️</button>
+              <button onclick="triggerReaction('👏')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-sm hover:scale-110 transition shadow">👏</button>
+              <button onclick="triggerReaction('🚀')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-sm hover:scale-110 transition shadow">🚀</button>
+              <button onclick="triggerReaction('😂')" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-sm hover:scale-110 transition shadow">😂</button>
             </div>
-            <i class="fa-solid fa-microphone-slash text-xs text-zinc-600"></i>
-          </div>
 
-          <!-- User 3: Omar -->
-          <div class="flex items-center justify-between p-2 rounded-xl bg-zinc-900/60 border border-white/5">
-            <div class="flex items-center gap-2.5">
-              <div class="relative w-8 h-8 rounded-full bg-amber-600/30 text-amber-300 flex items-center justify-center text-xs font-bold">
-                OB
-                <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-zinc-950"></span>
-              </div>
-              <div>
-                <span class="text-xs font-semibold text-zinc-200">Omar</span>
-                <p class="text-[10px] text-zinc-500">Speaking · 21ms latency</p>
-              </div>
+            <!-- Sync Offset Tuning -->
+            <div class="flex items-center gap-2 bg-zinc-900/90 px-3 py-1.5 rounded-xl border border-white/10 font-mono text-[11px]">
+              <span class="text-zinc-400">Drift Offset:</span>
+              <button onclick="adjustOffset(-50)" class="w-5 h-5 rounded bg-zinc-800 hover:bg-violet-600 text-white flex items-center justify-center">-</button>
+              <span id="offset-val" class="text-violet-300 font-bold">0 ms</span>
+              <button onclick="adjustOffset(+50)" class="w-5 h-5 rounded bg-zinc-800 hover:bg-violet-600 text-white flex items-center justify-center">+</button>
             </div>
-            <div class="flex items-center gap-1 h-4">
-              <span class="audio-wave-bar" style="animation-delay: 0.2s"></span>
-              <span class="audio-wave-bar" style="animation-delay: 0.4s"></span>
-              <span class="audio-wave-bar" style="animation-delay: 0.1s"></span>
-            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Sync Drift Analytics Graph -->
+        <div class="glass-panel p-4 rounded-3xl border border-white/10 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i class="bi bi-activity text-cyan-400"></i>
+              Dynamic Drift Compensation Graph (Sub-Second Synchronizer)
+            </h3>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Max Threshold: ±1.5s</span>
+          </div>
+          <div class="h-28 w-full bg-zinc-950/80 rounded-2xl p-2 border border-white/5 relative flex items-center">
+            <canvas id="drift-canvas" class="w-full h-full"></canvas>
           </div>
         </div>
       </div>
 
-      <!-- Live Chat Box -->
-      <div class="glass-panel p-4 rounded-2xl border border-white/10 flex flex-col h-[340px] shadow-xl">
-        <div class="flex items-center justify-between pb-2 border-b border-white/5 mb-2">
-          <span class="text-xs font-bold text-zinc-300 flex items-center gap-1.5">
-            <i class="fa-regular fa-comments text-cyan-400"></i>
-            <span>Room Live Chat</span>
-          </span>
-          <span class="text-[10px] text-zinc-500 font-mono">End-to-End WebSocket</span>
+      <!-- Right Column: Mesh Voice Room & Live Cinema Chat (4 cols) -->
+      <div class="lg:col-span-4 space-y-4">
+        
+        <!-- WebRTC Mesh Voice Room Box -->
+        <div class="glass-panel p-4 rounded-3xl border border-white/10 space-y-3">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i class="bi bi-mic text-violet-400"></i>
+              WebRTC Mesh Voice Room
+            </h3>
+            <span class="text-[10px] font-mono bg-violet-500/15 text-violet-300 px-2 py-0.5 rounded-full border border-violet-500/25">4 Peers Connected</span>
+          </div>
+
+          <!-- Peers Grid -->
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <!-- Peer 1: You (Host) -->
+            <div class="p-2.5 rounded-2xl bg-zinc-900/90 border border-emerald-500/30 flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs speaking-pulse">
+                AC
+              </div>
+              <div class="truncate">
+                <span class="font-bold text-white block truncate text-[11px]">Adham (Host)</span>
+                <span class="text-[9px] text-emerald-400 flex items-center gap-1"><i class="bi bi-soundwave"></i> Speaking...</span>
+              </div>
+            </div>
+
+            <!-- Peer 2: Alice -->
+            <div class="p-2.5 rounded-2xl bg-zinc-900/90 border border-white/10 flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-white font-bold text-xs">
+                AL
+              </div>
+              <div class="truncate">
+                <span class="font-bold text-white block truncate text-[11px]">Alice M.</span>
+                <span class="text-[9px] text-zinc-400">Listening</span>
+              </div>
+            </div>
+
+            <!-- Peer 3: Karim -->
+            <div class="p-2.5 rounded-2xl bg-zinc-900/90 border border-white/10 flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold text-xs">
+                KB
+              </div>
+              <div class="truncate">
+                <span class="font-bold text-white block truncate text-[11px]">Karim B.</span>
+                <span class="text-[9px] text-zinc-400">Listening</span>
+              </div>
+            </div>
+
+            <!-- Peer 4: Yassine -->
+            <div class="p-2.5 rounded-2xl bg-zinc-900/90 border border-white/10 flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white font-bold text-xs">
+                YE
+              </div>
+              <div class="truncate">
+                <span class="font-bold text-white block truncate text-[11px]">Yassine E.</span>
+                <span class="text-[9px] text-zinc-400">Listening</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Voice Action Controls -->
+          <div class="flex items-center justify-between pt-1">
+            <button id="btn-mic" onclick="toggleMic()" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-emerald-600 border border-white/10 text-xs text-zinc-200 hover:text-white transition flex items-center gap-1.5">
+              <i id="mic-icon" class="bi bi-mic-fill text-emerald-400"></i>
+              <span id="mic-text">Microphone ON</span>
+            </button>
+            <button onclick="alert('Simulation: Screen Share stream initialized via WebRTC video track.')" class="px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-violet-600 border border-white/10 text-xs text-zinc-200 hover:text-white transition flex items-center gap-1.5">
+              <i class="bi bi-display text-violet-400"></i>
+              <span>Screen Share</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Messages Container -->
-        <div id="chat-messages" class="flex-1 overflow-y-auto space-y-2.5 pr-1 chat-scroll text-xs">
-          <div class="p-2 rounded-xl bg-zinc-900/40 border border-white/5">
-            <span class="font-bold text-pink-400 text-[11px]">Sarah:</span>
-            <p class="text-zinc-300 text-xs mt-0.5">The video quality is crystal clear! Zero buffer on my side 😍</p>
+        <!-- Live Cinema Chat Box -->
+        <div class="glass-panel p-4 rounded-3xl border border-white/10 space-y-3 flex flex-col h-80">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2">
+            <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i class="bi bi-chat-dots text-cyan-400"></i>
+              Live Cinema Chat
+            </h3>
+            <span class="text-[10px] text-zinc-400 font-mono">Socket.IO Rooms</span>
           </div>
-          <div class="p-2 rounded-xl bg-zinc-900/40 border border-white/5">
-            <span class="font-bold text-amber-400 text-[11px]">Omar:</span>
-            <p class="text-zinc-300 text-xs mt-0.5">Love the ambilight effect, feels like a real movie theater 🍿🎬</p>
+
+          <!-- Chat Messages Scrollable -->
+          <div id="chat-messages" class="flex-1 overflow-y-auto space-y-2 text-xs pr-1 scrollbar-thin">
+            <div class="p-2 rounded-xl bg-zinc-900/70 border border-white/5 space-y-0.5">
+              <div class="flex items-center justify-between text-[10px]">
+                <strong class="text-violet-400">Alice M.</strong>
+                <span class="text-zinc-500">00:41</span>
+              </div>
+              <p class="text-zinc-200">The video quality is incredible! Subtitles look so crisp 🔥</p>
+            </div>
+            <div class="p-2 rounded-xl bg-zinc-900/70 border border-white/5 space-y-0.5">
+              <div class="flex items-center justify-between text-[10px]">
+                <strong class="text-cyan-400">Karim B.</strong>
+                <span class="text-zinc-500">00:42</span>
+              </div>
+              <p class="text-zinc-200">Sync is flawless, less than 20ms delay on my fiber connection!</p>
+            </div>
           </div>
+
+          <!-- Chat Input -->
+          <form onsubmit="handleChatSubmit(event)" class="flex items-center gap-1.5 pt-1">
+            <input type="text" id="chat-input" placeholder="Say something to the room..." class="flex-1 px-3 py-2 rounded-xl bg-zinc-950 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500 transition">
+            <button type="submit" class="w-9 h-9 rounded-xl bg-violet-600 hover:bg-violet-500 text-white flex items-center justify-center transition shadow">
+              <i class="bi bi-send text-xs"></i>
+            </button>
+          </form>
         </div>
 
-        <!-- Chat Input -->
-        <form onsubmit="handleChatSubmit(event)" class="pt-2 flex items-center gap-2 mt-auto">
-          <input type="text" id="chat-input" placeholder="Say something to the room..." class="flex-1 bg-zinc-900 border border-white/10 focus:border-violet-500 px-3 py-2 rounded-xl text-xs text-zinc-200 outline-none transition">
-          <button type="submit" class="w-8 h-8 rounded-xl bg-violet-600 hover:bg-violet-500 text-white flex items-center justify-center text-xs transition">
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
-        </form>
       </div>
 
     </div>
+
   </main>
 
-  <!-- ==================== ARCHITECTURE DEEP DIVE MODAL ==================== -->
-  <div id="arch-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-2xl w-full border border-white/15 max-h-[90vh] overflow-y-auto space-y-6">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <div>
-          <h2 class="text-xl font-extrabold text-white font-display">Watch Together — Engineering Architecture</h2>
-          <p class="text-xs text-zinc-400">High-Concurrency Synchronized Streaming & Voice Engine</p>
-        </div>
-        <button onclick="toggleArchModal()" class="w-8 h-8 rounded-xl bg-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center transition">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <!-- Pillars -->
-      <div class="space-y-4 text-xs leading-relaxed text-zinc-300">
-        <div class="p-4 rounded-2xl bg-zinc-900/80 border border-violet-500/20 space-y-1.5">
-          <h3 class="font-bold text-sm text-violet-300 flex items-center gap-2">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span>1. Authoritative Clock & Micro-Drift Correction</span>
-          </h3>
-          <p>
-            The room host acts as the authoritative master clock. Client drift is continually computed via periodic NTP-style ping calculations. When delta is under 1.5 seconds, playback rate is micro-adjusted (0.95x - 1.05x) so audio never hiccups or stutters; larger deltas trigger seamless seek-snapping.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-zinc-900/80 border border-cyan-500/20 space-y-1.5">
-          <h3 class="font-bold text-sm text-cyan-300 flex items-center gap-2">
-            <i class="fa-solid fa-microphone-lines"></i>
-            <span>2. WebRTC Full-Mesh Voice Topology</span>
-          </h3>
-          <p>
-            Voice channels use peer-to-peer WebRTC mesh routing for groups up to 12 participants. Signaling and ICE exchange are orchestrated over Socket.IO, resulting in sub-30ms round-trip audio latency with built-in voice activity detection (VAD).
-          </p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-zinc-900/80 border border-emerald-500/20 space-y-1.5">
-          <h3 class="font-bold text-sm text-emerald-300 flex items-center gap-2">
-            <i class="fa-solid fa-database"></i>
-            <span>3. Persistent SQLite Engine & Directional Action Cooldowns</span>
-          </h3>
-          <p>
-            Built on Node.js native DatabaseSync (SQLite). Action cooldowns and sequence counters prevent cascade ping-pong echo loops during simultaneous play/pause toggles by different participants.
-          </p>
-        </div>
-      </div>
-
-      <div class="flex justify-end pt-2">
-        <button onclick="toggleArchModal()" class="px-5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold transition">
-          Close Architecture
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <!-- ==================== JAVASCRIPT ENGINE ==================== -->
   <script>
-    const video = document.getElementById('demo-video');
-    const playBtn = document.getElementById('btn-play');
-    const bigPlayBtn = document.getElementById('big-play-btn');
-    const seekBar = document.getElementById('seek-bar');
-    const timeCurrent = document.getElementById('time-current');
-    const timeDuration = document.getElementById('time-duration');
-    const clockDisplay = document.getElementById('clock-display');
-    const driftDisplay = document.getElementById('drift-display');
-    const emojiContainer = document.getElementById('emoji-container');
-    const ambilight = document.getElementById('ambilight');
+    // Audio FX using Web Audio API
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
 
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    function playSound(type) {
+      try {
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'pop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(1200, now + 0.06);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+          osc.start(now);
+          osc.stop(now + 0.06);
+        } else if (type === 'msg') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(587.33, now); // D5
+          osc.frequency.setValueAtTime(880.00, now + 0.08); // A5
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        }
+      } catch (e) {}
     }
+
+    const video = document.getElementById('cinema-video');
+    const playBtn = document.getElementById('btn-play');
+    const playIcon = document.getElementById('play-icon');
+    const progressBar = document.getElementById('video-progress');
+    const timeDisplay = document.getElementById('video-time');
 
     function togglePlay() {
       if (video.paused) {
         video.play();
-        playBtn.innerHTML = '<i class="fa-solid fa-pause text-xs"></i>';
-        bigPlayBtn.classList.add('hidden');
-        ambilight.style.opacity = '1';
+        playIcon.className = "fa-solid fa-pause text-xs";
       } else {
         video.pause();
-        playBtn.innerHTML = '<i class="fa-solid fa-play text-xs ml-0.5"></i>';
-        bigPlayBtn.classList.remove('hidden');
-        ambilight.style.opacity = '0.5';
+        playIcon.className = "fa-solid fa-play text-xs";
       }
     }
 
     video.addEventListener('timeupdate', () => {
-      if (!isNaN(video.duration)) {
-        const progress = (video.currentTime / video.duration) * 100;
-        seekBar.value = progress;
-        timeCurrent.textContent = formatTime(video.currentTime);
-        timeDuration.textContent = formatTime(video.duration);
-        clockDisplay.textContent = formatTime(video.currentTime);
+      if (video.duration) {
+        const pct = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = pct + '%';
+        timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
       }
     });
 
-    function onSeek(val) {
-      if (!isNaN(video.duration)) {
-        video.currentTime = (val / 100) * video.duration;
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function seekVideo(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      if (video.duration) {
+        video.currentTime = pos * video.duration;
       }
     }
 
-    function toggleMute() {
-      video.muted = !video.muted;
-      document.getElementById('btn-mute').innerHTML = video.muted
-        ? '<i class="fa-solid fa-volume-xmark text-sm text-rose-500"></i>'
-        : '<i class="fa-solid fa-volume-high text-sm"></i>';
+    function switchVideoSource() {
+      const src = document.getElementById('video-select').value;
+      video.src = src;
+      video.play();
+      playIcon.className = "fa-solid fa-pause text-xs";
     }
 
-    function setVolume(val) {
-      video.volume = val;
-      video.muted = false;
+    // Reaction Bubbles Engine
+    function triggerReaction(emoji) {
+      playSound('pop');
+      const container = document.getElementById('reaction-container');
+      const bubble = document.createElement('div');
+      bubble.className = "reaction-bubble";
+      bubble.textContent = emoji;
+      bubble.style.left = `${30 + Math.random() * 40}%`;
+      bubble.style.bottom = '20px';
+      container.appendChild(bubble);
+      setTimeout(() => bubble.remove(), 2400);
     }
 
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        video.parentElement.requestFullscreen().catch(() => {});
+    // Offset tuning
+    let currentOffset = 0;
+    function adjustOffset(delta) {
+      currentOffset += delta;
+      document.getElementById('offset-val').textContent = `${currentOffset > 0 ? '+' : ''}${currentOffset} ms`;
+      document.getElementById('drift-ms').textContent = Math.abs(currentOffset) + 12;
+    }
+
+    // Mic Toggle
+    let micOn = true;
+    function toggleMic() {
+      micOn = !micOn;
+      const icon = document.getElementById('mic-icon');
+      const text = document.getElementById('mic-text');
+      if (micOn) {
+        icon.className = "bi bi-mic-fill text-emerald-400";
+        text.textContent = "Microphone ON";
       } else {
-        document.exitFullscreen().catch(() => {});
+        icon.className = "bi bi-mic-mute-fill text-rose-400";
+        text.textContent = "Muted";
       }
-    }
-
-    // Reaction burst animation
-    function sendReaction(emoji) {
-      const el = document.createElement('div');
-      el.className = 'floating-emoji';
-      el.textContent = emoji;
-      el.style.left = Math.random() * 80 + 10 + '%';
-      emojiContainer.appendChild(el);
-      setTimeout(() => el.remove(), 2500);
-    }
-
-    // Drift Simulation test
-    function triggerSimulatedDrift() {
-      driftDisplay.textContent = '+1.84s (Drift Alert)';
-      driftDisplay.className = 'font-mono text-amber-400 animate-pulse';
-      document.getElementById('state-lock-status').textContent = 'Correcting (1.05x speed)...';
-      document.getElementById('state-lock-status').className = 'text-xs font-semibold text-amber-400';
-
-      setTimeout(() => {
-        driftDisplay.textContent = '< 0.05s (Locked)';
-        driftDisplay.className = 'font-mono text-emerald-400';
-        document.getElementById('state-lock-status').textContent = 'Authoritative Master';
-        document.getElementById('state-lock-status').className = 'text-xs font-semibold text-emerald-400';
-      }, 1800);
     }
 
     // Chat Handler
@@ -528,34 +448,93 @@
       const val = input.value.trim();
       if (!val) return;
 
-      const container = document.getElementById('chat-messages');
-      const msg = document.createElement('div');
-      msg.className = 'p-2 rounded-xl bg-violet-600/20 border border-violet-500/30';
-      msg.innerHTML = `<span class="font-bold text-violet-300 text-[11px]">Adham (You):</span><p class="text-zinc-200 text-xs mt-0.5">${val}</p>`;
-      container.appendChild(msg);
-      container.scrollTop = container.scrollHeight;
+      playSound('msg');
+      addChatMessage("You (Host)", val, true);
       input.value = '';
 
-      // Simulated auto reply from friend
+      // Simulated auto-reply after 2 seconds
       setTimeout(() => {
-        const reply = document.createElement('div');
-        reply.className = 'p-2 rounded-xl bg-zinc-900/40 border border-white/5';
+        playSound('msg');
         const replies = [
-          "Super synced! Perfectly on time 👍",
-          "This scene is epic! 🔥",
-          "Pass the popcorn! 🍿",
-          "The audio clarity with WebRTC is crazy good!"
+          "Agreed! That scene is epic!",
+          "Subtitles are perfectly in sync for me.",
+          "Let's queue up the next episode!",
+          "Crisp audio quality via WebRTC mesh."
         ];
-        const randomReply = replies[Math.floor(Math.random() * replies.length)];
-        reply.innerHTML = `<span class="font-bold text-pink-400 text-[11px]">Sarah:</span><p class="text-zinc-300 text-xs mt-0.5">${randomReply}</p>`;
-        container.appendChild(reply);
-        container.scrollTop = container.scrollHeight;
-      }, 1200);
+        const r = replies[Math.floor(Math.random() * replies.length)];
+        addChatMessage("Alice M.", r, false);
+      }, 2000);
     }
 
-    function toggleArchModal() {
-      document.getElementById('arch-modal').classList.toggle('hidden');
+    function addChatMessage(author, text, isHost) {
+      const container = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = "p-2 rounded-xl bg-zinc-900/70 border border-white/5 space-y-0.5 animate-fadeIn";
+      div.innerHTML = `
+        <div class="flex items-center justify-between text-[10px]">
+          <strong class="${isHost ? 'text-emerald-400' : 'text-violet-400'}">${author}</strong>
+          <span class="text-zinc-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        </div>
+        <p class="text-zinc-200">${text}</p>
+      `;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
     }
+
+    // Dynamic Drift Canvas Waveform
+    const canvas = document.getElementById('drift-canvas');
+    const ctx = canvas.getContext('2d');
+    let driftPoints = Array(40).fill(12);
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function drawDriftWave() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Update points with simulated jitter
+      driftPoints.shift();
+      const nextVal = 10 + Math.random() * 8 + (Math.sin(Date.now() / 400) * 4);
+      driftPoints.push(nextVal);
+
+      // Draw grid line at 0ms and 50ms
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, h / 2);
+      ctx.lineTo(w, h / 2);
+      ctx.stroke();
+
+      // Draw curve
+      ctx.beginPath();
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 2;
+      const step = w / (driftPoints.length - 1);
+      driftPoints.forEach((p, idx) => {
+        const x = idx * step;
+        const y = h - (p / 30) * h;
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // Glowing dot at the end
+      const lastX = w;
+      const lastY = h - (driftPoints[driftPoints.length - 1] / 30) * h;
+      ctx.fillStyle = '#8b5cf6';
+      ctx.beginPath();
+      ctx.arc(lastX - 4, lastY, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      requestAnimationFrame(drawDriftWave);
+    }
+    drawDriftWave();
   </script>
 </body>
 </html>

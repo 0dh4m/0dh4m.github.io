@@ -1,11 +1,4 @@
 /**
- * Copyright (C) 2026 Adham Cherkaoui Eddeqaqi (0dh4m). All rights reserved.
- * Proprietary and confidential. Unauthorized copying or distribution is strictly prohibited.
- * Author: Adham Cherkaoui Eddeqaqi (0dh4m) <0dh4mm@gmail.com>
- * GitHub: https://github.com/0dh4m
- */
-
-/**
  * CyberOps Academy - Achievement Badges & Digital Cyber Passport Database
  * 12 collectible badges with XP rewards, difficulty ratings, and automated unlock criteria.
  */
