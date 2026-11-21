@@ -93,7 +93,7 @@ Software Engineer • Full-Stack Developer • European Bachelor in Cybersecurit
 
 - 🐙 GitHub: [@0dh4m](https://github.com/0dh4m)
 - 🌐 Website: [0dh4m.github.io/portfolio](https://0dh4m.github.io/portfolio)
-- 📧 Email: adamcherkaoui99@gmail.com
+- 📧 Email: 0dh4mm@gmail.com
 - 💬 WhatsApp: [+212 625-632628](https://wa.me/212625632628)
 
 *Copyright © 2026 Adham Cherkaoui Eddeqaqi (0dh4m). All rights reserved.*
