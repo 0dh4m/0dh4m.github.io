@@ -24,11 +24,11 @@ const projectsData = [
     category: "ai",
     icon: "bi-shield-check",
     gradient: "g4",
-    tag: { en: "Cybersecurity & European Bachelor", fr: "Cybersécurité & Bachelor Européen" },
-    title: { en: "CyberOps Academy — European Bachelor Platform", fr: "CyberOps Academy — Plateforme Bachelor Européen" },
+    tag: { en: "Cybersecurity & Web Platform", fr: "Cybersécurité & Plateforme Web" },
+    title: { en: "CyberOps Academy — Interactive Cybersecurity Platform", fr: "CyberOps Academy — Plateforme Interactive de Cybersécurité" },
     desc: {
-      en: "Colossal pedagogical & operational platform engineered for the European Bachelor in Cybersecurity and Network Management (Groupe MIAGE / FEDE). Features in-browser interactive CTF engines, sandboxed SQLi/XSS labs, packet analyzers, and multi-provider AI security advisor.",
-      fr: "Plateforme pédagogique et opérationnelle colossale développée pour le Bachelor Européen en Cybersécurité et Réseaux (Groupe MIAGE / FEDE). Simulateurs CTF interactifs dans le navigateur, laboratoires SQLi/XSS, analyseur de paquets et tuteur IA multi-fournisseur."
+      en: "Comprehensive interactive cybersecurity learning and training platform. Features in-browser interactive CTF challenge engines, sandboxed SQLi/XSS labs, network packet analyzers, and multi-provider AI security advisor.",
+      fr: "Plateforme interactive d'apprentissage et d'entraînement à la cybersécurité. Simulateurs CTF interactifs dans le navigateur, laboratoires SQLi/XSS, analyseur de paquets réseau et tuteur IA d'assistance."
     },
     tech: ["Node.js", "Cybersecurity", "Multi-Provider AI", "CTF Engine", "Packet Lab", "Docker", "PostgreSQL"],
     demo: "demos/cyberops/index.html"
