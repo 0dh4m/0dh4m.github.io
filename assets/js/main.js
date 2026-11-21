@@ -327,3 +327,89 @@
     });
   }
 })();
+
+
+/* ==========================================================================
+   SMOOTH SCROLLSPY, AUDIO FEEDBACK & IDLE HEARTBEAT
+   Authored by 0dh4m
+   ========================================================================== */
+(function() {
+  // 1. Subtle Synthesized Tactile Audio FX for Terminal
+  let audioCtx = null;
+  function playClickSound() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.03);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.03);
+    } catch(e) {}
+  }
+
+  document.querySelectorAll('.term-btn').forEach(btn => {
+    btn.addEventListener('click', () => playClickSound());
+  });
+
+  // 2. Smooth ScrollSpy for Navbar Links
+  const navLinks = document.querySelectorAll('#mainNav .nav-link');
+  const sections = document.querySelectorAll('header#home, section[id]');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    const scrollPos = window.scrollY + 120;
+
+    sections.forEach(sec => {
+      const top = sec.offsetTop;
+      const height = sec.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        current = sec.getAttribute('id');
+      }
+    });
+
+    if (current) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  }, { passive: true });
+
+  // 3. Automated Idle Telemetry Stream
+  const termBody = document.getElementById('telemetryBody');
+  if (termBody) {
+    const heartbeats = [
+      { text: "[KERNEL.TELEMETRY] 0dh4m engine online · Latency: 12ms · Clock drift: +0.004s [STABLE]", color: "text-info" },
+      { text: "[WASAPI.AUDIO] Master loopback buffer: 48kHz / 32-bit float · Zero packet drops", color: "text-primary" },
+      { text: "[DATABASE.ACID] Concurrency integrity verified · Active PDO connections: 1 (pool idle)", color: "text-light" },
+      { text: "[AI.OCR.VISION] Prescription neural parsing pipeline: READY (Response SLA: <450ms)", color: "text-info" }
+    ];
+    let hbIdx = 0;
+    setInterval(() => {
+      if (!document.hidden && termBody.children.length < 25) {
+        const hb = heartbeats[hbIdx % heartbeats.length];
+        hbIdx++;
+        const div = document.createElement('div');
+        div.className = 'term-line';
+        div.style.fontSize = '10px';
+        div.style.opacity = '0.75';
+        div.innerHTML = `<span class="term-out ${hb.color}">${hb.text}</span>`;
+        termBody.appendChild(div);
+        termBody.scrollTop = termBody.scrollHeight;
+      }
+    }, 9000);
+  }
+})();

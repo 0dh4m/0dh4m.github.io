@@ -11,7 +11,7 @@ const translations = {
       subtitle: "PDF version in English & French",
       preview: "Preview CV"
     },
-    nav: { home: "Home", about: "About", skills: "Skills", projects: "Projects", contact: "Contact" },
+    nav: { home: "Home", about: "About", skills: "Skills", architecture: "Architecture", projects: "Projects", contact: "Contact" },
     hero: {
       badge: "Available for new opportunities",
       greeting: "Hi, I'm",
@@ -56,8 +56,8 @@ const translations = {
       cat4: "Tools & Automation"
     },
         projects_filter: {
-      all: "All Powerhouse Systems (9)",
-      web: "Web & Real-Time (3)",
+      all: "All Powerhouse Systems (10)",
+      web: "Web & Real-Time (4)",
       desktop: "Desktop & Hardware IoT (4)",
       ai: "Cybersecurity & AI (2)"
     },
@@ -118,7 +118,7 @@ const translations = {
       subtitle: "Version PDF en Français & Anglais",
       preview: "Aperçu du CV"
     },
-    nav: { home: "Accueil", about: "À propos", skills: "Compétences", projects: "Projets", contact: "Contact" },
+    nav: { home: "Accueil", about: "À propos", skills: "Compétences", architecture: "Architecture", projects: "Projets", contact: "Contact" },
     hero: {
       badge: "Disponible pour de nouvelles opportunités",
       greeting: "Bonjour, je suis",
@@ -127,7 +127,7 @@ const translations = {
       btn_projects: "Découvrir mes projets",
       scroll: "Défiler vers le bas"
     },
-    hero_titles: ["Développeur Web Full-Stack", "Développeur Desktop C#", "Architecte Systèmes Temps Réel", "Ingénieur PHP & Node.js"],
+    hero_titles: ["Développeur Web Full-Stack", "Développeur Desktop C#", "Architecte Systèmes Temps Réel", "Développeur PHP & Node.js"],
     about: {
       kicker: "Faisons connaissance",
       title: "À Propos de Moi",
@@ -163,8 +163,8 @@ const translations = {
       cat4: "Outils & Automatisation"
     },
         projects_filter: {
-      all: "Tous les Systèmes Majeurs (9)",
-      web: "Web & Temps Réel (3)",
+      all: "Tous les Systèmes Majeurs (10)",
+      web: "Web & Temps Réel (4)",
       desktop: "Desktop & Matériel IoT (4)",
       ai: "Cybersécurité & IA (2)"
     },

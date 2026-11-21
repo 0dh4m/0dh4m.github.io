@@ -57,10 +57,11 @@
   function renderProjects() {
     grid.innerHTML = '';
     const filtered = projectsData.filter(p => activeFilter === 'all' || p.category === activeFilter);
-    filtered.forEach(p => {
+    filtered.forEach((p, idx) => {
       const demoExt = p.demo && p.demo !== '#';
       const col = document.createElement('div');
       col.className = 'col-md-6 col-lg-4 reveal' + (firstRender ? '' : ' visible');
+      col.style.animation = `cardEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.04}s forwards`;
       col.innerHTML = `
         <article class="project-card card-custom h-100">
           <div class="project-thumb ${p.gradient}">

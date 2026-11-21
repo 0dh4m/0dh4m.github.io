@@ -887,3 +887,67 @@ a:hover {
   border-color: var(--accent-blue);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }
+
+
+/* ==========================================================================
+   ULTRA-SMOOTH POLISH & MICRO-INTERACTIONS BY 0dh4m
+   Hardware-Accelerated Fluidity · Refined Glows · Smooth Scroll
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@keyframes cardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.project-card, .arch-card, .repo-card, .skill-card {
+  animation: cardEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease !important;
+}
+
+.nav-link {
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.nav-link.active {
+  color: var(--accent-cyan) !important;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--accent-cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.btn-hero-primary, .btn-hero-outline, .btn-primary, .nav-ctrl-btn, .term-btn, .btn-filter {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform, box-shadow;
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4), 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+.term-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
