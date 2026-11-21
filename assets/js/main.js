@@ -212,7 +212,7 @@
         vx: (Math.random() - 0.5) * 0.7,
         vy: (Math.random() - 0.5) * 0.7,
         radius: Math.random() * 1.8 + 0.8,
-        color: Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, '
+        color: Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(59, 130, 246, '
       });
     }
 
@@ -250,7 +250,7 @@
           let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
           if (dist < 110) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(99, 102, 241, ${0.25 * (1 - dist / 110)})`;
+            ctx.strokeStyle = `rgba(56, 189, 248, ${0.18 * (1 - dist / 110)})`;
             ctx.lineWidth = 0.6;
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
@@ -274,19 +274,19 @@
       { text: "Executing: query_stack_manifest()", color: "text-info" },
       { text: "[RUNTIME] C# 12 (.NET 8) · Node.js v20.x LTS · PHP 8.2 OOP", color: "text-light" },
       { text: "[SYSTEMS] Windows WASAPI Audio Subsystem · WinRT BLE GATT", color: "text-light" },
-      { text: "[DATABASE] MySQL 8.0 (ACID Row-Locking) · SQLite · Redis", color: "text-warning" },
-      { text: "[FRONTEND] Modern Vanilla ES6+ · Tailwind CSS · Bootstrap 5", color: "text-success" }
+      { text: "[DATABASE] MySQL 8.0 (ACID Row-Locking) · SQLite · Redis", color: "text-primary" },
+      { text: "[FRONTEND] Modern Vanilla ES6+ · Tailwind CSS · Bootstrap 5", color: "text-info" }
     ],
     benchmarks: [
       { text: "Benchmarking core subsystems...", color: "text-info" },
-      { text: "-> Watch Together WebSocket Sync Drift: 42ms (Target: <1500ms) [PASS]", color: "text-success" },
-      { text: "-> DualLumi WinRT BLE Command RTT: 6.8ms [PASS]", color: "text-success" },
-      { text: "-> DualAudio WASAPI Ringbuffer Latency: 18ms [PASS]", color: "text-success" },
-      { text: "-> Hotel ERP Concurrency Deadlocks: 0 (Tested with 50 parallel PDO transactions) [PASS]", color: "text-success" }
+      { text: "-> Watch Together WebSocket Sync Drift: 42ms (Target: <1500ms) [PASS]", color: "text-info" },
+      { text: "-> DualLumi WinRT BLE Command RTT: 6.8ms [PASS]", color: "text-info" },
+      { text: "-> DualAudio WASAPI Ringbuffer Latency: 18ms [PASS]", color: "text-info" },
+      { text: "-> Hotel ERP Concurrency Deadlocks: 0 (Tested with 50 parallel PDO transactions) [PASS]", color: "text-info" }
     ],
     github_status: [
       { text: "Connecting to api.github.com/users/0dh4m/repos...", color: "text-info" },
-      { text: "[OK] 10 Public Repositories synchronized on GitHub.", color: "text-success" },
+      { text: "[OK] 10 Public Repositories synchronized on GitHub.", color: "text-info" },
       { text: "-> watch-together, happy-gym-pro, hotel-management-system, movies-streaming-platform", color: "text-light" },
       { text: "-> duallumi-pro, dualaudio-sync, tapocam-viewer, radio-maroc-live, cyberops-academy, portfolio", color: "text-light" },
       { text: "Total commits: 250+ | Status: 100% Green CI & Passing Tests", color: "text-primary" }
@@ -294,8 +294,8 @@
     whoami: [
       { text: "User: Adham Cherkaoui Eddeqaqi (@0dh4m)", color: "text-info" },
       { text: "Role: Full-Stack & Desktop Software Developer", color: "text-light" },
-      { text: "Location: Rabat / Salé, Morocco | Status: Ready for Hire", color: "text-warning" },
-      { text: "Email: 0dh4mm@gmail.com | Phone: +212 625-632628", color: "text-success" },
+      { text: "Location: Rabat / Salé, Morocco | Status: Ready for Hire", color: "text-primary" },
+      { text: "Email: 0dh4mm@gmail.com | Phone: +212 625-632628", color: "text-info" },
       { text: "GitHub: https://github.com/0dh4m", color: "text-primary" }
     ]
   };
