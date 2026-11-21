@@ -6,6 +6,11 @@ const translations = {
 
   /* ------------------------------ ENGLISH ------------------------------ */
   en: {
+    cv_banner: {
+      title: "Need a formal CV?",
+      subtitle: "PDF version in English & French",
+      preview: "Preview CV"
+    },
     nav: { home: "Home", about: "About", skills: "Skills", projects: "Projects", contact: "Contact" },
     hero: {
       badge: "Available for new opportunities",
@@ -108,6 +113,11 @@ const translations = {
 
   /* ------------------------------ FRENCH ------------------------------ */
   fr: {
+    cv_banner: {
+      title: "Besoin d'un CV officiel ?",
+      subtitle: "Version PDF en Français & Anglais",
+      preview: "Aperçu du CV"
+    },
     nav: { home: "Accueil", about: "À propos", skills: "Compétences", projects: "Projets", contact: "Contact" },
     hero: {
       badge: "Disponible pour de nouvelles opportunités",

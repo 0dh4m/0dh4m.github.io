@@ -61,6 +61,13 @@
     setTypedWords(translations[lang].hero_titles || []);
 
     // Download CV follows the active language (EN / FR PDF)
+    // Preview CV follows active language
+    const previewCvBtn = document.getElementById('previewCvBtn');
+    if (previewCvBtn) {
+      previewCvBtn.href = lang === 'fr'
+        ? 'assets/cv/Adham-CV-FR.pdf'
+        : 'assets/cv/Adham-CV-EN.pdf';
+    }
     const cvLink = document.getElementById('cvDownload');
     if (cvLink) {
       cvLink.href = lang === 'fr'
