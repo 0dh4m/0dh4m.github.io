@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adham Cherkaoui Eddeqaqi — Full-Stack & Desktop Software Developer Portfolio</title>
+  <meta name="description" content="Portfolio of Adham Cherkaoui Eddeqaqi — Full-Stack Web & Desktop Software Developer based in Rabat, Morocco. Specialized in Node.js, PHP 8, C# .NET WPF, and Real-Time Systems.">
+  
+  <!-- Favicon / Monogram -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%232563eb'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' font-weight='800' fill='white'>AC</text></svg>">
+
+  <!-- Bootstrap 5 CSS (Switchable via i18n in main.js) -->
+  <link id="bootstrap-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  
+  <!-- Custom Portfolio Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ==================== STICKY NAVBAR ==================== -->
+  <nav class="navbar navbar-expand-lg sticky-top navbar-custom" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="#home">
+        <span class="brand-monogram">AC</span>
+        <span>Adham Cherkaoui</span>
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler border-0 shadow-none text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2 text-primary"></i>
+      </button>
+
+      <!-- Nav Links & Controls -->
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+          <li class="nav-item"><a class="nav-link active" href="#home" data-i18n="nav.home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about" data-i18n="nav.about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+          <!-- Language Dropdown -->
+          <div class="dropdown">
+            <button class="nav-ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate"></i>
+              <span id="langLabel">EN</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+              <li><a class="dropdown-item lang-item fw-semibold" href="#" data-lang="en">🇬🇧 English</a></li>
+              <li><a class="dropdown-item lang-item fw-semibold" href="#" data-lang="fr">🇫🇷 Français</a></li>
+            </ul>
+          </div>
+
+          <!-- Theme Toggle (Dark / Light) -->
+          <button class="nav-ctrl-btn" id="themeToggle" type="button" title="Toggle Theme" aria-label="Toggle Theme">
+            <i class="bi bi-sun"></i>
+          </button>
+
+          <!-- Direct CV Link -->
+          <a id="cvDownload" href="assets/cv/Adham-CV-EN.pdf" class="btn btn-sm btn-primary fw-bold px-3 py-2" target="_blank" rel="noopener">
+            <i class="bi bi-file-earmark-pdf me-1"></i>
+            <span data-i18n="hero.btn_cv">Download CV</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <header class="hero d-flex align-items-center" id="home">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+
+    <div class="container position-relative">
+      <div class="row align-items-center g-5">
+        
+        <!-- Hero Text -->
+        <div class="col-lg-7">
+          <div class="badge-status">
+            <span class="badge-status-dot"></span>
+            <span data-i18n="hero.badge">Available for new opportunities</span>
+          </div>
+
+          <div class="hero-greeting" data-i18n="hero.greeting">Hi, I'm</div>
+          <h1 class="hero-name">Adham Cherkaoui Eddeqaqi</h1>
+
+          <!-- Typewriter Subtitle -->
+          <div class="hero-typewriter">
+            <span id="typed"></span>
+            <span class="typed-cursor"></span>
+          </div>
+
+          <p class="hero-subtitle" data-i18n="hero.subtitle">
+            Software Developer based in Rabat, Morocco. I turn ideas into reliable web &amp; desktop applications — from database design to deployment.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn-hero-primary">
+              <span data-i18n="hero.btn_projects">Explore My Work</span>
+              <i class="bi bi-arrow-down-circle"></i>
+            </a>
+            <a href="#contact" class="btn-hero-outline">
+              <span data-i18n="nav.contact">Get in Touch</span>
+              <i class="bi bi-envelope"></i>
+            </a>
+          </div>
+
+          <!-- Quick Connect Tags -->
+          <div class="d-flex align-items-center gap-3 pt-2">
+            <span class="text-dim small fw-semibold">Connect:</span>
+            <a href="https://github.com/0dh4m" target="_blank" class="nav-ctrl-btn p-2" title="GitHub"><i class="bi bi-github fs-5"></i></a>
+            <a href="mailto:adamcherkaoui99@gmail.com" class="nav-ctrl-btn p-2" title="Email"><i class="bi bi-envelope-fill fs-5"></i></a>
+            <a href="tel:+212625632628" class="nav-ctrl-btn p-2" title="Phone"><i class="bi bi-telephone-fill fs-5"></i></a>
+          </div>
+        </div>
+
+        <!-- Hero Visual Card with Headshot & Badges -->
+        <div class="col-lg-5">
+          <div class="hero-visual-card">
+            <div class="hero-img-wrapper">
+              <img src="assets/img/avatar.svg" alt="0dh4m — Software &amp; Cyber Security Engineer" class="hero-img">
+            </div>
+
+            <!-- Floating Badges -->
+            <div class="float-tag float-tag-1">
+              <i class="bi bi-patch-check-fill text-primary fs-5"></i>
+              <div>
+                <div class="small text-muted" style="font-size: 10px;">Degree</div>
+                <div>MIAGE Rabat · Software Dev</div>
+              </div>
+            </div>
+
+            <div class="float-tag float-tag-2">
+              <i class="bi bi-code-slash text-success fs-5"></i>
+              <div>
+                <div class="small text-muted" style="font-size: 10px;">Core Stack</div>
+                <div>PHP 8 · C# / .NET · Node.js</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== ABOUT & STATS SECTION ==================== -->
+  <section class="section-padding" id="about">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-kicker justify-content-center" data-i18n="about.kicker">Get to know me</div>
+        <h2 class="section-title" data-i18n="about.title">About Me</h2>
+      </div>
+
+      <div class="row g-4 align-items-center">
+        <!-- Story & Bio -->
+        <div class="col-lg-7">
+          <div class="card-custom p-4 p-md-5 h-100">
+            <h3 class="h4 fw-bold mb-3" data-i18n="about.heading">A developer who masters code &amp; understands people</h3>
+            <p class="text-muted-custom mb-3" data-i18n="about.p1">
+              I'm Adham Cherkaoui Eddeqaqi, a Software Developer from Rabat, Morocco, holding a Specialized Technician Diploma in Software Development. I build complete solutions — from PHP/MySQL back-ends and dynamic JavaScript front-ends to C# desktop applications and Python automation.
+            </p>
+            <p class="text-muted-custom mb-4" data-i18n="about.p2">
+              My Baccalaureate in Literature &amp; Human Sciences gives me an edge many developers lack: strong analytical thinking, critical reasoning, and the ability to clearly structure and communicate technical solutions.
+            </p>
+
+            <!-- Quick Info Grid -->
+            <div class="row g-3 pt-3 border-top border-secondary border-opacity-25">
+              <div class="col-sm-6">
+                <span class="text-dim small" data-i18n="about.info.location">Location</span>
+                <div class="fw-bold">Rabat / Salé, Morocco</div>
+              </div>
+              <div class="col-sm-6">
+                <span class="text-dim small" data-i18n="about.info.email">Email</span>
+                <div class="fw-bold text-truncate"><a href="mailto:adamcherkaoui99@gmail.com">adamcherkaoui99@gmail.com</a></div>
+              </div>
+              <div class="col-sm-6">
+                <span class="text-dim small">Phone</span>
+                <div class="fw-bold"><a href="tel:+212625632628">+212 625-632628</a></div>
+              </div>
+              <div class="col-sm-6">
+                <span class="text-dim small" data-i18n="about.info.status">Status</span>
+                <div class="fw-bold text-success" data-i18n="about.status_value">Open to work</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats & Education Highlights -->
+        <div class="col-lg-5">
+          <!-- Counter Cards -->
+          <div class="row g-3 mb-4">
+            <div class="col-4">
+              <div class="stat-box">
+                <div class="stat-num">8+</div>
+                <div class="stat-label" data-i18n="about.stats.t1">Technologies</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="stat-box">
+                <div class="stat-num">5+</div>
+                <div class="stat-label" data-i18n="about.stats.t2">Major Projects</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="stat-box">
+                <div class="stat-num">2026</div>
+                <div class="stat-label" data-i18n="about.stats.t3">Diploma</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education Timeline -->
+          <div class="card-custom p-4">
+            <h4 class="h5 fw-bold mb-3 d-flex align-items-center gap-2" data-i18n="edu.title">
+              <i class="bi bi-mortarboard-fill text-primary"></i>
+              <span>Education</span>
+            </h4>
+
+            <div class="timeline-card">
+              <div class="timeline-card-title" data-i18n="edu.i1.title">Specialized Technician in Software Development</div>
+              <div class="timeline-card-place" data-i18n="edu.i1.place">MIAGE Rabat · Morocco</div>
+              <div class="timeline-card-date" data-i18n="edu.i1.time">2024 – 2026</div>
+              <div class="text-muted-custom small mt-1" data-i18n="edu.i1.desc">Full-stack software engineering, relational database design (MySQL/PDO), OOP in C# and PHP, and software architecture.</div>
+            </div>
+
+            <div class="timeline-card mb-0">
+              <div class="timeline-card-title" data-i18n="edu.i2.title">Baccalaureate — Literature &amp; Human Sciences</div>
+              <div class="timeline-card-place" data-i18n="edu.i2.place">Lycée Abdellah Guennoun · Rabat</div>
+              <div class="timeline-card-date" data-i18n="edu.i2.time">2023 – 2024</div>
+              <div class="text-muted-custom small mt-1" data-i18n="edu.i2.desc">Foundation for analytical reasoning, structured problem formulation, and communication.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SKILLS SECTION ==================== -->
+  <section class="section-padding bg-body-tertiary bg-opacity-25" id="skills">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-kicker justify-content-center" data-i18n="skills.kicker">My technical toolbox</div>
+        <h2 class="section-title" data-i18n="skills.title">Skills &amp; Technologies</h2>
+      </div>
+
+      <div class="row g-4">
+        <!-- Category 1: Languages & Core -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card-custom skill-card">
+            <div class="skill-card-icon"><i class="bi bi-code-slash"></i></div>
+            <h3 class="skill-card-title" data-i18n="skills.cat1">Languages &amp; Core</h3>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="tech-badge">PHP 8</span>
+              <span class="tech-badge">C# (.NET)</span>
+              <span class="tech-badge">Node.js</span>
+              <span class="tech-badge">SQL (MySQL)</span>
+              <span class="tech-badge">JavaScript ES6+</span>
+              <span class="tech-badge">Python</span>
+              <span class="tech-badge">HTML5 / CSS3</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 2: Desktop & Web UI -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card-custom skill-card">
+            <div class="skill-card-icon"><i class="bi bi-window-desktop"></i></div>
+            <h3 class="skill-card-title" data-i18n="skills.cat2">Desktop &amp; Web UI</h3>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="tech-badge">WPF / XAML</span>
+              <span class="tech-badge">Tailwind CSS</span>
+              <span class="tech-badge">Bootstrap 5</span>
+              <span class="tech-badge">Responsive UI</span>
+              <span class="tech-badge">PWA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 3: Real-Time, Databases & APIs -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card-custom skill-card">
+            <div class="skill-card-icon"><i class="bi bi-hdd-network"></i></div>
+            <h3 class="skill-card-title" data-i18n="skills.cat3">Real-Time &amp; Databases</h3>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="tech-badge">Socket.IO</span>
+              <span class="tech-badge">WebRTC</span>
+              <span class="tech-badge">MySQL &amp; PDO</span>
+              <span class="tech-badge">SQLite</span>
+              <span class="tech-badge">RESTful APIs</span>
+              <span class="tech-badge">UML Modeling</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 4: Tools & Automation -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card-custom skill-card">
+            <div class="skill-card-icon"><i class="bi bi-gear-wide-connected"></i></div>
+            <h3 class="skill-card-title" data-i18n="skills.cat4">Tools &amp; Automation</h3>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="tech-badge">Git &amp; GitHub</span>
+              <span class="tech-badge">Inno Setup</span>
+              <span class="tech-badge">Selenium Automation</span>
+              <span class="tech-badge">Visual Studio</span>
+              <span class="tech-badge">VS Code</span>
+              <span class="tech-badge">XAMPP / Wamp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURED PROJECTS SECTION ==================== -->
+  <section class="section-padding" id="projects">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5">
+        <div>
+          <div class="section-kicker" data-i18n="projects.kicker">Featured Work</div>
+          <h2 class="section-title mb-0" data-i18n="projects.title">Highlighted Projects</h2>
+        </div>
+        <a href="projects.html" class="btn-hero-outline mt-3 mt-md-0" data-i18n="projects.view_all">
+          <span>View All Projects</span>
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="row g-4">
+
+        <!-- Project 1: Watch Together -->
+        <div class="col-md-6 col-lg-4">
+          <article class="project-card card-custom h-100">
+            <div class="project-thumb g1">
+              <i class="bi bi-film"></i>
+              <span class="project-tag" data-i18n="projects.p1.tag">Real-Time Web &amp; PWA</span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <h3 class="h5 fw-bold" data-i18n="projects.p1.title">Watch Together — Synced Streaming</h3>
+              <p class="text-muted-custom flex-grow-1" data-i18n="projects.p1.desc">
+                Sub-second synchronized media playback (&lt;1.5s drift correction) with low-latency WebRTC mesh voice rooms, real-time WebSocket chat, and multi-source streaming hub.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">Socket.IO</span>
+                <span class="tech-badge">WebRTC Mesh</span>
+                <span class="tech-badge">PWA</span>
+              </div>
+              <a href="demos/watch-together/index.html" class="project-demo-btn" target="_blank" rel="noopener">
+                <span data-i18n="projects.demo">Live Demo</span>
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Project 2: CyberOps Academy -->
+        <div class="col-md-6 col-lg-4">
+          <article class="project-card card-custom h-100">
+            <div class="project-thumb g4">
+              <i class="bi bi-shield-check"></i>
+              <span class="project-tag">Cybersecurity &amp; European Bachelor</span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <h3 class="h5 fw-bold">CyberOps Academy (MIAGE / FEDE)</h3>
+              <p class="text-muted-custom flex-grow-1">
+                Colossal training platform for the European Bachelor in Cybersecurity &amp; Networks. In-browser interactive CTF engine, sandboxed SQLi/XSS labs, packet analyzers, and AI mentor.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="tech-badge">Cybersecurity</span>
+                <span class="tech-badge">CTF Labs</span>
+                <span class="tech-badge">Multi-AI</span>
+                <span class="tech-badge">Docker</span>
+              </div>
+              <a href="demos/cyberops/index.html" class="project-demo-btn" target="_blank" rel="noopener">
+                <span data-i18n="projects.demo">Live Demo</span>
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Project 3: Happy Gym PRO (PFE) -->
+        <div class="col-md-6 col-lg-4">
+          <article class="project-card card-custom h-100">
+            <div class="project-thumb g2">
+              <i class="bi bi-egg-fried"></i>
+              <span class="project-tag" data-i18n="projects.p2.tag">AI Web &amp; Desktop App</span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <h3 class="h5 fw-bold" data-i18n="projects.p2.title">Happy Gym PRO (PFE)</h3>
+              <p class="text-muted-custom flex-grow-1" data-i18n="projects.p2.desc">
+                Synchronized fitness nutrition ecosystem: PHP 8 Web app + C# .NET WPF native desktop app with Gemini 1.5 multimodal photo recognition and WhatsApp OTP password recovery.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="tech-badge">C# / WPF</span>
+                <span class="tech-badge">PHP 8</span>
+                <span class="tech-badge">Gemini 1.5</span>
+                <span class="tech-badge">WhatsApp OTP</span>
+              </div>
+              <a href="demos/hmp/home.html" class="project-demo-btn" target="_blank" rel="noopener">
+                <span data-i18n="projects.demo">Live Demo</span>
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Project 4: DualAudio Sync -->
+        <div class="col-md-6 col-lg-4">
+          <article class="project-card card-custom h-100">
+            <div class="project-thumb g1">
+              <i class="bi bi-soundwave"></i>
+              <span class="project-tag">Desktop &amp; Audio Systems</span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <h3 class="h5 fw-bold">DualAudio Sync — Zero-Latency Hub</h3>
+              <p class="text-muted-custom flex-grow-1">
+                Real-time audio sync suite for Sonos Play:1 (Wi-Fi UPnP) &amp; Citytek (Bluetooth). Intercepts Windows audio via WASAPI Loopback with sub-millisecond circular delay line &amp; metronome test.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">WASAPI Loopback</span>
+                <span class="tech-badge">SoCo UPnP</span>
+                <span class="tech-badge">Zero-Echo</span>
+              </div>
+              <a href="demos/dualaudio/index.html" class="project-demo-btn" target="_blank" rel="noopener">
+                <span data-i18n="projects.demo">Live Demo</span>
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Project 5: DualLumi PRO v3.5 -->
+        <div class="col-md-6 col-lg-4">
+          <article class="project-card card-custom h-100">
+            <div class="project-thumb g2">
+              <i class="bi bi-lightbulb"></i>
+              <span class="project-tag">Desktop &amp; BLE Hardware</span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <h3 class="h5 fw-bold">DualLumi PRO v3.5 — Smart Lighting</h3>
+              <p class="text-muted-custom flex-grow-1">
+                Native Windows desktop application &amp; BLE hardware lighting controller with reverse-engineered ELK-BLEDOM / KeepSmile protocols, packet coalescing, and system tray companion.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">WinRT BLE</span>
+                <span class="tech-badge">GATT Protocols</span>
+                <span class="tech-badge">System Tray</span>
+              </div>
+              <a href="demos/duallumi/index.html" class="project-demo-btn" target="_blank" rel="noopener">
+                <span data-i18n="projects.demo">Live Demo</span>
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Project 6: Guest House & Hotel Management -->
+        <div class="col-md-6 col-lg-4">
+          <article class="project-card card-custom h-100">
+            <div class="project-thumb g4">
+              <i class="bi bi-building"></i>
+              <span class="project-tag">Commercial Internship</span>
+            </div>
+            <div class="p-4 d-flex flex-column flex-grow-1">
+              <h3 class="h5 fw-bold">Guest House &amp; Hotel Management</h3>
+              <p class="text-muted-custom flex-grow-1">
+                Commercial enterprise platform engineered at SARL HIND ET PIERRE (Rabat). C# desktop admin software for room scheduling + interactive customer web booking portal with atomic PDO transactions.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="tech-badge">C# .NET</span>
+                <span class="tech-badge">PHP OOP</span>
+                <span class="tech-badge">PDO</span>
+                <span class="tech-badge">MySQL 3NF</span>
+              </div>
+              <a href="demos/hotel/index.html" class="project-demo-btn" target="_blank" rel="noopener">
+                <span data-i18n="projects.demo">Live Demo</span>
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </article>
+        </div></div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT SECTION ==================== -->
+  <section class="section-padding bg-body-tertiary bg-opacity-25" id="contact">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-kicker justify-content-center" data-i18n="contact.kicker">Let's connect</div>
+        <h2 class="section-title" data-i18n="contact.title">Get In Touch</h2>
+        <p class="section-subtitle mx-auto" data-i18n="contact.subtitle">
+          Have a software project in mind, an opportunity, or looking for a passionate developer? My inbox is always open.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Contact Info Card -->
+        <div class="col-lg-5">
+          <div class="card-custom contact-info-card">
+            <h3 class="h5 fw-bold mb-3" data-i18n="contact.info_title">Contact Details</h3>
+            <p class="text-muted-custom mb-4" data-i18n="contact.info_text">
+              Feel free to reach out directly via phone or email — I usually respond within 24 hours.
+            </p>
+
+            <!-- Phone -->
+            <div class="contact-detail-item">
+              <div class="contact-icon-box"><i class="bi bi-telephone-fill"></i></div>
+              <div>
+                <div class="text-dim small">Phone / WhatsApp</div>
+                <div class="fw-bold"><a href="tel:+212625632628">+212 625-632628</a></div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="contact-detail-item">
+              <div class="contact-icon-box"><i class="bi bi-envelope-fill"></i></div>
+              <div>
+                <div class="text-dim small">Email Address</div>
+                <div class="fw-bold"><a href="mailto:adamcherkaoui99@gmail.com">adamcherkaoui99@gmail.com</a></div>
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div class="contact-detail-item">
+              <div class="contact-icon-box"><i class="bi bi-geo-alt-fill"></i></div>
+              <div>
+                <div class="text-dim small" data-i18n="about.info.location">Location</div>
+                <div class="fw-bold" data-i18n="contact.location">Rabat / Salé, Morocco</div>
+              </div>
+            </div>
+
+            <!-- CV Download Banner -->
+            <div class="p-3 mt-4 rounded-3 border border-primary border-opacity-25 bg-primary bg-opacity-10 d-flex align-items-center justify-content-between">
+              <div>
+                <div class="fw-bold small text-primary">Need a formal CV?</div>
+                <div class="text-dim" style="font-size: 11px;">PDF version in English &amp; French</div>
+              </div>
+              <a href="../cv_en.html" class="btn btn-sm btn-primary fw-bold" target="_blank">
+                <i class="bi bi-eye me-1"></i> Preview CV
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form Card -->
+        <div class="col-lg-7">
+          <div class="card-custom p-4 p-md-5">
+            <form id="contactForm" class="contact-form needs-validation" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold" data-i18n="contact.form.name">Full Name</label>
+                  <input type="text" class="form-control form-control-custom" required data-i18n-ph="contact.ph.name" placeholder="Enter your name">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold" data-i18n="contact.form.email">Email Address</label>
+                  <input type="email" class="form-control form-control-custom" required data-i18n-ph="contact.ph.email" placeholder="Enter your email">
+                </div>
+                <div class="col-12">
+                  <label class="form-label small fw-semibold" data-i18n="contact.form.subject">Subject</label>
+                  <input type="text" class="form-control form-control-custom" required data-i18n-ph="contact.ph.subject" placeholder="What is this regarding?">
+                </div>
+                <div class="col-12">
+                  <label class="form-label small fw-semibold" data-i18n="contact.form.message">Your Message</label>
+                  <textarea class="form-control form-control-custom" rows="5" required data-i18n-ph="contact.ph.message" placeholder="Write your message here..."></textarea>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-hero-primary w-100 justify-content-center py-3">
+                    <span data-i18n="contact.form.send">Send Message</span>
+                    <i class="bi bi-send-fill"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer-custom">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+      <div class="d-flex align-items-center gap-2">
+        <span class="brand-monogram" style="width: 28px; height: 28px; font-size: 0.8rem;">AC</span>
+        <span class="small" data-i18n="footer.made">Designed &amp; Engineered by 0dh4m (Adham Cherkaoui Eddeqaqi)</span>
+      </div>
+      <div class="small">
+        &copy; <span id="year">2026</span> <strong>0dh4m</strong> (Adham Cherkaoui Eddeqaqi). <span data-i18n="footer.rights">All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top button -->
+  <button id="backToTop" class="back-to-top" title="Back to top" aria-label="Back to top">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Portfolio Translation Engine & Scripts -->
+  <script src="assets/js/translations.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/scroll-effects.js"></script>
+  <script src="assets/js/page-transition.js"></script>
+</body>
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta name="author" content="0dh4m (Adham Cherkaoui Eddeqaqi)">
+  <meta name="copyright" content="Copyright (c) 2026 0dh4m (Adham Cherkaoui Eddeqaqi). All rights reserved.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PharmaCare PRO — Système Intelligent de Gestion d'Officine & Vision OCR</title>
+  <meta name="description" content="Solution logicielle pour pharmacie et officine par 0dh4m (Adham Cherkaoui Eddeqaqi). Numérisation intelligente d'ordonnances par Gemini Vision OCR, gestion des stocks, fiches patients et journal d'audit.">
+
+  <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons & Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            pharma: {
+              teal: '#0d9488',
+              emerald: '#10b981',
+              cyan: '#06b6d4',
+              blue: '#2563eb',
+              dark: '#0a0f1d'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      background-color: #090e17;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .tab-btn.active {
+      background: #0d9488;
+      color: white;
+      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.35);
+    }
+    .scanner-laser {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #06b6d4;
+      box-shadow: 0 0 16px #06b6d4;
+      animation: laserSweep 2s infinite ease-in-out;
+    }
+    @keyframes laserSweep {
+      0% { top: 5%; opacity: 0.8; }
+      50% { top: 92%; opacity: 1; }
+      100% { top: 5%; opacity: 0.8; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-teal-600 selection:text-white">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="sticky top-0 z-50 glass-card border-b border-white/10 px-4 lg:px-8 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="../../index.html" class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-white/10 hover:border-teal-500 text-xs text-slate-300 hover:text-white transition group" title="Return to Portfolio">
+        <i class="fa-solid fa-arrow-left text-[11px] group-hover:-translate-x-0.5 transition"></i>
+        <span>Portfolio</span>
+      </a>
+      <div class="h-4 w-px bg-white/10"></div>
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-teal-500/20">
+          <i class="bi bi-capsule-pill text-sm"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-sm tracking-tight text-white font-display">PharmaCare <span class="text-teal-400">PRO</span></span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-500/10 text-teal-300 border border-teal-500/25">ERP &amp; Vision OCR</span>
+          </div>
+          <p class="text-[10px] text-slate-400">By 0dh4m (Adham Cherkaoui Eddeqaqi) · Full-Stack Web Solution</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Header Actions -->
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-white/10 text-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-300">Session : <strong class="text-teal-400">Dr. Pharmacien (Admin)</strong></span>
+      </div>
+
+      <div class="flex items-center rounded-xl bg-slate-900 border border-white/10 p-0.5 text-xs">
+        <button onclick="setLang('fr')" id="btn-fr" class="px-2 py-1 rounded-lg font-semibold bg-teal-600 text-white transition">FR</button>
+        <button onclick="setLang('en')" id="btn-en" class="px-2 py-1 rounded-lg font-semibold text-slate-400 hover:text-white transition">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== TOP STATS OVERVIEW ==================== -->
+  <div class="max-w-7xl w-full mx-auto px-4 pt-6 pb-2">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Metric 1 -->
+      <div class="glass-card p-5 rounded-3xl border border-white/10 space-y-2">
+        <div class="flex items-center justify-between text-slate-400 text-xs">
+          <span class="font-semibold uppercase tracking-wider font-mono">Dossiers Patients</span>
+          <i class="fa-solid fa-hospital-user text-teal-400 text-sm"></i>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono" id="stat-patients">842</div>
+        <div class="text-[11px] text-emerald-400 flex items-center gap-1">
+          <i class="fa-solid fa-arrow-trend-up"></i>
+          <span>+14 nouveaux ce mois</span>
+        </div>
+      </div>
+
+      <!-- Metric 2 -->
+      <div class="glass-card p-5 rounded-3xl border border-white/10 space-y-2">
+        <div class="flex items-center justify-between text-slate-400 text-xs">
+          <span class="font-semibold uppercase tracking-wider font-mono">Ordonnances OCR</span>
+          <i class="fa-solid fa-qrcode text-cyan-400 text-sm"></i>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-mono" id="stat-scanned">328</div>
+        <div class="text-[11px] text-cyan-300 flex items-center gap-1">
+          <i class="fa-solid fa-microchip"></i>
+          <span>Gemini Vision 98.7% précision</span>
+        </div>
+      </div>
+
+      <!-- Metric 3 -->
+      <div class="glass-card p-5 rounded-3xl border border-white/10 space-y-2">
+        <div class="flex items-center justify-between text-slate-400 text-xs">
+          <span class="font-semibold uppercase tracking-wider font-mono">Médicaments en Stock</span>
+          <i class="fa-solid fa-boxes-stacked text-blue-400 text-sm"></i>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-blue-400 font-mono">1,450</div>
+        <div class="text-[11px] text-amber-400 flex items-center gap-1">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>4 références en rupture</span>
+        </div>
+      </div>
+
+      <!-- Metric 4 -->
+      <div class="glass-card p-5 rounded-3xl border border-white/10 space-y-2">
+        <div class="flex items-center justify-between text-slate-400 text-xs">
+          <span class="font-semibold uppercase tracking-wider font-mono">Sécurité &amp; Liste Noire</span>
+          <i class="fa-solid fa-shield-halved text-rose-400 text-sm"></i>
+        </div>
+        <div class="text-2xl sm:text-3xl font-extrabold text-rose-400 font-mono">2</div>
+        <div class="text-[11px] text-rose-300 flex items-center gap-1">
+          <i class="fa-solid fa-ban"></i>
+          <span>Fraudes ordonnance bloquées</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== TABS BAR ==================== -->
+  <div class="max-w-7xl w-full mx-auto px-4 py-4">
+    <div class="flex items-center gap-2 p-1.5 rounded-2xl glass-card border border-white/10 overflow-x-auto">
+      <button onclick="switchTab('patients')" id="tab-btn-patients" class="tab-btn active px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-user-group"></i>
+        <span>1. Fiches Patients &amp; Suivi</span>
+      </button>
+
+      <button onclick="switchTab('ocr')" id="tab-btn-ocr" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
+        <span>2. Scanner d'Ordonnance IA (Gemini Vision)</span>
+      </button>
+
+      <button onclick="switchTab('stock')" id="tab-btn-stock" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-pills text-teal-400"></i>
+        <span>3. Gestion des Stocks &amp; Prix (MAD)</span>
+      </button>
+
+      <button onclick="switchTab('analytics')" id="tab-btn-analytics" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-chart-line text-blue-400"></i>
+        <span>4. Statistiques &amp; Graphiques Dispensation</span>
+      </button>
+
+      <button onclick="switchTab('audit')" id="tab-btn-audit" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition">
+        <i class="fa-solid fa-list-check text-slate-400"></i>
+        <span>5. Journal d'Audit &amp; Liste Noire</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 pb-12">
+    
+    <!-- ==================== TAB 1: PATIENTS TABLE ==================== -->
+    <section id="tab-patients" class="glass-card p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-address-book text-teal-400"></i>
+            <span>Dossiers Médicaux Actifs</span>
+          </h2>
+          <p class="text-xs text-slate-400">Historique thérapeutique, posologie et fréquence de visites.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="relative w-full sm:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-400"></i>
+            <input type="text" id="patient-search" placeholder="Rechercher patient, molécule..." oninput="filterPatients(this.value)" class="w-full bg-slate-900 border border-white/10 focus:border-teal-500 pl-8 pr-3 py-1.5 rounded-xl text-xs text-white outline-none">
+          </div>
+          <button onclick="openNewPatientModal()" class="px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs flex items-center gap-1.5 transition whitespace-nowrap shadow-md shadow-teal-600/20">
+            <i class="fa-solid fa-plus"></i>
+            <span>Nouveau Patient</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Patients Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-white/10 text-slate-400 font-mono uppercase text-[11px]">
+              <th class="py-3 px-3">#ID</th>
+              <th class="py-3 px-3">Patient</th>
+              <th class="py-3 px-3">Traitement Délivré</th>
+              <th class="py-3 px-3">Posologie</th>
+              <th class="py-3 px-3">Visites</th>
+              <th class="py-3 px-3">Dernière Visite</th>
+              <th class="py-3 px-3">Statut</th>
+            </tr>
+          </thead>
+          <tbody id="patients-tbody" class="divide-y divide-white/5">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: GEMINI VISION OCR SCANNER ==================== -->
+    <section id="tab-ocr" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Scanner Card (7 cols) -->
+      <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-white/10 space-y-5 shadow-xl">
+        <div class="flex items-center justify-between border-b border-white/5 pb-4">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-eye text-cyan-400"></i>
+              <span>Numérisation d'Ordonnance Médicale par IA</span>
+            </h2>
+            <p class="text-xs text-slate-400">Reconnaissance optique multimodale via l'API Google Gemini 1.5 Flash.</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+            OCR &amp; Posologie
+          </span>
+        </div>
+
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Le module analyse la photo de l'ordonnance manuscrite rédigée par le médecin, en extrait le nom du patient, les médicaments prescrits, les dosages en mg/gélules, et vérifie automatiquement les contre-indications dans la base MySQL.
+        </p>
+
+        <!-- Simulated Prescription Document Preview -->
+        <div class="relative rounded-2xl overflow-hidden border border-white/10 bg-slate-900 p-4 space-y-3 font-mono text-xs">
+          <div id="ocr-laser" class="hidden scanner-laser"></div>
+
+          <div class="flex justify-between border-b border-white/10 pb-2 text-slate-400 text-[11px]">
+            <span>CLINIQUE MÉDICALE DU PARC — RABAT</span>
+            <span>DATE : 2026-11-18</span>
+          </div>
+          <div class="text-white space-y-1">
+            <p><strong>Dr. Karim El Mansouri</strong> — Médecine Générale</p>
+            <p class="text-teal-400">Patient : <strong>Amine El Fassi (34 ans)</strong></p>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-950/70 border border-white/5 space-y-1 text-slate-300">
+            <p>1. <strong>Amoxicilline 1g</strong> : 1 comprimé matin et soir pendant 7 jours.</p>
+            <p>2. <strong>Paracétamol 1g</strong> : 1 comprimé toutes les 6 heures en cas de fièvre.</p>
+            <p>3. <strong>Vitamine C 500mg</strong> : 1 comprimé à croquer le matin.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <div class="text-xs text-slate-400">
+            Test d'échantillon d'ordonnance manuscrite prêt pour analyse
+          </div>
+
+          <button onclick="runOcrScan()" id="btn-run-ocr" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/20 flex items-center gap-2 transition">
+            <i class="fa-solid fa-sparkles"></i>
+            <span>Lancer l'Extraction Gemini Vision</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- OCR Extracted Results Card (5 cols) -->
+      <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-teal-500/30 bg-teal-950/10 space-y-4 shadow-xl">
+        <div class="flex items-center justify-between border-b border-teal-500/20 pb-3">
+          <h3 class="text-sm font-bold text-teal-300 uppercase tracking-wider font-mono flex items-center gap-2">
+            <i class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span>Résultat d'Extraction Structurée</span>
+          </h3>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">99.2% Confiance</span>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="p-3 rounded-xl bg-slate-900/80 border border-white/5 space-y-1">
+            <span class="text-[10px] text-slate-400 uppercase font-mono">Patient Détecté</span>
+            <div id="ocr-res-patient" class="font-bold text-white text-sm">Amine El Fassi</div>
+            <span class="text-[11px] text-teal-400">Dossier créé automatiquement dans MySQL</span>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-900/80 border border-white/5 space-y-2">
+            <span class="text-[10px] text-slate-400 uppercase font-mono">Médicaments Extraits :</span>
+            <ul class="space-y-1.5 text-slate-300">
+              <li class="flex items-center justify-between">
+                <span>💊 Amoxicilline 1g</span>
+                <span class="font-mono text-cyan-300">2x / jour (7j)</span>
+              </li>
+              <li class="flex items-center justify-between">
+                <span>💊 Paracétamol 1g</span>
+                <span class="font-mono text-cyan-300">Si douleur (&le; 4g/j)</span>
+              </li>
+              <li class="flex items-center justify-between">
+                <span>💊 Vitamine C 500mg</span>
+                <span class="font-mono text-cyan-300">1x / matin</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-3 rounded-xl bg-emerald-900/20 border border-emerald-500/30 text-emerald-300 text-xs">
+            <i class="fa-solid fa-shield-heart me-1"></i>
+            <strong>Contrôle des Interactions :</strong> Aucune contre-indication ou doublon thérapeutique détecté.
+          </div>
+
+          <button onclick="saveOcrToDb()" class="w-full py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs shadow-md transition">
+            Valider et Ajouter à l'Historique de Délivrance
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 3: STOCK & INVENTORY ==================== -->
+    <section id="tab-stock" class="hidden glass-card p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
+      <div class="flex items-center justify-between border-b border-white/5 pb-4">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-boxes-stacked text-teal-400"></i>
+            <span>Inventaire des Médicaments &amp; Tarifs Régulés (MAD)</span>
+          </h2>
+          <p class="text-xs text-slate-400">Suivi des lots, dates de péremption et seuils d'alerte de réapprovisionnement.</p>
+        </div>
+        <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-teal-500/10 text-teal-300 border border-teal-500/20">
+          Dirhams Marocains (MAD)
+        </span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-white/10 text-slate-400 font-mono uppercase text-[11px]">
+              <th class="py-3 px-3">DCI / Médicament</th>
+              <th class="py-3 px-3">Forme &amp; Dosage</th>
+              <th class="py-3 px-3">Stock Actuel</th>
+              <th class="py-3 px-3">Prix Unitaire</th>
+              <th class="py-3 px-3">Date Péremption</th>
+              <th class="py-3 px-3">Alerte</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-slate-200">
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Amoxicilline Biocodex</td>
+              <td class="py-3 px-3 text-slate-400">Boîte 14 comprimés 1g</td>
+              <td class="py-3 px-3 font-mono font-bold text-emerald-400">42 boîtes</td>
+              <td class="py-3 px-3 font-mono">48.50 MAD</td>
+              <td class="py-3 px-3 font-mono text-slate-400">12/2027</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Optimal</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Doliprane (Paracétamol)</td>
+              <td class="py-3 px-3 text-slate-400">Boîte 8 comprimés 1g</td>
+              <td class="py-3 px-3 font-mono font-bold text-emerald-400">85 boîtes</td>
+              <td class="py-3 px-3 font-mono">16.20 MAD</td>
+              <td class="py-3 px-3 font-mono text-slate-400">08/2028</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Optimal</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Ventoline Aérosol</td>
+              <td class="py-3 px-3 text-slate-400">Flacon 200 doses 100µg</td>
+              <td class="py-3 px-3 font-mono font-bold text-amber-400">3 boîtes</td>
+              <td class="py-3 px-3 font-mono">34.80 MAD</td>
+              <td class="py-3 px-3 font-mono text-slate-400">03/2027</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30">Stock Faible</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Metformine 850mg</td>
+              <td class="py-3 px-3 text-slate-400">Boîte 30 comprimés</td>
+              <td class="py-3 px-3 font-mono font-bold text-emerald-400">26 boîtes</td>
+              <td class="py-3 px-3 font-mono">22.40 MAD</td>
+              <td class="py-3 px-3 font-mono text-slate-400">05/2027</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Optimal</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-3 font-semibold text-white">Oméprazole 20mg</td>
+              <td class="py-3 px-3 text-slate-400">Boîte 14 gélules</td>
+              <td class="py-3 px-3 font-mono font-bold text-emerald-400">38 boîtes</td>
+              <td class="py-3 px-3 font-mono">52.00 MAD</td>
+              <td class="py-3 px-3 font-mono text-slate-400">11/2027</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Optimal</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: ANALYTICS DASHBOARD ==================== -->
+    <section id="tab-analytics" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-chart-column text-teal-400"></i>
+          <span>Volume Hebdomadaire d'Ordonnances Délivrées</span>
+        </h3>
+        <div class="h-64">
+          <canvas id="weeklyChart"></canvas>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-chart-pie text-cyan-400"></i>
+          <span>Répartition par Famille Thérapeutique</span>
+        </h3>
+        <div class="h-64 flex items-center justify-center">
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: AUDIT LOGS & BLACKLIST ==================== -->
+    <section id="tab-audit" class="hidden glass-card p-6 rounded-3xl border border-white/10 space-y-4 shadow-xl">
+      <div class="flex items-center justify-between border-b border-white/5 pb-4">
+        <div>
+          <h2 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-rose-400"></i>
+            <span>Registre d'Audit &amp; Liste Noire (RBAC Security)</span>
+          </h2>
+          <p class="text-xs text-slate-400">Journal d'accès horodaté, détection d'ordonnances falsifiées et contrôle de délivrance.</p>
+        </div>
+        <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-rose-500/10 text-rose-300 border border-rose-500/20">
+          Audit Sécurisé
+        </span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-white/10 text-slate-400 font-mono uppercase text-[11px]">
+              <th class="py-3 px-3">Horodatage</th>
+              <th class="py-3 px-3">Utilisateur</th>
+              <th class="py-3 px-3">Action Réalisée</th>
+              <th class="py-3 px-3">Cible / Patient</th>
+              <th class="py-3 px-3">Niveau d'Alerte</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 font-mono text-slate-300">
+            <tr>
+              <td class="py-2.5 px-3 text-slate-400">2026-11-20 14:22:10</td>
+              <td class="py-2.5 px-3 text-teal-400 font-semibold">pharmacien_1</td>
+              <td class="py-2.5 px-3">Délivrance ordonnance #482</td>
+              <td class="py-2.5 px-3 text-white">Amine El Fassi</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400">INFO</span></td>
+            </tr>
+            <tr class="bg-rose-950/20">
+              <td class="py-2.5 px-3 text-slate-400">2026-11-20 11:05:42</td>
+              <td class="py-2.5 px-3 text-cyan-400 font-semibold">system_ai</td>
+              <td class="py-2.5 px-3 text-rose-400">Alerte : Ordonnance falsifiée (cachet non conforme)</td>
+              <td class="py-2.5 px-3 text-rose-300 font-bold">Karim Sabri</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/30">BLOCKED</span></td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 text-slate-400">2026-11-20 09:14:02</td>
+              <td class="py-2.5 px-3 text-teal-400 font-semibold">assistant_2</td>
+              <td class="py-2.5 px-3">Mise à jour stock Paracétamol (+50 boîtes)</td>
+              <td class="py-2.5 px-3 text-white">Inventaire Central</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-400">UPDATE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    const samplePatients = [
+      { id: 108, name: "Salma Berrada", med: "Fer + Vitamine C", dose: "1 cp / jour", visits: 4, date: "2026-11-18", status: "Actif" },
+      { id: 107, name: "Hicham Nabi", med: "Levothyrox 50µg", dose: "1 cp le matin", visits: 8, date: "2026-11-16", status: "Actif" },
+      { id: 106, name: "Nadia Alaoui", med: "Ventoline 100µg", dose: "Spray à la demande", visits: 6, date: "2026-11-12", status: "Actif" },
+      { id: 105, name: "Mohammed Chafik", med: "Metformine 850mg", dose: "2 cp / jour", visits: 12, date: "2026-11-09", status: "Chronique" },
+      { id: 104, name: "Khadija Rami", med: "Oméprazole 20mg", dose: "1 gélule le soir", visits: 5, date: "2026-11-05", status: "Actif" },
+      { id: 103, name: "Karim Sabri", med: "Tentative délivrance stupéfiant", dose: "Non délivré", visits: 1, date: "2026-11-01", status: "Bloqué (Fraude)" },
+      { id: 102, name: "Fatima Zahra Idrissi", med: "Paracétamol 1g", dose: "Selon douleurs", visits: 7, date: "2026-10-28", status: "Actif" }
+    ];
+
+    function renderPatients(list) {
+      const tbody = document.getElementById('patients-tbody');
+      tbody.innerHTML = list.map(p => `
+        <tr class="hover:bg-white/[0.02] transition">
+          <td class="py-3 px-3 font-mono text-slate-400">#${p.id}</td>
+          <td class="py-3 px-3 font-semibold text-white">${p.name}</td>
+          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-medium bg-teal-500/10 text-teal-300 border border-teal-500/30">${p.med}</span></td>
+          <td class="py-3 px-3 font-mono text-slate-400">${p.dose}</td>
+          <td class="py-3 px-3 font-mono text-slate-300"><span class="px-2 py-0.5 rounded bg-slate-800">${p.visits} visites</span></td>
+          <td class="py-3 px-3 text-slate-400 font-mono">${p.date}</td>
+          <td class="py-3 px-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${
+              p.status.includes('Bloqué') ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' :
+              (p.status === 'Chronique' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30')
+            }">
+              ${p.status}
+            </span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterPatients(query) {
+      const q = query.toLowerCase();
+      const filtered = samplePatients.filter(p => p.name.toLowerCase().includes(q) || p.med.toLowerCase().includes(q));
+      renderPatients(filtered);
+    }
+
+    function switchTab(tabId) {
+      const tabs = ['patients', 'ocr', 'stock', 'analytics', 'audit'];
+      tabs.forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        document.getElementById(`tab-btn-${t}`).className = 'tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs text-slate-400 hover:text-white flex items-center gap-2 whitespace-nowrap transition';
+      });
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      document.getElementById(`tab-btn-${tabId}`).className = 'tab-btn active px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 whitespace-nowrap transition';
+
+      if (tabId === 'analytics') {
+        initCharts();
+      }
+    }
+
+    function runOcrScan() {
+      const laser = document.getElementById('ocr-laser');
+      const btn = document.getElementById('btn-run-ocr');
+      laser.classList.remove('hidden');
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyse Gemini Vision...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        laser.classList.add('hidden');
+        btn.innerHTML = '<i class="fa-solid fa-sparkles"></i> Lancer l\'Extraction Gemini Vision';
+        btn.disabled = false;
+        alert('✅ Extraction réussie !\nPatient : Amine El Fassi\nMédicaments : Amoxicilline 1g, Paracétamol 1g, Vitamine C 500mg identifiés avec succès.');
+      }, 2000);
+    }
+
+    function saveOcrToDb() {
+      alert('💾 Ordonnance enregistrée avec succès dans la base MySQL (Table : ordonnances_audit).');
+    }
+
+    function openNewPatientModal() {
+      const name = prompt("Entrez le nom et prénom du nouveau patient :");
+      if (name) {
+        samplePatients.unshift({
+          id: Math.floor(109 + Math.random() * 50),
+          name: name,
+          med: "Consultation générale",
+          dose: "Selon prescription",
+          visits: 1,
+          date: new Date().toISOString().slice(0, 10),
+          status: "Actif"
+        });
+        renderPatients(samplePatients);
+        document.getElementById('stat-patients').textContent = samplePatients.length + 835;
+      }
+    }
+
+    let chartsInitialized = false;
+    function initCharts() {
+      if (chartsInitialized) return;
+      chartsInitialized = true;
+
+      // Weekly chart
+      const ctx1 = document.getElementById('weeklyChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+          datasets: [{
+            label: 'Ordonnances Traitées',
+            data: [42, 58, 65, 51, 72, 84, 39],
+            backgroundColor: 'rgba(13, 148, 136, 0.75)',
+            borderColor: '#0d9488',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+          }
+        }
+      });
+
+      // Category chart
+      const ctx2 = document.getElementById('categoryChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: ['Antibiotiques', 'Antalgiques', 'Antidiabétiques', 'Cardiologie', 'Autres'],
+          datasets: [{
+            data: [35, 28, 18, 12, 7],
+            backgroundColor: ['#0d9488', '#06b6d4', '#3b82f6', '#f59e0b', '#8b5cf6'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } }
+        }
+      });
+    }
+
+    function setLang(lang) {
+      document.getElementById('btn-fr').className = lang === 'fr'
+        ? 'px-2 py-1 rounded-lg font-semibold bg-teal-600 text-white transition'
+        : 'px-2 py-1 rounded-lg font-semibold text-slate-400 hover:text-white transition';
+      document.getElementById('btn-en').className = lang === 'en'
+        ? 'px-2 py-1 rounded-lg font-semibold bg-teal-600 text-white transition'
+        : 'px-2 py-1 rounded-lg font-semibold text-slate-400 hover:text-white transition';
+    }
+
+    // Init table
+    renderPatients(samplePatients);
+  </script>
+</body>
+</html>
