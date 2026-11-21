@@ -172,3 +172,158 @@
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
+
+
+/* ==========================================================================
+   SUPERCHARGED CANVAS PARTICLE NETWORK & TELEMETRY TERMINAL INTERACTION
+   Authored by 0dh4m · 60FPS Hardware-Accelerated Physics
+   ========================================================================== */
+(function() {
+  // 1. High Performance Background Particle Constellation
+  const canvas = document.getElementById('bgCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const count = Math.min(Math.floor((width * height) / 18000), 75);
+    let mouse = { x: null, y: null, radius: 120 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    window.addEventListener('mouseout', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.7,
+        vy: (Math.random() - 0.5) * 0.7,
+        radius: Math.random() * 1.8 + 0.8,
+        color: Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(129, 140, 248, '
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        // Mouse repulsion / interaction
+        if (mouse.x !== null) {
+          let dx = mouse.x - p.x;
+          let dy = mouse.y - p.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouse.radius) {
+            let force = (mouse.radius - dist) / mouse.radius;
+            p.x -= (dx / dist) * force * 2;
+            p.y -= (dy / dist) * force * 2;
+          }
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + '0.7)';
+        ctx.fill();
+
+        // Connect nearby particles
+        for (let j = i + 1; j < particles.length; j++) {
+          let p2 = particles[j];
+          let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(99, 102, 241, ${0.25 * (1 - dist / 110)})`;
+            ctx.lineWidth = 0.6;
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  }
+
+  // 2. Interactive Telemetry Terminal Simulator
+  const liveTyping = document.getElementById('terminalLiveTyping');
+  const termBody = document.getElementById('telemetryBody');
+  const termBtns = document.querySelectorAll('.term-btn');
+
+  const cmdOutputs = {
+    tech_stack: [
+      { text: "Executing: query_stack_manifest()", color: "text-info" },
+      { text: "[RUNTIME] C# 12 (.NET 8) · Node.js v20.x LTS · PHP 8.2 OOP", color: "text-light" },
+      { text: "[SYSTEMS] Windows WASAPI Audio Subsystem · WinRT BLE GATT", color: "text-light" },
+      { text: "[DATABASE] MySQL 8.0 (ACID Row-Locking) · SQLite · Redis", color: "text-warning" },
+      { text: "[FRONTEND] Modern Vanilla ES6+ · Tailwind CSS · Bootstrap 5", color: "text-success" }
+    ],
+    benchmarks: [
+      { text: "Benchmarking core subsystems...", color: "text-info" },
+      { text: "-> Watch Together WebSocket Sync Drift: 42ms (Target: <1500ms) [PASS]", color: "text-success" },
+      { text: "-> DualLumi WinRT BLE Command RTT: 6.8ms [PASS]", color: "text-success" },
+      { text: "-> DualAudio WASAPI Ringbuffer Latency: 18ms [PASS]", color: "text-success" },
+      { text: "-> Hotel ERP Concurrency Deadlocks: 0 (Tested with 50 parallel PDO transactions) [PASS]", color: "text-success" }
+    ],
+    github_status: [
+      { text: "Connecting to api.github.com/users/0dh4m/repos...", color: "text-info" },
+      { text: "[OK] 10 Public Repositories synchronized on GitHub.", color: "text-success" },
+      { text: "-> watch-together, happy-gym-pro, hotel-management-system, movies-streaming-platform", color: "text-light" },
+      { text: "-> duallumi-pro, dualaudio-sync, tapocam-viewer, radio-maroc-live, cyberops-academy, portfolio", color: "text-light" },
+      { text: "Total commits: 250+ | Status: 100% Green CI & Passing Tests", color: "text-primary" }
+    ],
+    whoami: [
+      { text: "User: Adham Cherkaoui Eddeqaqi (@0dh4m)", color: "text-info" },
+      { text: "Role: Full-Stack & Desktop Software Developer", color: "text-light" },
+      { text: "Location: Rabat / Salé, Morocco | Status: Ready for Hire", color: "text-warning" },
+      { text: "Email: 0dh4mm@gmail.com | Phone: +212 625-632628", color: "text-success" },
+      { text: "GitHub: https://github.com/0dh4m", color: "text-primary" }
+    ]
+  };
+
+  if (termBtns.length && liveTyping && termBody) {
+    termBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cmdKey = btn.getAttribute('data-cmd');
+        const outputLines = cmdOutputs[cmdKey];
+        if (!outputLines) return;
+
+        // Append user prompt
+        const promptDiv = document.createElement('div');
+        promptDiv.className = 'term-line mt-2';
+        promptDiv.innerHTML = `<span class="term-prompt">0dh4m@sys:~$</span> <span class="term-cmd">--${cmdKey}</span>`;
+        termBody.appendChild(promptDiv);
+
+        // Append output lines
+        outputLines.forEach((line, idx) => {
+          setTimeout(() => {
+            const outDiv = document.createElement('div');
+            outDiv.className = 'term-line';
+            outDiv.innerHTML = `<span class="term-out ${line.color}">${line.text}</span>`;
+            termBody.appendChild(outDiv);
+            termBody.scrollTop = termBody.scrollHeight;
+          }, (idx + 1) * 120);
+        });
+      });
+    });
+  }
+})();

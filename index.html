@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+  <!-- 60FPS Interactive Constellation Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
 
   <!-- ==================== STICKY NAVBAR ==================== -->
   <nav class="navbar navbar-expand-lg sticky-top navbar-custom" id="mainNav">
@@ -36,6 +39,7 @@
           <li class="nav-item"><a class="nav-link active" href="#home" data-i18n="nav.home">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="#about" data-i18n="nav.about">About</a></li>
           <li class="nav-item"><a class="nav-link" href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
           <li class="nav-item"><a class="nav-link" href="#projects" data-i18n="nav.projects">Projects</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact" data-i18n="nav.contact">Contact</a></li>
         </ul>
@@ -140,6 +144,53 @@
               </div>
             </div>
           </div>
+
+          <!-- High-Tech Telemetry Terminal -->
+          <div class="telemetry-terminal mt-4">
+            <div class="telemetry-header">
+              <div class="terminal-dots">
+                <span class="terminal-dot bg-danger"></span>
+                <span class="terminal-dot bg-warning"></span>
+                <span class="terminal-dot bg-success"></span>
+              </div>
+              <div class="small text-muted font-monospace" style="font-size: 11px;">
+                <i class="bi bi-cpu me-1 text-primary"></i>0dh4m@system-core:~ (x86_64)
+              </div>
+              <div class="badge bg-success bg-opacity-25 text-success font-monospace" style="font-size: 9px;">LIVE 60FPS</div>
+            </div>
+            <div class="telemetry-body" id="telemetryBody">
+              <div class="term-line">
+                <span class="term-prompt">0dh4m@sys:~$</span>
+                <span class="term-cmd">sysctl -a | grep -E "engine|sync|protocol"</span>
+              </div>
+              <div class="term-line">
+                <span class="term-out text-success"><i class="bi bi-check-circle-fill me-1"></i>[NET.SYNC] WebSocket sub-second drift compensation: ACTIVE (&lt;1.5s delta)</span>
+              </div>
+              <div class="term-line">
+                <span class="term-out text-info"><i class="bi bi-broadcast me-1"></i>[MEDIA.BUS] WebRTC P2P Mesh Audio: INITIALIZED (48kHz stereo bypass)</span>
+              </div>
+              <div class="term-line">
+                <span class="term-out text-primary"><i class="bi bi-bluetooth me-1"></i>[WINRT.GATT] BLE Dual-Device Controller: PAIRED (0 packet drops)</span>
+              </div>
+              <div class="term-line">
+                <span class="term-out text-warning"><i class="bi bi-database-check me-1"></i>[STORAGE.ACID] PDO Concurrency Lock: VERIFIED (Zero deadlocks)</span>
+              </div>
+              <div class="term-line">
+                <span class="term-out text-purple" style="color: #c084fc;"><i class="bi bi-eye-fill me-1"></i>[AI.VISION] Gemini-1.5 OCR Engine: READY (Prescription safety audit)</span>
+              </div>
+              <div class="term-line mt-2">
+                <span class="term-prompt">0dh4m@sys:~$</span>
+                <span class="term-cmd" id="terminalLiveTyping">system_diagnostics --all</span><span class="typed-cursor"></span>
+              </div>
+            </div>
+            <div class="p-2 border-top border-secondary border-opacity-25 d-flex gap-2 justify-content-center bg-black bg-opacity-30">
+              <button class="btn btn-xs btn-outline-info py-0 px-2 font-monospace term-btn" data-cmd="tech_stack" style="font-size: 10px;">--stack</button>
+              <button class="btn btn-xs btn-outline-success py-0 px-2 font-monospace term-btn" data-cmd="benchmarks" style="font-size: 10px;">--benchmarks</button>
+              <button class="btn btn-xs btn-outline-primary py-0 px-2 font-monospace term-btn" data-cmd="github_status" style="font-size: 10px;">--repos</button>
+              <button class="btn btn-xs btn-outline-warning py-0 px-2 font-monospace term-btn" data-cmd="whoami" style="font-size: 10px;">--whoami</button>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -315,6 +366,137 @@
   </section>
 
   <!-- ==================== FEATURED PROJECTS SECTION ==================== -->
+  
+  <!-- ==================== CORE ARCHITECTURE & SYSTEM HIGHLIGHTS ==================== -->
+  <section class="section-padding position-relative" id="architecture">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge bg-primary bg-opacity-15 text-primary px-3 py-2 rounded-pill fw-bold text-uppercase" style="letter-spacing: 1px; font-size: 11px;">
+          <i class="bi bi-diagram-3-fill me-1"></i> Deep System Engineering
+        </span>
+        <h2 class="display-6 fw-bold mt-2">Core Architecture &amp; Technical Highlights</h2>
+        <p class="text-muted max-w-600 mx-auto">
+          A showcase of architectural decisions, protocol reverse-engineering, sub-second network synchronization, and multi-threaded systems.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Arch 1: Real-Time Media Sync -->
+        <div class="col-lg-6">
+          <div class="arch-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="arch-icon-box bg-primary bg-opacity-20 text-primary">
+                <i class="bi bi-broadcast-pin"></i>
+              </div>
+              <span class="badge bg-primary bg-opacity-20 text-primary font-monospace">Real-Time Networking</span>
+            </div>
+            <h4 class="fw-bold mb-2">Sub-Second WebSocket Drift Compensation Engine</h4>
+            <p class="text-muted small mb-3">
+              Designed for <strong>Watch Together</strong> to eliminate synchronization drift across distributed clients playing heterogeneous video codecs. Uses continuous heartbeats and adaptive clock compensation without stutter.
+            </p>
+            <div class="p-3 rounded-3 bg-body-tertiary border border-secondary border-opacity-15 font-monospace small mb-3">
+              <div class="text-success mb-1">// Adaptive Playback Drift Adjustment</div>
+              <div class="text-dim">if (|Δt| &gt; 1.5s) video.currentTime = hostTime;</div>
+              <div class="text-dim">else if (|Δt| &gt; 0.25s) video.playbackRate = 1.0 + (Δt * 0.05);</div>
+              <div class="text-info mt-1">&rarr; Result: Zero-buffering smooth audio-video lock across web peers</div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-secondary bg-opacity-25 text-light">Node.js</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Socket.IO</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">WebRTC Mesh</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Canvas Particle Physics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arch 2: Hardware Protocol Reverse Engineering -->
+        <div class="col-lg-6">
+          <div class="arch-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="arch-icon-box bg-info bg-opacity-20 text-info">
+                <i class="bi bi-bluetooth"></i>
+              </div>
+              <span class="badge bg-info bg-opacity-20 text-info font-monospace">IoT &amp; Reverse-Engineering</span>
+            </div>
+            <h4 class="fw-bold mb-2">Hardware-Level BLE GATT Protocol Reverse-Engineering</h4>
+            <p class="text-muted small mb-3">
+              Engineered for <strong>DualLumi PRO</strong> by capturing Android Bluetooth HCI Snoop logs with Wireshark to decode proprietary Chinese BLE LED controller protocols. Rebuilt as a multi-threaded C# .NET desktop suite.
+            </p>
+            <div class="p-3 rounded-3 bg-body-tertiary border border-secondary border-opacity-15 font-monospace small mb-3">
+              <div class="text-info mb-1">// Proprietary BLE Frame: 0x7E [Len] [Cmd] [R] [G] [B] [Checksum] 0xEF</div>
+              <div class="text-dim">byte[] packet = new byte[] { 0x7E, 0x07, 0x05, 0x03, r, g, b, 0x00, 0xEF };</div>
+              <div class="text-dim">await gattCharacteristic.WriteValueAsync(packet.AsBuffer());</div>
+              <div class="text-success mt-1">&rarr; Result: Sub-10ms dual-lamp synchronization directly from Windows</div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-secondary bg-opacity-25 text-light">C# 12</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">.NET 8</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">WinRT BLE GATT</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Wireshark Protocol Analysis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arch 3: Kernel Audio Duplication -->
+        <div class="col-lg-6">
+          <div class="arch-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="arch-icon-box bg-success bg-opacity-20 text-success">
+                <i class="bi bi-headphones"></i>
+              </div>
+              <span class="badge bg-success bg-opacity-20 text-success font-monospace">Audio Kernel Subsystem</span>
+            </div>
+            <h4 class="fw-bold mb-2">Low-Latency WASAPI Audio Stream Capture &amp; Dual Routing</h4>
+            <p class="text-muted small mb-3">
+              Engineered for <strong>DualAudio Sync</strong> to bypass default Windows audio routing limits. Intercepts the master render endpoint stream and mirrors PCM audio buffers to secondary Bluetooth headsets simultaneously.
+            </p>
+            <div class="p-3 rounded-3 bg-body-tertiary border border-secondary border-opacity-15 font-monospace small mb-3">
+              <div class="text-success mb-1">// Loopback Capture + Asynchronous Ring Buffer Playback</div>
+              <div class="text-dim">WasapiLoopbackCapture &rarr; BufferedWaveProvider &rarr; WasapiOut(Device2);</div>
+              <div class="text-dim">latencyBuffer = AudioLatency.LowLatency (20ms ringbuffer);</div>
+              <div class="text-warning mt-1">&rarr; Result: Zero audible echo between paired listeners</div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-secondary bg-opacity-25 text-light">C# / WPF</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">NAudio</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Windows WASAPI</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Multi-threading</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arch 4: ACID Transactions & AI OCR -->
+        <div class="col-lg-6">
+          <div class="arch-card">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="arch-icon-box bg-warning bg-opacity-20 text-warning">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <span class="badge bg-warning bg-opacity-20 text-warning font-monospace">Enterprise ACID &amp; AI</span>
+            </div>
+            <h4 class="fw-bold mb-2">Pessimistic Concurrency Locking &amp; Multimodal AI Safety</h4>
+            <p class="text-muted small mb-3">
+              Engineered across <strong>Hotel ERP</strong> and <strong>PharmaCare AI</strong>. Employs atomic SQL transactions with row-level locks for zero-conflict room booking, combined with Gemini Vision OCR for automated prescription safety verification.
+            </p>
+            <div class="p-3 rounded-3 bg-body-tertiary border border-secondary border-opacity-15 font-monospace small mb-3">
+              <div class="text-warning mb-1">// Pessimistic Lock + Gemini 1.5 Multimodal Audit</div>
+              <div class="text-dim">$pdo-&gt;beginTransaction(); SELECT * FROM chambres WHERE id = ? FOR UPDATE;</div>
+              <div class="text-dim">gemini.analyzePrescription(imgBlob) &rarr; flagContraindications(patientHistory);</div>
+              <div class="text-success mt-1">&rarr; Result: 100% data consistency + automated medication safety</div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-secondary bg-opacity-25 text-light">PHP 8 OOP</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">PDO Transactions</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Gemini Vision OCR</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">ACID Compliance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <section class="section-padding" id="projects">
     <div class="container">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5">
@@ -520,6 +702,241 @@
   </section>
 
   <!-- ==================== CONTACT SECTION ==================== -->
+  
+  <!-- ==================== GITHUB OPEN-SOURCE REPOSITORIES (10/10) ==================== -->
+  <section class="section-padding bg-body-tertiary bg-opacity-25" id="repositories">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
+        <div>
+          <span class="badge bg-success bg-opacity-15 text-success px-3 py-2 rounded-pill fw-bold text-uppercase" style="letter-spacing: 1px; font-size: 11px;">
+            <i class="bi bi-github me-1"></i> Open-Source Ecosystem
+          </span>
+          <h2 class="display-6 fw-bold mt-2">Public Repositories on GitHub</h2>
+          <p class="text-muted mb-0">Production repositories authored and maintained by <strong>@0dh4m</strong>.</p>
+        </div>
+        <div>
+          <a href="https://github.com/0dh4m" target="_blank" class="btn btn-outline-light d-inline-flex align-items-center gap-2">
+            <i class="bi bi-github fs-5"></i>
+            <span>Visit @0dh4m on GitHub</span>
+            <i class="bi bi-arrow-up-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="row g-4" id="reposGrid">
+        <!-- Watch Together -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-play-circle-fill text-primary fs-4"></i>
+                <a href="https://github.com/0dh4m/watch-together" target="_blank" class="fw-bold text-light text-decoration-none">watch-together</a>
+              </div>
+              <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Real-time synchronized video streaming room with WebRTC mesh audio bus, sub-second drift compensation &amp; live chat.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-warning"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>JavaScript</span>
+              <div class="d-flex gap-2">
+                <a href="demos/watch-together/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/watch-together" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Happy Gym Pro -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-activity text-success fs-4"></i>
+                <a href="https://github.com/0dh4m/happy-gym-pro" target="_blank" class="fw-bold text-light text-decoration-none">happy-gym-pro</a>
+              </div>
+              <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Enterprise fitness &amp; nutrition platform with coach assignment, member biometric tracking &amp; subscription management.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-purple" style="color: #a855f7;"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>PHP / Tailwind</span>
+              <div class="d-flex gap-2">
+                <a href="demos/hmp/home.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/happy-gym-pro" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hotel Management System -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-building text-warning fs-4"></i>
+                <a href="https://github.com/0dh4m/hotel-management-system" target="_blank" class="fw-bold text-light text-decoration-none">hotel-management-system</a>
+              </div>
+              <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Full-featured hotel management system with atomic reservation transactions, room scheduling matrix &amp; printable tax invoices.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-purple" style="color: #a855f7;"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>PHP 8 OOP</span>
+              <div class="d-flex gap-2">
+                <a href="demos/hotel/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/hotel-management-system" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Movies Streaming Platform -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-film text-danger fs-4"></i>
+                <a href="https://github.com/0dh4m/movies-streaming-platform" target="_blank" class="fw-bold text-light text-decoration-none">movies-streaming-platform</a>
+              </div>
+              <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Bilingual cinema streaming catalog with multi-server embed players, smart search, bookmarking &amp; visitor analytics.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-purple" style="color: #a855f7;"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>PHP 8 / Bootstrap</span>
+              <div class="d-flex gap-2">
+                <a href="https://github.com/0dh4m/movies-streaming-platform" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DualLumi PRO -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-lamp-fill text-info fs-4"></i>
+                <a href="https://github.com/0dh4m/duallumi-pro" target="_blank" class="fw-bold text-light text-decoration-none">duallumi-pro</a>
+              </div>
+              <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Reverse-engineered BLE GATT desktop controller for dual Bluetooth monitor light bars with hardware synchronization.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>C# 12 / .NET 8</span>
+              <div class="d-flex gap-2">
+                <a href="demos/duallumi/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/duallumi-pro" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DualAudio Sync -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-music-note-beamed text-success fs-4"></i>
+                <a href="https://github.com/0dh4m/dualaudio-sync" target="_blank" class="fw-bold text-light text-decoration-none">dualaudio-sync</a>
+              </div>
+              <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Windows desktop utility routing real-time audio from WASAPI master render bus to dual Bluetooth headphones simultaneously.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>C# / WASAPI</span>
+              <div class="d-flex gap-2">
+                <a href="demos/dualaudio/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/dualaudio-sync" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TapoCam Viewer -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-camera-video-fill text-warning fs-4"></i>
+                <a href="https://github.com/0dh4m/tapocam-viewer" target="_blank" class="fw-bold text-light text-decoration-none">tapocam-viewer</a>
+              </div>
+              <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Multi-camera IP surveillance desktop manager supporting RTSP hardware-accelerated streams, PTZ control &amp; motion snapshots.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>C# / WPF</span>
+              <div class="d-flex gap-2">
+                <a href="demos/tapocam/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/tapocam-viewer" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Radio Maroc Live -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-broadcast text-danger fs-4"></i>
+                <a href="https://github.com/0dh4m/radio-maroc-live" target="_blank" class="fw-bold text-light text-decoration-none">radio-maroc-live</a>
+              </div>
+              <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Live Moroccan FM streaming web app featuring real-time audio visualizer spectrum, dynamic station switching &amp; Web Audio API.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-warning"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>JavaScript / Web Audio</span>
+              <div class="d-flex gap-2">
+                <a href="demos/radio-maroc/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/radio-maroc-live" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CyberOps Academy -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-shield-lock-fill text-info fs-4"></i>
+                <a href="https://github.com/0dh4m/cyberops-academy" target="_blank" class="fw-bold text-light text-decoration-none">cyberops-academy</a>
+              </div>
+              <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Interactive security training hub featuring modular networking labs, ethical hacking exercises &amp; terminal challenges.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-warning"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>JavaScript / HTML5</span>
+              <div class="d-flex gap-2">
+                <a href="demos/cyberops/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
+                <a href="https://github.com/0dh4m/cyberops-academy" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Root -->
+        <div class="col-md-6 col-lg-4">
+          <div class="repo-card">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-globe2 text-primary fs-4"></i>
+                <a href="https://github.com/0dh4m/portfolio" target="_blank" class="fw-bold text-light text-decoration-none">portfolio / 0dh4m.github.io</a>
+              </div>
+              <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">Public</span>
+            </div>
+            <p class="text-muted small flex-grow-1">Personal engineering portfolio with interactive telemetry terminal, Web Audio FX, canvas particle physics &amp; dual-language CV.</p>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
+              <span class="text-warning"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>HTML5 / CSS / JS</span>
+              <div class="d-flex gap-2">
+                <a href="index.html" class="text-info text-decoration-none">Live &rarr;</a>
+                <a href="https://github.com/0dh4m/portfolio" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <section class="section-padding bg-body-tertiary bg-opacity-25" id="contact">
     <div class="container">
       <div class="text-center mb-5">
