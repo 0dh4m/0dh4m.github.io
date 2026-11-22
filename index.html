@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adham Cherkaoui Eddeqaqi — Full-Stack & Desktop Software Developer Portfolio</title>
   <meta name="description" content="Portfolio of Adham Cherkaoui Eddeqaqi — Full-Stack Web & Desktop Software Developer based in Rabat, Morocco. Specialized in Node.js, PHP 8, C# .NET WPF, and Real-Time Systems.">
-  
+  <meta name="theme-color" content="#070a12">
+
+  <!-- Fonts: Sora (display) · Plus Jakarta Sans (body) · JetBrains Mono (code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <!-- Favicon / Monogram -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%232563eb'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' font-weight='800' fill='white'>AC</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%232f5bff'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='48' font-weight='800' fill='white'>AC</text></svg>">
 
   <!-- Bootstrap 5 CSS (Switchable via i18n in main.js) -->
   <link id="bootstrap-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -72,6 +77,7 @@
     </div>
   </nav>
 
+  <main id="main-content">
   <!-- ==================== HERO SECTION ==================== -->
   <header class="hero d-flex align-items-center" id="home">
     <div class="hero-blob hero-blob-1"></div>
@@ -390,7 +396,7 @@
               </div>
               <span class="badge bg-primary bg-opacity-20 text-primary font-monospace">Real-Time Networking</span>
             </div>
-            <h4 class="fw-bold mb-2">Sub-Second WebSocket Drift Compensation Engine</h4>
+            <h3 class="h4 fw-bold mb-2">Sub-Second WebSocket Drift Compensation Engine</h3>
             <p class="text-muted small mb-3">
               Designed for <strong>Watch Together</strong> to eliminate synchronization drift across distributed clients playing heterogeneous video codecs. Uses continuous heartbeats and adaptive clock compensation without stutter.
             </p>
@@ -418,7 +424,7 @@
               </div>
               <span class="badge bg-info bg-opacity-20 text-info font-monospace">IoT &amp; Reverse-Engineering</span>
             </div>
-            <h4 class="fw-bold mb-2">Hardware-Level BLE GATT Protocol Reverse-Engineering</h4>
+            <h3 class="h4 fw-bold mb-2">Hardware-Level BLE GATT Protocol Reverse-Engineering</h3>
             <p class="text-muted small mb-3">
               Engineered for <strong>DualLumi PRO</strong> by capturing Android Bluetooth HCI Snoop logs with Wireshark to decode proprietary Chinese BLE LED controller protocols. Rebuilt as a multi-threaded C# .NET desktop suite.
             </p>
@@ -446,7 +452,7 @@
               </div>
               <span class="badge bg-primary bg-opacity-20 text-primary font-monospace">Audio Kernel Subsystem</span>
             </div>
-            <h4 class="fw-bold mb-2">Low-Latency WASAPI Audio Stream Capture &amp; Dual Routing</h4>
+            <h3 class="h4 fw-bold mb-2">Low-Latency WASAPI Audio Stream Capture &amp; Dual Routing</h3>
             <p class="text-muted small mb-3">
               Engineered for <strong>DualAudio Sync</strong> to bypass default Windows audio routing limits. Intercepts the master render endpoint stream and mirrors PCM audio buffers to secondary Bluetooth headsets simultaneously.
             </p>
@@ -474,7 +480,7 @@
               </div>
               <span class="badge bg-info bg-opacity-20 text-info font-monospace">Enterprise ACID &amp; AI</span>
             </div>
-            <h4 class="fw-bold mb-2">Pessimistic Concurrency Locking &amp; Multimodal AI Safety</h4>
+            <h3 class="h4 fw-bold mb-2">Pessimistic Concurrency Locking &amp; Multimodal AI Safety</h3>
             <p class="text-muted small mb-3">
               Engineered across <strong>Hotel ERP</strong> and <strong>PharmaCare AI</strong>. Employs atomic SQL transactions with row-level locks for zero-conflict room booking, combined with Gemini Vision OCR for automated prescription safety verification.
             </p>
@@ -1086,6 +1092,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="footer-custom">
