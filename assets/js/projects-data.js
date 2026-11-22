@@ -31,7 +31,7 @@ const projectsData = [
       en: "Comprehensive interactive cybersecurity learning and training platform. Features in-browser interactive CTF challenge engines, sandboxed SQLi/XSS labs, network packet analyzers, and multi-provider AI security advisor.",
       fr: "Plateforme interactive d'apprentissage et d'entraînement à la cybersécurité. Simulateurs CTF interactifs dans le navigateur, laboratoires SQLi/XSS, analyseur de paquets réseau et tuteur IA d'assistance."
     },
-    tech: ["Node.js", "Cybersecurity", "Multi-Provider AI", "CTF Engine", "Packet Lab", "Docker", "PostgreSQL"],
+    tech: ["PHP 8", "JavaScript", "MySQL / PostgreSQL", "Multi-Provider AI", "CTF Engine", "Docker"],
     demo: "demos/cyberops/index.html",
     github: "https://github.com/0dh4m/cyberops-academy"
   },
@@ -58,9 +58,9 @@ const projectsData = [
     icon: "bi-soundwave",
     gradient: "g1",
     tag: { en: "Desktop & Audio Systems", fr: "Système Audio & Desktop" },
-    title: { en: "DualAudio Sync — Zero-Latency Audio Hub", fr: "DualAudio Sync — Hub Audio Zéro-Latence" },
+    title: { en: "DualAudio Sync — Low-Latency Audio Hub", fr: "DualAudio Sync — Hub Audio Faible Latence" },
     desc: {
-      en: "Advanced Windows audio synchronization suite bridging Sonos Play:1 (Wi-Fi UPnP/DLNA) and Citytek MF109099 (Bluetooth/AUX). Features Windows WASAPI loopback capture (PyAudioWPatch), sub-millisecond circular delay line (0-3000ms), and metronome pulse test.",
+      en: "Advanced Windows audio synchronization suite bridging Sonos Play:1 (Wi-Fi UPnP/DLNA) and Citytek MF109099 (Bluetooth/AUX). Features Windows WASAPI loopback capture (PyAudioWPatch), millisecond-accurate circular delay line (0-3000ms), and metronome pulse test.",
       fr: "Suite logicielle Windows de synchronisation audio de haute précision reliant Sonos Play:1 (Wi-Fi UPnP) et Citytek MF109099 (Bluetooth). Capture audio WASAPI Loopback, ligne à retard circulaire à la milliseconde et étalonnage métronomique."
     },
     tech: ["Python", "PyAudioWPatch", "SoCo UPnP", "WASAPI", "Web Audio API", "Dark Glassmorphism"],
@@ -76,10 +76,10 @@ const projectsData = [
     tag: { en: "Desktop & BLE Hardware", fr: "Desktop & Matériel BLE" },
     title: { en: "DualLumi PRO v3.5 — Smart Lighting Suite", fr: "DualLumi PRO v3.5 — Contrôleur Éclairage BLE" },
     desc: {
-      en: "Native Windows desktop application & BLE hardware lighting controller with reverse-engineered ELK-BLEDOM and KeepSmile GATT protocols, packet coalescing, system tray companion, RGB color sync, and reactive ambient scenes.",
-      fr: "Application desktop native Windows et contrôleur matériel Bluetooth Low Energy (BLE) rétro-conçu pour protocoles ELK-BLEDOM et KeepSmile, avec fusion de paquets GATT, icône en barre des tâches et scènes lumineuses réactives."
+      en: "Windows desktop application & BLE hardware lighting controller with reverse-engineered ELK-BLEDOM and KeepSmile GATT protocols, packet coalescing, system tray companion, RGB color sync, and reactive ambient scenes.",
+      fr: "Application desktop Windows et contrôleur matériel Bluetooth Low Energy (BLE) rétro-conçu pour protocoles ELK-BLEDOM et KeepSmile, avec fusion de paquets GATT, icône en barre des tâches et scènes lumineuses réactives."
     },
-    tech: ["Python", "Bleak (WinRT BLE)", "Tailwind CSS", "GATT Reverse-Engineering", "Desktop Companion"],
+    tech: ["Python", "Bleak (WinRT BLE)", "Electron", "GATT Reverse-Engineering", "Desktop Companion"],
     demo: "demos/duallumi/index.html",
     github: "https://github.com/0dh4m/duallumi-pro"
   },
@@ -92,8 +92,8 @@ const projectsData = [
     tag: { en: "IoT & WebRTC Streamer", fr: "IoT & Streaming WebRTC" },
     title: { en: "TapoCam Stream & PTZ — Security Viewer", fr: "TapoCam Stream & PTZ — Visionneuse Sécurité" },
     desc: {
-      en: "Ultra-low latency private security camera viewer for Tapo C510W. Integrates go2rtc RTSP-to-WebRTC streaming gateway (<180ms delay), Python ONVIF WSSE digest authentication, continuous pan/tilt joystick, and night-vision modes.",
-      fr: "Visionneuse privée de sécurité ultra-faible latence pour Tapo C510W. Passerelle go2rtc RTSP vers WebRTC (<180ms), authentification ONVIF WSSE en Python, contrôle motorisé Pan/Tilt et vision nocturne infrarouge."
+      en: "Ultra-low latency private security camera viewer for Tapo C510W. Integrates go2rtc RTSP-to-WebRTC streaming gateway (<180ms delay), Python ONVIF WSSE digest authentication, continuous pan/tilt joystick, and one-click snapshots.",
+      fr: "Visionneuse privée de sécurité ultra-faible latence pour Tapo C510W. Passerelle go2rtc RTSP vers WebRTC (<180ms), authentification ONVIF WSSE en Python, contrôle motorisé Pan/Tilt et captures instantanées."
     },
     tech: ["Python", "go2rtc", "WebRTC / MSE", "ONVIF PTZ", "WSSE Security", "Canvas UI"],
     demo: "demos/tapocam/index.html",
@@ -108,10 +108,10 @@ const projectsData = [
     tag: { en: "Management System & AI", fr: "Système de Gestion & IA" },
     title: { en: "PharmaCare PRO — Pharmacy Management & AI OCR", fr: "PharmaCare PRO — Gestion d'Officine & IA OCR" },
     desc: {
-      en: "A comprehensive pharmacy management suite: patient records with medication history, AI-assisted prescription scanning (Gemini Vision OCR) to auto-fill patient dosages, drug-drug interaction alerts, barcode scanner simulator, and dynamic analytics dashboard in Moroccan Dirham (MAD).",
-      fr: "Système complet de gestion officinale : fiches patients avec historique médicamenteux, numérisation intelligente des ordonnances par IA (Gemini Vision OCR), détection des interactions médicamenteuses, lecteur code-barres et tableau de bord en Dirhams Marocains (MAD)."
+      en: "An interactive pharmacy management demo: patient records with medication history, AI-assisted prescription scanning (Gemini Vision OCR) to auto-fill patient dosages, drug-drug interaction alerts, barcode scanner simulator, and dynamic analytics dashboard in Moroccan Dirham (MAD).",
+      fr: "Démo interactive de gestion officinale : fiches patients avec historique médicamenteux, numérisation intelligente des ordonnances par IA (Gemini Vision OCR), détection des interactions médicamenteuses, lecteur code-barres et tableau de bord en Dirhams Marocains (MAD)."
     },
-    tech: ["PHP OOP", "MySQL", "Gemini Vision OCR", "Chart.js", "Web Audio API", "Tailwind CSS"],
+    tech: ["Vanilla JavaScript", "LocalStorage", "Gemini Vision OCR", "Chart.js", "Web Audio API", "Tailwind CSS"],
     demo: "demos/pharmacare/index.html",
     github: "https://github.com/0dh4m/pharmacare-pro-ai"
   },
@@ -159,7 +159,7 @@ const projectsData = [
       en: "Full-stack multilingual cinema and TV series streaming web platform with high-definition video player integration, 4-language localization (Arabic RTL, English, French, Italian), instant catalog search, user favorites, and visitor traffic analytics.",
       fr: "Plateforme web complète de streaming de films et séries avec intégration de lecteur vidéo HD, internationalisation en 4 langues (Arabe RTL, Anglais, Français, Italien), recherche instantanée, favoris et suivi analytique du trafic."
     },
-    tech: ["PHP 8", "MySQL / JSON DB", "Multilingual i18n", "Responsive Cinema UI", "Traffic Analytics"],
+    tech: ["PHP 8", "JSON Data Store", "Multilingual i18n", "Responsive Cinema UI", "Traffic Analytics"],
     demo: "demos/movies/index.html",
     github: "https://github.com/0dh4m/movies-streaming-platform"
   }

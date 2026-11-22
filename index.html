@@ -420,17 +420,17 @@
             </div>
             <h4 class="fw-bold mb-2">Hardware-Level BLE GATT Protocol Reverse-Engineering</h4>
             <p class="text-muted small mb-3">
-              Engineered for <strong>DualLumi PRO</strong> by capturing Android Bluetooth HCI Snoop logs with Wireshark to decode proprietary Chinese BLE LED controller protocols. Rebuilt as a multi-threaded C# .NET desktop suite.
+              Engineered for <strong>DualLumi PRO</strong> by capturing Android Bluetooth HCI Snoop logs with Wireshark to decode proprietary Chinese BLE LED controller protocols. Rebuilt as a Python BLE service with an Electron desktop shell.
             </p>
             <div class="p-3 rounded-3 bg-body-tertiary border border-secondary border-opacity-15 font-monospace small mb-3">
               <div class="text-info mb-1">// Proprietary BLE Frame: 0x7E [Len] [Cmd] [R] [G] [B] [Checksum] 0xEF</div>
-              <div class="text-dim">byte[] packet = new byte[] { 0x7E, 0x07, 0x05, 0x03, r, g, b, 0x00, 0xEF };</div>
-              <div class="text-dim">await gattCharacteristic.WriteValueAsync(packet.AsBuffer());</div>
-              <div class="text-info mt-1">&rarr; Result: Sub-10ms dual-lamp synchronization directly from Windows</div>
+              <div class="text-dim">packet = bytes([0x7E, 0x07, 0x05, 0x03, r, g, b, 0x00, 0xEF])</div>
+              <div class="text-dim">await client.write_gatt_char(CHAR_UUID, packet)</div>
+              <div class="text-info mt-1">&rarr; Result: Sub-10ms dual-lamp synchronization from Windows</div>
             </div>
             <div class="d-flex flex-wrap gap-2">
-              <span class="badge bg-secondary bg-opacity-25 text-light">C# 12</span>
-              <span class="badge bg-secondary bg-opacity-25 text-light">.NET 8</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Python</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Bleak BLE</span>
               <span class="badge bg-secondary bg-opacity-25 text-light">WinRT BLE GATT</span>
               <span class="badge bg-secondary bg-opacity-25 text-light">Wireshark Protocol Analysis</span>
             </div>
@@ -448,19 +448,19 @@
             </div>
             <h4 class="fw-bold mb-2">Low-Latency WASAPI Audio Stream Capture &amp; Dual Routing</h4>
             <p class="text-muted small mb-3">
-              Engineered for <strong>DualAudio Sync</strong> to bypass default Windows audio routing limits. Intercepts the master render endpoint stream and mirrors PCM audio buffers to secondary Bluetooth headsets simultaneously.
+              Engineered for <strong>DualAudio Sync</strong> to bypass default Windows audio routing limits. Intercepts the master render endpoint stream and mirrors PCM audio buffers to a Sonos speaker and a Bluetooth/AUX speaker simultaneously.
             </p>
             <div class="p-3 rounded-3 bg-body-tertiary border border-secondary border-opacity-15 font-monospace small mb-3">
               <div class="text-info mb-1">// Loopback Capture + Asynchronous Ring Buffer Playback</div>
-              <div class="text-dim">WasapiLoopbackCapture &rarr; BufferedWaveProvider &rarr; WasapiOut(Device2);</div>
-              <div class="text-dim">latencyBuffer = AudioLatency.LowLatency (20ms ringbuffer);</div>
-              <div class="text-info mt-1">&rarr; Result: Zero audible echo between paired listeners</div>
+              <div class="text-dim">with pyaudio.PyAudio() as p: stream = p.open(..., input_device_index=loopback_idx)</div>
+              <div class="text-dim">ring.write(stream.read(chunk)); sonos.play(ring.read(chunk))</div>
+              <div class="text-info mt-1">&rarr; Result: Minimal audible echo after metronome calibration</div>
             </div>
             <div class="d-flex flex-wrap gap-2">
-              <span class="badge bg-secondary bg-opacity-25 text-light">C# / WPF</span>
-              <span class="badge bg-secondary bg-opacity-25 text-light">NAudio</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">Python</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">PyAudioWPatch</span>
               <span class="badge bg-secondary bg-opacity-25 text-light">Windows WASAPI</span>
-              <span class="badge bg-secondary bg-opacity-25 text-light">Multi-threading</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light">SoCo UPnP</span>
             </div>
           </div>
         </div>
@@ -554,13 +554,13 @@
             <div class="p-4 d-flex flex-column flex-grow-1">
               <h3 class="h5 fw-bold">CyberOps Academy</h3>
               <p class="text-muted-custom flex-grow-1">
-                Interactive training platform for cybersecurity concepts, CTF challenges, and network defense. In-browser interactive CTF engine, sandboxed SQLi/XSS labs, packet analyzers, and AI mentor.
+                Interactive training platform for cybersecurity concepts, CTF challenges, and network defense. In-browser CTF engine, sandboxed SQLi/XSS labs, packet analyzers, and multi-provider AI mentor.
               </p>
               <div class="d-flex flex-wrap gap-2 mb-3">
-                <span class="tech-badge">Cybersecurity</span>
+                <span class="tech-badge">PHP 8</span>
+                <span class="tech-badge">JavaScript</span>
                 <span class="tech-badge">CTF Labs</span>
-                <span class="tech-badge">Multi-AI</span>
-                <span class="tech-badge">Docker</span>
+                <span class="tech-badge">MySQL / PostgreSQL</span>
               </div>
               <div class="d-flex gap-2">
                 <a href="demos/cyberops/index.html" class="project-demo-btn flex-grow-1" target="_blank" rel="noopener">
@@ -614,15 +614,15 @@
               <span class="project-tag">Desktop &amp; Audio Systems</span>
             </div>
             <div class="p-4 d-flex flex-column flex-grow-1">
-              <h3 class="h5 fw-bold">DualAudio Sync — Zero-Latency Hub</h3>
+              <h3 class="h5 fw-bold">DualAudio Sync — Low-Latency Audio Hub</h3>
               <p class="text-muted-custom flex-grow-1">
-                Real-time audio sync suite for Sonos Play:1 (Wi-Fi UPnP) &amp; Citytek (Bluetooth). Intercepts Windows audio via WASAPI Loopback with sub-millisecond circular delay line &amp; metronome test.
+                Real-time audio sync suite for Sonos Play:1 (Wi-Fi UPnP) &amp; a Citytek speaker (Bluetooth/AUX). Captures Windows audio via WASAPI Loopback with a millisecond-accurate delay line &amp; metronome calibration test.
               </p>
               <div class="d-flex flex-wrap gap-2 mb-3">
                 <span class="tech-badge">Python</span>
                 <span class="tech-badge">WASAPI Loopback</span>
                 <span class="tech-badge">SoCo UPnP</span>
-                <span class="tech-badge">Zero-Echo</span>
+                <span class="tech-badge">Millisecond Calibration</span>
               </div>
               <div class="d-flex gap-2">
                 <a href="demos/dualaudio/index.html" class="project-demo-btn flex-grow-1" target="_blank" rel="noopener">
@@ -647,13 +647,13 @@
             <div class="p-4 d-flex flex-column flex-grow-1">
               <h3 class="h5 fw-bold">DualLumi PRO v3.5 — Smart Lighting</h3>
               <p class="text-muted-custom flex-grow-1">
-                Native Windows desktop application &amp; BLE hardware lighting controller with reverse-engineered ELK-BLEDOM / KeepSmile protocols, packet coalescing, and system tray companion.
+                Windows desktop application &amp; BLE hardware lighting controller with reverse-engineered ELK-BLEDOM / KeepSmile protocols, packet coalescing, and system tray companion.
               </p>
               <div class="d-flex flex-wrap gap-2 mb-3">
                 <span class="tech-badge">Python</span>
-                <span class="tech-badge">WinRT BLE</span>
+                <span class="tech-badge">Bleak / WinRT BLE</span>
                 <span class="tech-badge">GATT Protocols</span>
-                <span class="tech-badge">System Tray</span>
+                <span class="tech-badge">Electron</span>
               </div>
               <div class="d-flex gap-2">
                 <a href="demos/duallumi/index.html" class="project-demo-btn flex-grow-1" target="_blank" rel="noopener">
@@ -678,13 +678,13 @@
             <div class="p-4 d-flex flex-column flex-grow-1">
               <h3 class="h5 fw-bold">Guest House &amp; Hotel Management</h3>
               <p class="text-muted-custom flex-grow-1">
-                Commercial enterprise platform engineered at SARL HIND ET PIERRE (Rabat). C# desktop admin software for room scheduling + interactive customer web booking portal with atomic PDO transactions.
+                Commercial hotel &amp; riad management platform engineered at SARL HIND ET PIERRE (Rabat). Room scheduling, guest CRM, check-in/out workflows and printable MAD invoices backed by atomic PDO transactions.
               </p>
               <div class="d-flex flex-wrap gap-2 mb-3">
-                <span class="tech-badge">C# .NET</span>
-                <span class="tech-badge">PHP OOP</span>
-                <span class="tech-badge">PDO</span>
+                <span class="tech-badge">PHP 8 OOP</span>
+                <span class="tech-badge">PDO Transactions</span>
                 <span class="tech-badge">MySQL 3NF</span>
+                <span class="tech-badge">Bootstrap 5</span>
               </div>
               <div class="d-flex gap-2">
                 <a href="demos/hotel/index.html" class="project-demo-btn flex-grow-1" target="_blank" rel="noopener">
@@ -703,16 +703,16 @@
 
   <!-- ==================== CONTACT SECTION ==================== -->
   
-  <!-- ==================== GITHUB OPEN-SOURCE REPOSITORIES (10/10) ==================== -->
+  <!-- ==================== GITHUB PUBLIC REPOSITORIES (10/10) ==================== -->
   <section class="section-padding bg-body-tertiary bg-opacity-25" id="repositories">
     <div class="container">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
         <div>
           <span class="badge bg-primary bg-opacity-15 text-primary px-3 py-2 rounded-pill fw-bold text-uppercase" style="letter-spacing: 1px; font-size: 11px;">
-            <i class="bi bi-github me-1"></i> Open-Source Ecosystem
+            <i class="bi bi-github me-1"></i> Public Repository Ecosystem
           </span>
           <h2 class="display-6 fw-bold mt-2">Public Repositories on GitHub</h2>
-          <p class="text-muted mb-0">Production repositories authored and maintained by <strong>@0dh4m</strong>.</p>
+          <p class="text-muted mb-0">Public repositories authored and maintained by <strong>@0dh4m</strong>.</p>
         </div>
         <div>
           <a href="https://github.com/0dh4m" target="_blank" class="btn btn-outline-light d-inline-flex align-items-center gap-2">
@@ -755,9 +755,9 @@
               </div>
               <span class="badge bg-primary bg-opacity-10 text-info border border-primary border-opacity-25">Public</span>
             </div>
-            <p class="text-muted small flex-grow-1">Enterprise fitness &amp; nutrition platform with coach assignment, member biometric tracking &amp; subscription management.</p>
+            <p class="text-muted small flex-grow-1">Fitness &amp; nutrition platform with coach assignment, member attendance tracking &amp; subscription management.</p>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
-              <span class="text-info"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>PHP / Tailwind</span>
+              <span class="text-info"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>C# WPF / PHP 8</span>
               <div class="d-flex gap-2">
                 <a href="demos/hmp/home.html" class="text-info text-decoration-none">Demo &rarr;</a>
                 <a href="https://github.com/0dh4m/happy-gym-pro" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
@@ -797,7 +797,7 @@
               </div>
               <span class="badge bg-primary bg-opacity-10 text-info border border-primary border-opacity-25">Public</span>
             </div>
-            <p class="text-muted small flex-grow-1">Bilingual cinema streaming catalog with multi-server embed players, smart search, bookmarking &amp; visitor analytics.</p>
+            <p class="text-muted small flex-grow-1">Multilingual cinema streaming catalog with multi-server embed players, smart search, bookmarking &amp; visitor analytics.</p>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
               <span class="text-info"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>PHP 8 / Bootstrap</span>
               <div class="d-flex gap-2">
@@ -818,9 +818,9 @@
               </div>
               <span class="badge bg-primary bg-opacity-10 text-info border border-primary border-opacity-25">Public</span>
             </div>
-            <p class="text-muted small flex-grow-1">Reverse-engineered BLE GATT desktop controller for dual Bluetooth monitor light bars with hardware synchronization.</p>
+            <p class="text-muted small flex-grow-1">Reverse-engineered BLE GATT lighting controller for an LED strip + smart bulb, with desktop tray controls and reactive ambient scenes.</p>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
-              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>C# 12 / .NET 8</span>
+              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>Python / Electron</span>
               <div class="d-flex gap-2">
                 <a href="demos/duallumi/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
                 <a href="https://github.com/0dh4m/duallumi-pro" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
@@ -839,9 +839,9 @@
               </div>
               <span class="badge bg-primary bg-opacity-10 text-info border border-primary border-opacity-25">Public</span>
             </div>
-            <p class="text-muted small flex-grow-1">Windows desktop utility routing real-time audio from WASAPI master render bus to dual Bluetooth headphones simultaneously.</p>
+            <p class="text-muted small flex-grow-1">Windows utility routing real-time audio from the WASAPI master render bus to a Sonos speaker and a Bluetooth/AUX speaker simultaneously.</p>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
-              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>C# / WASAPI</span>
+              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>Python / WASAPI</span>
               <div class="d-flex gap-2">
                 <a href="demos/dualaudio/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
                 <a href="https://github.com/0dh4m/dualaudio-sync" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
@@ -860,9 +860,9 @@
               </div>
               <span class="badge bg-primary bg-opacity-10 text-info border border-primary border-opacity-25">Public</span>
             </div>
-            <p class="text-muted small flex-grow-1">Multi-camera IP surveillance desktop manager supporting RTSP hardware-accelerated streams, PTZ control &amp; motion snapshots.</p>
+            <p class="text-muted small flex-grow-1">Single-camera WebRTC viewer for the Tapo C510W with ONVIF PTZ control, patrol presets and high-resolution snapshots.</p>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
-              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>C# / WPF</span>
+              <span class="text-primary"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>Python / WebRTC</span>
               <div class="d-flex gap-2">
                 <a href="demos/tapocam/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
                 <a href="https://github.com/0dh4m/tapocam-viewer" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
@@ -904,7 +904,7 @@
             </div>
             <p class="text-muted small flex-grow-1">Interactive security training hub featuring modular networking labs, ethical hacking exercises &amp; terminal challenges.</p>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
-              <span class="text-info"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>JavaScript / HTML5</span>
+              <span class="text-info"><i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i>PHP 8 / JavaScript</span>
               <div class="d-flex gap-2">
                 <a href="demos/cyberops/index.html" class="text-info text-decoration-none">Demo &rarr;</a>
                 <a href="https://github.com/0dh4m/cyberops-academy" target="_blank" class="text-primary text-decoration-none">Repo &rarr;</a>
@@ -923,7 +923,7 @@
               </div>
               <span class="badge bg-primary bg-opacity-10 text-info border border-primary border-opacity-25">Public</span>
             </div>
-            <p class="text-muted small flex-grow-1">Enterprise pharmacy management suite with Gemini Vision multimodal prescription OCR &amp; drug contraindication auditing.</p>
+            <p class="text-muted small flex-grow-1">Interactive pharmacy management demo with Gemini Vision prescription OCR &amp; drug contraindication auditing.</p>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 small font-monospace">
               <span class="text-info"><i class="bi bi-circle-fill me-1 text-info" style="font-size: 8px;"></i>JavaScript / Gemini OCR</span>
               <div class="d-flex gap-2">
@@ -1110,7 +1110,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   
   <!-- Portfolio Translation Engine & Scripts -->
-  <script src="assets/js/translations.js?v=2026112102"></script>
+  <script src="assets/js/translations.js?v=2026112201"></script>
   <script src="assets/js/main.js?v=2026112102"></script>
   <script src="assets/js/scroll-effects.js?v=2026112102"></script>
   <script src="assets/js/page-transition.js?v=2026112102"></script>

@@ -78,7 +78,7 @@ const translations = {
       p3: {
         tag: "Management System & AI",
         title: "PharmaCare — Pharmacy Management",
-        desc: "Complete pharmacy suite with patient records, Gemini Vision OCR prescription scanning, visitor audit logging, client blacklist, and dynamic live analytics dashboard."
+        desc: "Interactive pharmacy management demo with patient records, Gemini Vision OCR prescription scanning, and a live MAD analytics dashboard."
       },
       p4: {
         tag: "Live Streaming Web App",
@@ -185,7 +185,7 @@ const translations = {
       p3: {
         tag: "Système de Gestion & IA",
         title: "PharmaCare — Gestion de Pharmacie",
-        desc: "Suite logicielle officinale : dossiers patients, numérisation d'ordonnances par IA (Gemini Vision OCR), journal d'audit des visites, liste noire et tableau de bord en direct."
+        desc: "Démo interactive de gestion officinale : dossiers patients, numérisation d'ordonnances par IA (Gemini Vision OCR) et tableau de bord analytique en direct."
       },
       p4: {
         tag: "Application Web Streaming",
