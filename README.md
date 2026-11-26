@@ -1,104 +1,113 @@
-# ⚡ Adham Cherkaoui Eddeqaqi — Official Interactive Portfolio
+# Adham Cherkaoui Eddeqaqi — Portfolio
 
 <div align="center">
 
-[![Author](https://img.shields.io/badge/Author-0dh4m-00E5FF?style=for-the-badge&logo=github&logoColor=white)](https://github.com/0dh4m)
-[![Live Site](https://img.shields.io/badge/Live%20Portfolio-Visit%20Online-7928CA?style=for-the-badge&logo=googlechrome&logoColor=white)](https://0dh4m.github.io/)
-[![Tech](https://img.shields.io/badge/Stack-Vanilla%20JS%20%7C%20Canvas%20%7C%20Glassmorphism-FF0080?style=for-the-badge)](https://github.com/0dh4m/0dh4m.github.io)
-[![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)](https://github.com/0dh4m/0dh4m.github.io)
+[![Author](https://img.shields.io/badge/Author-0dh4m-2f5bff?style=for-the-badge&logo=github&logoColor=white)](https://github.com/0dh4m)
+[![Live Site](https://img.shields.io/badge/Live%20Portfolio-0dh4m.github.io-12b5a5?style=for-the-badge&logo=googlechrome&logoColor=white)](https://0dh4m.github.io/)
+[![Stack](https://img.shields.io/badge/Stack-Vanilla%20JS%20%7C%20Bootstrap%20%7C%20Canvas-e8b44a?style=for-the-badge)](https://github.com/0dh4m/0dh4m.github.io)
 
-**The official portfolio of Adham Cherkaoui Eddeqaqi (0dh4m) — Full-Stack & Desktop Software Developer.**
-Features an interactive canvas particle field, a hacker-style CLI terminal, 10 live project demos, and bilingual English/French content.
+**The portfolio of Adham Cherkaoui Eddeqaqi (0dh4m) — software developer in Rabat, Morocco.**
+Full-stack web, C# desktop, and real-time systems, presented with a Moroccan Futurism design language: horseshoe arches, zellige geometry, Majorelle blue and saffron.
 
-[Live Site](https://0dh4m.github.io/) • [Live Demos](#-10-live-project-demos) • [Features](#-portfolio-highlights) • [Author](#-author--contact)
+[Live Site](https://0dh4m.github.io/) • [Projects](https://0dh4m.github.io/projects.html) • [Systems](#selected-systems) • [Demos](#demos) • [Author](#author--contact)
 
 </div>
 
 ---
 
-## 🌟 Portfolio Highlights
+## Highlights
 
-- 🌌 **Interactive Canvas Particle Field**: A lightweight 2D canvas background reacting dynamically to mouse velocity, cursor repulsion, and screen resizing.
-- 💻 **Integrated Hacker Terminal**: Interactive terminal emulator supporting commands like `help`, `skills`, `projects`, `contact`, `whoami`, `clear`, and `matrix`.
-- 🎮 **10 Live Project Demos**: Visitors can launch working demos directly from the portfolio. Each demo opens in a new tab.
-- 🛡️ **Cybersecurity Curriculum Focus**: Built around the European Bachelor in Cybersecurity & Networks (MIAGE / FEDE) curriculum, with network architecture and enterprise-system case studies.
-- 📱 **Adaptive Responsive Design**: Tested across desktop, tablet, and smartphone breakpoints.
-- ⚡ **Zero Framework Overhead**: Hand-tuned vanilla JavaScript, CSS3 animations, and optimized static assets.
-
----
-
-## 🎮 10 Live Project Demos
-
-Visitors can launch interactive demos directly from the portfolio:
-
-| # | Project Name | Technology Stack | Description |
-| :--- | :--- | :--- | :--- |
-| **01** | **Watch Together** | Node.js, Socket.IO, WebRTC, SQLite | Synchronized media player with peer-to-peer voice rooms and live chat |
-| **02** | **CyberOps Academy** | PHP 8, JavaScript, MySQL / PostgreSQL | Cybersecurity training platform with CTF challenges and in-browser labs |
-| **03** | **Happy Gym PRO** | C# WPF, PHP 8, Gemini AI | End-of-studies PFE ecosystem for gym operations and AI nutrition coaching |
-| **04** | **DualAudio Sync** | Python, WASAPI, SoCo UPnP | Millisecond-accurate audio synchronization for Sonos + Bluetooth/AUX speakers |
-| **05** | **DualLumi PRO** | Python, Bleak BLE, Electron | Reverse-engineered BLE lighting controller for an LED strip and smart bulb |
-| **06** | **TapoCam Viewer** | Python, go2rtc, WebRTC, ONVIF | Low-latency Tapo C510W viewer with hardware PTZ control |
-| **07** | **PharmaCare PRO** | Vanilla JS, Gemini Vision OCR, Chart.js | Interactive pharmacy management demo with prescription OCR |
-| **08** | **Hotel Management System** | PHP 8, PDO, MySQL | Hotel and riad ERP for SARL HIND ET PIERRE with MAD invoicing |
-| **09** | **Radio Maroc Live** | Vanilla JS, Web Audio API, Bootstrap RTL | Live Moroccan radio streaming SPA with 24+ stations and a visualizer |
-| **10** | **Movies & Series** | PHP 8, JSON, i18n | Four-language cinema catalog with search, favorites, and analytics |
+- **Moroccan Futurism design system**: ink, Majorelle blue, zellige teal, saffron and sand, with Sora, Plus Jakarta Sans and JetBrains Mono.
+- **Horseshoe-arch portrait**: a custom SVG built from zellige geometry and an AC monogram.
+- **Interactive zellige canvas**: a lightweight 2D particle field in the site palette, with reduced-motion support.
+- **Four honest system case studies**: Watch Together, DualAudio Sync, TapoCam Viewer and Hotel Management, each with its real signal path and constraints.
+- **Six curated projects on the home page** and a filterable directory of ten on `projects.html`.
+- **Bilingual English / French** content with a persistent language switch.
+- **No build step**: static HTML, CSS and vanilla JavaScript, deployed with GitHub Pages.
 
 ---
 
-## 📁 Repository Layout
+## Selected systems
+
+| System | Domain | Stack |
+| :--- | :--- | :--- |
+| **Watch Together** | Synchronized viewing, chat and WebRTC voice | Node.js, Socket.IO, WebRTC, SQLite |
+| **DualAudio Sync** | One Windows stream to Sonos + Bluetooth/AUX | Python, Flask, WASAPI, SoCo |
+| **TapoCam Viewer** | Local-first camera viewer with ONVIF PTZ | Python, aiohttp, go2rtc, WebRTC |
+| **Hotel Management** | Transactional bookings and invoicing | PHP 8, PDO, MySQL, Bootstrap |
+
+The home page describes what each system actually does. It does not claim benchmarks or telemetry that the projects do not produce.
+
+---
+
+## Demos
+
+Every demo is a static build under `demos/` and opens in a new tab:
+
+| Demo | Path | Project |
+| :--- | :--- | :--- |
+| Watch Together | `demos/watch-together/` | Synchronized media room |
+| CyberOps Academy | `demos/cyberops/` | Cybersecurity study platform |
+| Happy Gym PRO | `demos/hmp/home.html` | Nutrition and meal planning |
+| DualAudio Sync | `demos/dualaudio/` | Windows audio routing controller |
+| DualLumi PRO | `demos/duallumi/` | BLE lighting dashboard |
+| TapoCam Viewer | `demos/tapocam/` | Camera viewer UI |
+| PharmaCare PRO | `demos/pharmacare/` | Pharmacy management demo |
+| Hotel Management | `demos/hotel/` | Reservation and invoicing demo |
+| Radio Maroc Live | `demos/radio-maroc/` | Moroccan radio player |
+| Movies & Series | `demos/movies/` | Cinema catalog |
+
+`demos/library/` contains an older BiblioTech library prototype that is not linked from the site.
+
+Some demos are interface simulations. The README of each project states what is real and what is mocked.
+
+---
+
+## Repository layout
 
 ```text
 0dh4m.github.io/
-├── index.html                  # Main portfolio: hero, about, skills, projects & terminal
-├── projects.html               # Dedicated projects directory & filter matrix
+├── index.html                  # Home: hero, about, skills, systems, six projects, contact
+├── projects.html               # Filterable directory of ten projects
 ├── cv_en.html                  # English web CV
 ├── cv_fr.html                  # French web CV
 ├── assets/
-│   ├── css/                    # Design system, glassmorphism, neon glow & typography
-│   ├── js/                     # Particle canvas, terminal engine, project data & i18n
-│   ├── cv/                     # English & French PDF CVs
-│   └── img/                    # Zellige motifs and showcase artwork
-└── demos/                      # 10 interactive demos
-    ├── watch-together/         # Synchronized media player
-    ├── cyberops/               # Cybersecurity training platform
-    ├── hmp/                    # Happy Gym PRO portal
-    ├── dualaudio/              # DualAudio Sync controller
-    ├── duallumi/               # DualLumi lighting dashboard
-    ├── tapocam/                # Tapo camera viewer
-    ├── pharmacare/             # Pharmacy management demo
-    ├── hotel/                  # Hotel reservation demo
-    ├── radio-maroc/            # Moroccan radio streaming
-    └── movies/                 # Cinema streaming catalog
+│   ├── css/
+│   │   ├── style.css           # Design tokens and base components
+│   │   └── home.css            # Home page layer
+│   ├── js/                     # Theme, i18n, typewriter, canvas, project data
+│   ├── cv/                     # English and French PDF CVs
+│   └── img/                    # Arch portrait, zellige and khatam motifs
+└── demos/                      # Static project demos
 ```
 
 ---
 
-## 🚀 Local Development
+## Local development
 
-Clone the repository and spin up a lightweight static HTTP server:
+Clone the repository and serve it with any static HTTP server:
 
 ```bash
 git clone https://github.com/0dh4m/0dh4m.github.io.git
 cd 0dh4m.github.io
-
-# Using Python
 python -m http.server 5500
 ```
 
-Then visit `http://localhost:5500` in your web browser.
+Then open `http://localhost:5500`.
 
 ---
 
-## 👤 Author & Contact
+## Author & contact
 
 **Adham Cherkaoui Eddeqaqi (0dh4m)**
-Full-Stack & Desktop Software Developer • Specialized Technician in Software Development (MIAGE Rabat)
-📍 Rabat / Salé, Morocco
+Software developer · Specialized Technician in Software Development (MIAGE Rabat)
+Rabat / Salé, Morocco
 
-- 🐙 GitHub: [@0dh4m](https://github.com/0dh4m)
-- 🌐 Website: [0dh4m.github.io](https://0dh4m.github.io/)
-- 📧 Email: 0dh4mm@gmail.com
-- 💬 WhatsApp: [+212 625-632628](https://wa.me/212625632628)
+- GitHub: [@0dh4m](https://github.com/0dh4m)
+- Website: [0dh4m.github.io](https://0dh4m.github.io/)
+- Email: [0dh4mm@gmail.com](mailto:0dh4mm@gmail.com)
+- WhatsApp: [+212 625-632628](https://wa.me/212625632628)
 
-*Copyright © 2026 Adham Cherkaoui Eddeqaqi (0dh4m). All rights reserved.*
+---
+
+© 2026 Adham Cherkaoui Eddeqaqi (0dh4m). All rights reserved. See [LICENSE](LICENSE).
