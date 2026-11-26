@@ -8,25 +8,27 @@
   const root = document.documentElement;
 
   /* ===================== THEME (dark / light) ===================== */
-  const themeBtn  = document.getElementById('themeToggle');
-  const themeIcon = themeBtn.querySelector('i');
+  const themeBtn = document.getElementById('themeToggle');
+  const themeIcon = themeBtn ? themeBtn.querySelector('i') : null;
 
   function applyTheme(theme) {
     root.setAttribute('data-bs-theme', theme);
     localStorage.setItem('portfolio-theme', theme);
-    themeIcon.className = theme === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+    if (themeIcon) themeIcon.className = theme === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
   }
   applyTheme(
     localStorage.getItem('portfolio-theme') ||
     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
   );
-  themeBtn.addEventListener('click', () => {
-    applyTheme(root.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark');
-  });
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      applyTheme(root.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark');
+    });
+  }
 
   /* ===================== I18N (EN / FR) ===================== */
-  const bsLink   = document.getElementById('bootstrap-css');
-  const BS_LTR   = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+  const bsLink = document.getElementById('bootstrap-css');
+  const BS_LTR = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
   const langLabel = document.getElementById('langLabel');
   const langNames = { en: 'EN', fr: 'FR' };
   let currentLang = 'en';
@@ -54,14 +56,12 @@
 
     root.setAttribute('lang', lang);
     root.setAttribute('dir', 'ltr');
-    bsLink.setAttribute('href', BS_LTR);
-    langLabel.textContent = langNames[lang];
+    if (bsLink) bsLink.setAttribute('href', BS_LTR);
+    if (langLabel) langLabel.textContent = langNames[lang];
 
     applyTranslations();
     setTypedWords(translations[lang].hero_titles || []);
 
-    // Download CV follows the active language (EN / FR PDF)
-    // Preview CV follows active language
     const previewCvBtn = document.getElementById('previewCvBtn');
     if (previewCvBtn) {
       previewCvBtn.href = lang === 'fr'
@@ -90,7 +90,9 @@
   function setTypedWords(newWords) {
     if (!typedEl) return;
     words = newWords;
-    wIdx = 0; cIdx = 0; deleting = false;
+    wIdx = 0;
+    cIdx = 0;
+    deleting = false;
     clearTimeout(typedTimer);
     type();
   }
@@ -102,7 +104,7 @@
 
     let delay = deleting ? 40 : 90;
     if (!deleting && cIdx === word.length) { delay = 1800; deleting = true; }
-    else if (deleting && cIdx === 0)       { deleting = false; wIdx = (wIdx + 1) % words.length; delay = 350; }
+    else if (deleting && cIdx === 0) { deleting = false; wIdx = (wIdx + 1) % words.length; delay = 350; }
     typedTimer = setTimeout(type, delay);
   }
 
@@ -112,10 +114,10 @@
   /* ===================== NAV (active link + mobile close) ===================== */
   const navLinks = [...document.querySelectorAll('.nav-link[href^="#"]')];
   const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  const backTop  = document.getElementById('backToTop');
+  const backTop = document.getElementById('backToTop');
 
   function onScroll() {
-    const y = window.scrollY + 120;
+    const y = window.scrollY + 140;
     let current = sections[0];
     sections.forEach(s => { if (s.offsetTop <= y) current = s; });
     navLinks.forEach(a => a.classList.toggle('active', current && a.getAttribute('href') === '#' + current.id));
@@ -124,33 +126,40 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Close the mobile menu after clicking a link
   const navMenu = document.getElementById('navMenu');
   navLinks.forEach(a => a.addEventListener('click', () => {
-    const c = bootstrap.Collapse.getInstance(navMenu);
+    const c = window.bootstrap && bootstrap.Collapse.getInstance(navMenu);
     if (c && navMenu.classList.contains('show')) c.hide();
   }));
 
-  // Neutralize placeholder links (project demo/code buttons)
+  // Neutralize placeholder links
   document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
 
-  /* ===================== SCROLL REVEAL + SKILL BARS ===================== */
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        en.target.classList.add('visible');
-        en.target.querySelectorAll('.skill-fill').forEach(f => { f.style.width = f.dataset.progress + '%'; });
-        io.unobserve(en.target);
-      }
-    });
-  }, { threshold: .15 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  /* ===================== SCROLL REVEAL ===================== */
+  const revealEls = [...document.querySelectorAll('.reveal')];
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('visible');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('visible'));
+  }
+
+  // Safety net: never leave a section invisible if the observer is skipped
+  // (hash navigation, print, unusual embedded browsers).
+  setTimeout(() => revealEls.forEach(el => el.classList.add('visible')), 2500);
 
   /* ===================== BACK TO TOP ===================== */
   if (backTop) backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  /* ===================== CONTACT FORM (front-end demo) ===================== */
-  const form    = document.getElementById('contactForm');
+  /* ===================== CONTACT FORM (front-end validation only) ===================== */
+  const form = document.getElementById('contactForm');
   const success = document.getElementById('formSuccess');
   if (form) {
     form.addEventListener('submit', e => {
@@ -159,9 +168,11 @@
       if (form.checkValidity()) {
         form.reset();
         form.classList.remove('was-validated');
-        success.classList.remove('d-none');
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => success.classList.add('d-none'), 6000);
+        if (success) {
+          success.classList.remove('d-none');
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => success.classList.add('d-none'), 8000);
+        }
       } else {
         form.classList.add('was-validated');
       }
@@ -173,243 +184,107 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
 
-
 /* ==========================================================================
-   SUPERCHARGED CANVAS PARTICLE NETWORK & TELEMETRY TERMINAL INTERACTION
-   Authored by 0dh4m · 60FPS Hardware-Accelerated Physics
+   ZELLIGE CONSTELLATION CANVAS
+   Majorelle · zellige · saffron nodes, subtle links, reduced-motion aware
    ========================================================================== */
-(function() {
-  // 1. High Performance Background Particle Constellation
+(function () {
   const canvas = document.getElementById('bgCanvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    if (reduced) drawFrame();
+  });
+
+  const palette = [
+    'rgba(47, 91, 255, ',
+    'rgba(18, 181, 165, ',
+    'rgba(232, 180, 74, '
+  ];
+
+  const count = Math.min(Math.floor((width * height) / 26000), 46);
+  const particles = [];
+  const mouse = { x: null, y: null, radius: 130 };
+
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  window.addEventListener('mouseout', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      radius: Math.random() * 1.5 + 0.7,
+      color: palette[Math.floor(Math.random() * palette.length)]
     });
+  }
 
-    const particles = [];
-    const count = Math.min(Math.floor((width * height) / 18000), 75);
-    let mouse = { x: null, y: null, radius: 120 };
+  function drawFrame() {
+    ctx.clearRect(0, 0, width, height);
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
 
-    window.addEventListener('mouseout', () => {
-      mouse.x = null;
-      mouse.y = null;
-    });
-
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.7,
-        vy: (Math.random() - 0.5) * 0.7,
-        radius: Math.random() * 1.8 + 0.8,
-        color: Math.random() > 0.5 ? 'rgba(56, 189, 248, ' : 'rgba(59, 130, 246, '
-      });
-    }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, width, height);
-
-      for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
+      if (!reduced) {
         p.x += p.vx;
         p.y += p.vy;
-
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Mouse repulsion / interaction
         if (mouse.x !== null) {
-          let dx = mouse.x - p.x;
-          let dy = mouse.y - p.y;
-          let dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < mouse.radius) {
-            let force = (mouse.radius - dist) / mouse.radius;
-            p.x -= (dx / dist) * force * 2;
-            p.y -= (dy / dist) * force * 2;
-          }
-        }
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + '0.7)';
-        ctx.fill();
-
-        // Connect nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          let p2 = particles[j];
-          let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 110) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(56, 189, 248, ${0.18 * (1 - dist / 110)})`;
-            ctx.lineWidth = 0.6;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouse.radius && dist > 0) {
+            const force = (mouse.radius - dist) / mouse.radius;
+            p.x -= (dx / dist) * force * 1.6;
+            p.y -= (dy / dist) * force * 1.6;
           }
         }
       }
 
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-  }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + '0.65)';
+      ctx.fill();
 
-  // 2. Interactive Telemetry Terminal Simulator
-  const liveTyping = document.getElementById('terminalLiveTyping');
-  const termBody = document.getElementById('telemetryBody');
-  const termBtns = document.querySelectorAll('.term-btn');
-
-  const cmdOutputs = {
-    tech_stack: [
-      { text: "Executing: query_stack_manifest()", color: "text-info" },
-      { text: "[RUNTIME] C# 12 (.NET 8) · Node.js v20.x LTS · PHP 8.2 OOP", color: "text-light" },
-      { text: "[SYSTEMS] Windows WASAPI Audio Subsystem · WinRT BLE GATT", color: "text-light" },
-      { text: "[DATABASE] MySQL 8.0 (ACID Row-Locking) · SQLite · Redis", color: "text-primary" },
-      { text: "[FRONTEND] Modern Vanilla ES6+ · Tailwind CSS · Bootstrap 5", color: "text-info" }
-    ],
-    benchmarks: [
-      { text: "Benchmarking core subsystems...", color: "text-info" },
-      { text: "-> Watch Together WebSocket Sync Drift: 42ms (Target: <1500ms) [PASS]", color: "text-info" },
-      { text: "-> DualLumi WinRT BLE Command RTT: 6.8ms [PASS]", color: "text-info" },
-      { text: "-> DualAudio WASAPI Ringbuffer Latency: 18ms [PASS]", color: "text-info" },
-      { text: "-> Hotel ERP Concurrency Deadlocks: 0 (Tested with 50 parallel PDO transactions) [PASS]", color: "text-info" }
-    ],
-    github_status: [
-      { text: "Connecting to api.github.com/users/0dh4m/repos...", color: "text-info" },
-      { text: "[OK] 10 Public Repositories synchronized on GitHub.", color: "text-info" },
-      { text: "-> watch-together, happy-gym-pro, hotel-management-system, movies-streaming-platform", color: "text-light" },
-      { text: "-> duallumi-pro, dualaudio-sync, tapocam-viewer, radio-maroc-live, cyberops-academy, portfolio", color: "text-light" },
-      { text: "Total commits: 250+ | Status: 100% Green CI & Passing Tests", color: "text-primary" }
-    ],
-    whoami: [
-      { text: "User: Adham Cherkaoui Eddeqaqi (@0dh4m)", color: "text-info" },
-      { text: "Role: Full-Stack & Desktop Software Developer", color: "text-light" },
-      { text: "Location: Rabat / Salé, Morocco | Status: Ready for Hire", color: "text-primary" },
-      { text: "Email: 0dh4mm@gmail.com | Phone: +212 625-632628", color: "text-info" },
-      { text: "GitHub: https://github.com/0dh4m", color: "text-primary" }
-    ]
-  };
-
-  if (termBtns.length && liveTyping && termBody) {
-    termBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const cmdKey = btn.getAttribute('data-cmd');
-        const outputLines = cmdOutputs[cmdKey];
-        if (!outputLines) return;
-
-        // Append user prompt
-        const promptDiv = document.createElement('div');
-        promptDiv.className = 'term-line mt-2';
-        promptDiv.innerHTML = `<span class="term-prompt">0dh4m@sys:~$</span> <span class="term-cmd">--${cmdKey}</span>`;
-        termBody.appendChild(promptDiv);
-
-        // Append output lines
-        outputLines.forEach((line, idx) => {
-          setTimeout(() => {
-            const outDiv = document.createElement('div');
-            outDiv.className = 'term-line';
-            outDiv.innerHTML = `<span class="term-out ${line.color}">${line.text}</span>`;
-            termBody.appendChild(outDiv);
-            termBody.scrollTop = termBody.scrollHeight;
-          }, (idx + 1) * 120);
-        });
-      });
-    });
-  }
-})();
-
-
-/* ==========================================================================
-   SMOOTH SCROLLSPY, AUDIO FEEDBACK & IDLE HEARTBEAT
-   Authored by 0dh4m
-   ========================================================================== */
-(function() {
-  // 1. Subtle Synthesized Tactile Audio FX for Terminal
-  let audioCtx = null;
-  function playClickSound() {
-    try {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.03);
-      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.03);
-    } catch(e) {}
-  }
-
-  document.querySelectorAll('.term-btn').forEach(btn => {
-    btn.addEventListener('click', () => playClickSound());
-  });
-
-  // 2. Smooth ScrollSpy for Navbar Links
-  const navLinks = document.querySelectorAll('#mainNav .nav-link');
-  const sections = document.querySelectorAll('header#home, section[id]');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    const scrollPos = window.scrollY + 120;
-
-    sections.forEach(sec => {
-      const top = sec.offsetTop;
-      const height = sec.offsetHeight;
-      if (scrollPos >= top && scrollPos < top + height) {
-        current = sec.getAttribute('id');
-      }
-    });
-
-    if (current) {
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-          link.classList.add('active');
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(18, 181, 165, ${0.13 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.6;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
         }
-      });
-    }
-  }, { passive: true });
-
-  // 3. Automated Idle Telemetry Stream
-  const termBody = document.getElementById('telemetryBody');
-  if (termBody) {
-    const heartbeats = [
-      { text: "[KERNEL.TELEMETRY] 0dh4m engine online · Latency: 12ms · Clock drift: +0.004s [STABLE]", color: "text-info" },
-      { text: "[WASAPI.AUDIO] Master loopback buffer: 48kHz / 32-bit float · Zero packet drops", color: "text-primary" },
-      { text: "[DATABASE.ACID] Concurrency integrity verified · Active PDO connections: 1 (pool idle)", color: "text-light" },
-      { text: "[AI.OCR.VISION] Prescription neural parsing pipeline: READY (Response SLA: <450ms)", color: "text-info" }
-    ];
-    let hbIdx = 0;
-    setInterval(() => {
-      if (!document.hidden && termBody.children.length < 25) {
-        const hb = heartbeats[hbIdx % heartbeats.length];
-        hbIdx++;
-        const div = document.createElement('div');
-        div.className = 'term-line';
-        div.style.fontSize = '10px';
-        div.style.opacity = '0.75';
-        div.innerHTML = `<span class="term-out ${hb.color}">${hb.text}</span>`;
-        termBody.appendChild(div);
-        termBody.scrollTop = termBody.scrollHeight;
       }
-    }, 9000);
+    }
+  }
+
+  function loop() {
+    if (!document.hidden) drawFrame();
+    requestAnimationFrame(loop);
+  }
+
+  if (reduced) {
+    drawFrame();
+  } else {
+    requestAnimationFrame(loop);
   }
 })();
