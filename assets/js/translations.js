@@ -38,7 +38,7 @@ const translations = {
       p2: "My background in literature and human sciences taught me to ask better questions before writing code: who is this for, what happens when it fails, and what does the person in front of the screen actually need?",
       info: { name: "Full Name", location: "Location", email: "Email", status: "Status" },
       status_value: "Open to work",
-      stats: { t1: "Public repos", t2: "Core stacks", t3: "Diploma" }
+      stats: { t1: "Project repos", t2: "Core stacks", t3: "Diploma" }
     },
     edu: {
       title: "Education & Qualifications",
@@ -192,7 +192,7 @@ const translations = {
       p2: "Ma formation en lettres et sciences humaines m'a appris à poser de meilleures questions avant d'écrire du code : à qui cela sert-il, que se passe-t-il en cas d'échec, et de quoi la personne devant l'écran a-t-elle vraiment besoin ?",
       info: { name: "Nom complet", location: "Localisation", email: "E-mail", status: "Statut" },
       status_value: "À l'écoute d'opportunités",
-      stats: { t1: "Dépôts publics", t2: "Stacks principales", t3: "Diplôme" }
+      stats: { t1: "Dépôts de projets", t2: "Stacks principales", t3: "Diplôme" }
     },
     edu: {
       title: "Formations & Diplômes",
