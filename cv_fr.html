@@ -7,7 +7,7 @@
   <title>Adham Cherkaoui Eddeqaqi — CV Développeur Informatique Full-Stack & Desktop</title>
   <meta name="description"
     content="CV Professionnel d'Adham Cherkaoui Eddeqaqi - Développeur Informatique Full-Stack & Desktop spécialisé en PHP 8, C# .NET WPF, Node.js et MySQL.">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2026112701">
 </head>
 
 <body>
@@ -52,7 +52,14 @@
 
       <!-- ==================== EN-TÊTE : IDENTITÉ & COORDONNÉES ==================== -->
       <section class="cv-header">
-        
+        <!-- Portrait -->
+        <div class="avatar-container">
+          <div class="avatar-wrapper">
+            <img src="assets/img/adham-cv-photo.jpg"
+                 alt="Adham Cherkaoui Eddeqaqi"
+                 class="avatar-img" width="600" height="600" loading="eager" decoding="async">
+          </div>
+        </div>
 
         <!-- Détails de l'identité -->
         <div class="header-info">
@@ -446,32 +453,6 @@
         document.documentElement.setAttribute('data-theme', theme);
       } else {
         document.documentElement.removeAttribute('data-theme');
-      }
-    }
-
-    // Afficher / Masquer l'emplacement photo
-    function togglePhotoSlot() {
-      const avatar = document.getElementById('avatar-container');
-      if (avatar.style.display === 'none') {
-        avatar.style.display = 'block';
-      } else {
-        avatar.style.display = 'none';
-      }
-    }
-
-    // Gestion de l'import de photo personnalisée
-    function handlePhotoUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const img = document.getElementById('avatar-image');
-          const initials = document.getElementById('avatar-initials');
-          img.src = e.target.result;
-          img.style.display = 'block';
-          initials.style.display = 'none';
-        };
-        reader.readAsDataURL(file);
       }
     }
   </script>
