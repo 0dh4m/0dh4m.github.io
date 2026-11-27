@@ -57,8 +57,6 @@ Every demo is a static build under `demos/` and opens in a new tab:
 | Radio Maroc Live | `demos/radio-maroc/` | Moroccan radio player |
 | Movies & Series | `demos/movies/` | Cinema catalog |
 
-`demos/library/` contains an older BiblioTech library prototype that is not linked from the site.
-
 Some demos are interface simulations. The README of each project states what is real and what is mocked.
 
 ---
